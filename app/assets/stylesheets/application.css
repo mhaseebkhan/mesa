@@ -1,0 +1,91 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require foundation_and_overrides
+
+ */
+
+@font-face {
+    font-family: "Apercu-Bold";
+    src: url(/assets/fonts/Apercu-Bold.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Apercu-Bold-Italic";
+    src: url(/assets/fonts/Apercu-Bold-Italic.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Apercu-Italic";
+    src: url(/assets/fonts/Apercu-Italic.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Apercu-Light";
+    src: url(/assets/fonts/Apercu-Light.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Apercu-Light-Italic";
+    src: url(/assets/fonts/Apercu-Light-Italic.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Apercu-Medium";
+    src: url(/assets/fonts/Apercu-Medium.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Apercu-Medium-Italic";
+    src: url(/assets/fonts/Apercu-Medium-Italic.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Apercu-Mono";
+    src: url(/assets/fonts/Apercu-Mono.otf) format("truetype");
+}
+
+@font-face {
+    font-family: "Apercu-Regular";
+    src: url(/assets/fonts/Apercu-Regular.otf) format("truetype");
+}
+
+
+
+
+html, body {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+}
+.column-left {
+    float: left;
+    width: 23%;
+    background-color: #1a1a1a;
+    height: 100%;
+}
+.column-center {
+    width: 77%;
+    padding-left: 25px;
+}
+
+
+
+
+

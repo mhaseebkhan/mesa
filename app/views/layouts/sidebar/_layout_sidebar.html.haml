@@ -1,0 +1,19 @@
+.home_top_icon
+  Mesa & Cadeira
+
+= current_user.email
+
+.side-nav-bar-menu
+  %ul.side-nav{:role => "navigation", :title => "Link List"}
+    %li{:role => "menuitem"}
+      = link_to 'Search', '#'
+    %li{:role => "menuitem"}
+      = link_to 'Add & Admin Users', new_users_admin_path
+    %li{:role => "menuitem"}
+      = link_to 'Create Mesa', '#'
+    %li{:role => "menuitem"}
+      = link_to 'Admin Mesas', '#'
+    %li{:role => "menuitem"}
+      = link_to 'Invites', '#'
+    %li{:role => "menuitem"}
+      = link_to "Log out", destroy_user_session_path, :method => :delete

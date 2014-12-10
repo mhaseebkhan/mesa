@@ -1,0 +1,29 @@
+= form_for @user, url: users_admin_index_path do |f|
+  - if @user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  %form
+    .row
+      .small-8.columns
+        .row
+          .small-3.columns
+            %label.right.inline{:for => "right-label"} Name
+            %label.right.inline{:for => "right-label"} Email
+            %label.right.inline{:for => "right-label"} Password
+            %label.right.inline{:for => "right-label"} Experience
+            %label.right.inline{:for => "right-label"} Skill
+            %label.right.inline{:for => "right-label"} Tag
+            %label.right.inline{:for => "right-label"} Languages
+          .small-9.columns
+            = f.text_field :name, id: 'right-label', placeholder: 'enter'
+            = f.text_field :email, id: 'right-label', placeholder: 'enter'
+            = f.text_field :password, id: 'right-label', placeholder: 'enter'
+            = f.text_field :experience, id: 'right-label', placeholder: 'enter'
+            = f.text_field :skill, id: 'right-label', placeholder: 'enter'
+            = f.text_field :tag, id: 'right-label', placeholder: 'enter'
+            = f.text_field :languages, id: 'right-label', placeholder: 'enter'
+            = f.submit 'Save', class: 'button'

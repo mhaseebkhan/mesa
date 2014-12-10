@@ -1,0 +1,26 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %title= content_for?(:title) ? yield(:title) : 'Mesa'
+    = stylesheet_link_tag    "application"
+    = javascript_include_tag "vendor/modernizr"
+    = csrf_meta_tags
+
+  %body
+    .container
+      - if user_signed_in?
+        .column-left
+          = render partial: '/layouts/sidebar/layout_sidebar'
+      .column-center
+        - if alert
+          .alert-box.warning.radius
+            = alert
+            = link_to 'x', '#', class: 'close', onclick: '$(".alert-box").hide();'
+        - if notice
+          .alert-box.success.radius
+            = notice
+            = link_to 'x', '#', class: 'close', onclick: '$(".alert-box").hide();'
+        = yield
+    = javascript_include_tag "application"
