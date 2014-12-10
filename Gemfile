@@ -22,6 +22,12 @@ group :development do
   gem 'spring' # Spring speeds up development by keeping your application running in the background.
 end
 
+group :production do
+  gem 'foreman'
+  gem 'puma'
+  gem 'newrelic_rpm'
+end
+
 # gem 'bcrypt', '~> 3.1.7' # Use ActiveModel has_secure_password
 # gem 'unicorn' # Use unicorn as the app server
 # gem 'capistrano-rails', group: :development # Use Capistrano for deployment
