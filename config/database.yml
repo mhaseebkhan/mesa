@@ -61,6 +61,4 @@ staging:
 #
 production:
   <<: *default
-  database: mesa_production
-  username: mesa
-  password: <%= ENV['MESA_DATABASE_PASSWORD'] %>
+  database: mesa_development
