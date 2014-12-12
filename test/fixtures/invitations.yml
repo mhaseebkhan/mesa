@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  invitee_email: MyString
+  invitee_name: MyString
+  invitation_sent_at: 2014-12-10 17:45:09
+  status: MyText
+
+two:
+  invitee_email: MyString
+  invitee_name: MyString
+  invitation_sent_at: 2014-12-10 17:45:09
+  status: MyText

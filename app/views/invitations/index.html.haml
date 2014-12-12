@@ -1,0 +1,27 @@
+%h1 Listing invitations
+
+%table
+  %tr
+    %th Invitee email
+    %th Invitee name
+    %th Invitation sent at
+    %th Status
+    %th Users
+    %th
+    %th
+    %th
+
+  - @invitations.each do |invitation|
+    %tr
+      %td= invitation.invitee_email
+      %td= invitation.invitee_name
+      %td= invitation.invitation_sent_at
+      %td= invitation.status
+      %td= invitation.users
+      %td= link_to 'Show', invitation
+      %td= link_to 'Edit', edit_invitation_path(invitation)
+      %td= link_to 'Destroy', invitation, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Invitation', new_invitation_path

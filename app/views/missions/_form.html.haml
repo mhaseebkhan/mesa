@@ -1,0 +1,40 @@
+= form_for @mission do |f|
+  - if @mission.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@mission.errors.count, "error")} prohibited this mission from being saved:"
+      %ul
+        - @mission.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :brief
+    = f.text_field :brief
+  .field
+    = f.label :shared_motivation
+    = f.text_field :shared_motivation
+  .field
+    = f.label :build_intent
+    = f.text_field :build_intent
+  .field
+    = f.label :from_date
+    = f.datetime_select :from_date
+  .field
+    = f.label :to_date
+    = f.datetime_select :to_date
+  .field
+    = f.label :time
+    = f.text_area :time
+  .field
+    = f.label :place
+    = f.text_area :place
+  .field
+    = f.label :status
+    = f.check_box :status
+  .field
+    = f.label :is_authorized
+    = f.check_box :is_authorized
+  .actions
+    = f.submit 'Save'

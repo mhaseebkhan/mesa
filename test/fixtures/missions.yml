@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  brief: MyString
+  shared_motivation: MyString
+  build_intent: MyString
+  from_date: 2014-12-10 17:44:52
+  to_date: 2014-12-10 17:44:52
+  time: MyText
+  place: MyText
+  status: false
+  is_authorized: false
+
+two:
+  title: MyString
+  brief: MyString
+  shared_motivation: MyString
+  build_intent: MyString
+  from_date: 2014-12-10 17:44:52
+  to_date: 2014-12-10 17:44:52
+  time: MyText
+  place: MyText
+  status: false
+  is_authorized: false

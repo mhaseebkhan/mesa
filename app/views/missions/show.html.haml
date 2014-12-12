@@ -1,0 +1,36 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @mission.title
+%p
+  %b Brief:
+  = @mission.brief
+%p
+  %b Shared motivation:
+  = @mission.shared_motivation
+%p
+  %b Build intent:
+  = @mission.build_intent
+%p
+  %b From date:
+  = @mission.from_date
+%p
+  %b To date:
+  = @mission.to_date
+%p
+  %b Time:
+  = @mission.time
+%p
+  %b Place:
+  = @mission.place
+%p
+  %b Status:
+  = @mission.status
+%p
+  %b Is authorized:
+  = @mission.is_authorized
+
+= link_to 'Edit', edit_mission_path(@mission)
+\|
+= link_to 'Back', missions_path

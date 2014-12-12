@@ -1,0 +1,25 @@
+= form_for @invitation do |f|
+  - if @invitation.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@invitation.errors.count, "error")} prohibited this invitation from being saved:"
+      %ul
+        - @invitation.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :invitee_email
+    = f.text_field :invitee_email
+  .field
+    = f.label :invitee_name
+    = f.text_field :invitee_name
+  .field
+    = f.label :invitation_sent_at
+    = f.datetime_select :invitation_sent_at
+  .field
+    = f.label :status
+    = f.text_area :status
+  .field
+    = f.label :users
+    = f.text_field :users
+  .actions
+    = f.submit 'Save'

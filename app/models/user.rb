@@ -2,7 +2,16 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-  belongs_to :role
+  belongs_to :roles
+  has_many  :skills, :through => :user_skills
+  has_many :skills, :dependent => :destroy  
+  has_many  :tags, :through => :user_tags
+  has_many :tags, :dependent => :destroy  
+  has_many  :missions, :through => :user_missions
+  has_many :missions, :dependent => :destroy  
+  has_many :invitations
+  has_one :curator_codes
+  
   before_save :ensure_authentication_token
   def ensure_authentication_token
     if authentication_token.blank?

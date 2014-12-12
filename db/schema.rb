@@ -11,14 +11,119 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141209145112) do
+ActiveRecord::Schema.define(version: 20141210202421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "curator_codes", force: true do |t|
+    t.integer  "no_of_codes"
+    t.integer  "code_frequency"
+    t.datetime "last_code_time"
+    t.text     "status"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "curator_codes", ["user_id"], name: "index_curator_codes_on_user_id", using: :btree
+
+  create_table "invitation_codes", force: true do |t|
+    t.string   "code_text"
+    t.integer  "invitation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invitation_codes", ["invitation_id"], name: "index_invitation_codes_on_invitation_id", using: :btree
+
+  create_table "invitations", force: true do |t|
+    t.string   "invitee_email"
+    t.string   "invitee_name"
+    t.datetime "invitation_sent_at"
+    t.text     "status"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
+
+  create_table "missions", force: true do |t|
+    t.string   "title"
+    t.string   "brief"
+    t.string   "shared_motivation"
+    t.string   "build_intent"
+    t.datetime "from_date"
+    t.datetime "to_date"
+    t.text     "time"
+    t.text     "place"
+    t.boolean  "status"
+    t.boolean  "is_authorized"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", force: true do |t|
     t.string "name"
   end
+
+  create_table "skills", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tags", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_missions", force: true do |t|
+    t.text     "invitation_status"
+    t.datetime "invitation_time"
+    t.integer  "user_id"
+    t.integer  "mission_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_missions", ["mission_id"], name: "index_user_missions_on_mission_id", using: :btree
+  add_index "user_missions", ["user_id"], name: "index_user_missions_on_user_id", using: :btree
+
+  create_table "user_ratings", force: true do |t|
+    t.integer  "rating"
+    t.string   "notes"
+    t.integer  "user_skill_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_ratings", ["user_skill_id"], name: "index_user_ratings_on_user_skill_id", using: :btree
+
+  create_table "user_skills", force: true do |t|
+    t.text     "time_spent"
+    t.text     "company"
+    t.string   "work_ref"
+    t.integer  "user_id"
+    t.integer  "skill_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_skills", ["skill_id"], name: "index_user_skills_on_skill_id", using: :btree
+  add_index "user_skills", ["user_id"], name: "index_user_skills_on_user_id", using: :btree
+
+  create_table "user_tags", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "tag_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_tags", ["tag_id"], name: "index_user_tags_on_tag_id", using: :btree
+  add_index "user_tags", ["user_id"], name: "index_user_tags_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -34,18 +139,18 @@ ActiveRecord::Schema.define(version: 20141209145112) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.string   "skill"
-    t.string   "tag"
-    t.string   "passion"
+    t.string   "profile_pic"
+    t.text     "city"
     t.string   "working_at"
-    t.string   "experience"
     t.string   "languages"
-    t.string   "role_id"
+    t.string   "passions"
     t.string   "authentication_token"
+    t.integer  "role_id"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
 
 end

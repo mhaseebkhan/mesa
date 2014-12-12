@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  time_spent: MyText
+  company: MyText
+  work_ref: MyString
+  references: 
+  references: 
+
+two:
+  time_spent: MyText
+  company: MyText
+  work_ref: MyString
+  references: 
+  references: 

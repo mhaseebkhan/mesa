@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Invitee email:
+  = @invitation.invitee_email
+%p
+  %b Invitee name:
+  = @invitation.invitee_name
+%p
+  %b Invitation sent at:
+  = @invitation.invitation_sent_at
+%p
+  %b Status:
+  = @invitation.status
+%p
+  %b Users:
+  = @invitation.users
+
+= link_to 'Edit', edit_invitation_path(@invitation)
+\|
+= link_to 'Back', invitations_path

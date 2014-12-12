@@ -1,0 +1,37 @@
+%h1 Listing missions
+
+%table
+  %tr
+    %th Title
+    %th Brief
+    %th Shared motivation
+    %th Build intent
+    %th From date
+    %th To date
+    %th Time
+    %th Place
+    %th Status
+    %th Is authorized
+    %th
+    %th
+    %th
+
+  - @missions.each do |mission|
+    %tr
+      %td= mission.title
+      %td= mission.brief
+      %td= mission.shared_motivation
+      %td= mission.build_intent
+      %td= mission.from_date
+      %td= mission.to_date
+      %td= mission.time
+      %td= mission.place
+      %td= mission.status
+      %td= mission.is_authorized
+      %td= link_to 'Show', mission
+      %td= link_to 'Edit', edit_mission_path(mission)
+      %td= link_to 'Destroy', mission, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Mission', new_mission_path

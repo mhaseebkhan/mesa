@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  no_of_codes: 1
+  code_frequency: 1
+  last_code_time: 2014-12-10 20:01:11
+  status: MyText
+  references: 
+
+two:
+  no_of_codes: 1
+  code_frequency: 1
+  last_code_time: 2014-12-10 20:01:11
+  status: MyText
+  references: 

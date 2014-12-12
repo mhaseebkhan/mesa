@@ -1,4 +1,4 @@
-class Users::SessionsController < Devise::SessionsController
+class Session::SessionsController < Devise::SessionsController
 
   prepend_before_filter :require_no_authentication, :only => [:create]
   skip_before_filter :verify_authenticity_token, :verify_signed_out_user

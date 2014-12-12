@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
-  devise_for(:users, :controllers => { :sessions => "users/sessions"})
+  get '/verify_code', to: 'invitations#verify_code'
+  resources :invitations
+  
+  resources :missions
+
+  devise_for(:users, :controllers => { :sessions => "session/sessions"})
   root 'welcome#index'
 
   resources :welcome do
@@ -8,7 +13,7 @@ Rails.application.routes.draw do
       get 'dashboard'
     end
   end
-  resources :user
+  resources :users
 
   resources :users_admin, :controller => 'users'
 
