@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  load_and_authorize_resource
+  #load_and_authorize_resource
 
   # GET /users
   # GET /users.json
@@ -26,15 +26,16 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    puts "DDDDDDDDDDDDDDDD"
+    puts @user
     respond_to do |format|
-      if @user.save
-        format.html { redirect_to root_path, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
+     # if @user.save
+     #   format.html { redirect_to root_path, notice: 'User was successfully created.' }
+     #  format.json { render :show, status: :created, location: @user }
+     # else
+     #   format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+     # end
     end
   end
 

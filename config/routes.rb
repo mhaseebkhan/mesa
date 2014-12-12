@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   
   resources :missions
 
-  devise_for(:users, :controllers => { :sessions => "session/sessions"})
+  devise_for(:users, :controllers => { :sessions => "session/sessions", :registrations => "session/registrations"})
+
   root 'welcome#index'
 
   resources :welcome do
