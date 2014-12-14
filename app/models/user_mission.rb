@@ -1,4 +1,4 @@
 class UserMission < ActiveRecord::Base
- belongs_to :users
- belongs_to :missions
+ belongs_to :user
+ belongs_to :mission
 end

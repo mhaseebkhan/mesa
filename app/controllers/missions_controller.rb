@@ -61,6 +61,44 @@ class MissionsController < ApplicationController
     end
   end
 
+  # GET /get_mission_invites
+  # GET /get_mission_invites.json
+  def get_mission_invites
+	#get all missions of user with invitaion_status = pending
+        user = User.find_by_id(params[:user_id])
+	if user
+		missions = user.missions.references( :user_missions).where( user_missions:{ invitation_status: 'pending'})
+		respond_to do |format|
+		      #format.html { redirect_to missions_url, notice: 'Mission was successfully destroyed.' }
+		      format.json {render :json=> {:mesa_invites=> missions, :status => true} }
+		end
+        else
+	      respond_to do |format|
+		      #format.html { redirect_to missions_url, notice: 'Mission was successfully destroyed.' }
+		      format.json {render :json=> {:error=>'No user exists with id' , :status => false} }
+	      end
+	end
+  end
+
+  # GET /get_working_missions
+  # GET /get_working_missions.json
+  def get_working_missions
+   	#get all missions of user with invitaion_status = pending
+        user = User.find_by_id(params[:user_id])
+	if user
+		missions = user.missions.references(:user_missions).where( user_missions:{ invitation_status: 'accepted'})
+		respond_to do |format|
+		      #format.html { redirect_to missions_url, notice: 'Mission was successfully destroyed.' }
+		      format.json {render :json=> {:working_mesa=> missions, :status => true} }
+		end
+        else
+	      respond_to do |format|
+		      #format.html { redirect_to missions_url, notice: 'Mission was successfully destroyed.' }
+		      format.json {render :json=> {:error=>'No user exists with id' , :status => false} }
+	      end
+	end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_mission
