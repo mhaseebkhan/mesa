@@ -1,3 +1,3 @@
 class Role < ActiveRecord::Base
- has_one :users
+ has_one :user
 end

@@ -26,8 +26,6 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    puts "DDDDDDDDDDDDDDDD"
-    puts @user
     respond_to do |format|
      # if @user.save
      #   format.html { redirect_to root_path, notice: 'User was successfully created.' }
@@ -61,6 +59,16 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+ def reset_password
+	@user = User.find_by_email(params[:email])
+	if @user.present?
+	 @user.send_reset_password_instructions
+	 render :json=> {:status => true}
+	else
+	  render :json=> {:error => "Email doesnt exists", :status => false}
+end
   end
 
   private

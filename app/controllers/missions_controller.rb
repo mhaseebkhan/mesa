@@ -67,34 +67,47 @@ class MissionsController < ApplicationController
 	#get all missions of user with invitaion_status = pending
         user = User.find_by_id(params[:user_id])
 	if user
-		missions = user.missions.references( :user_missions).where( user_missions:{ invitation_status: 'pending'})
+		missions = user.missions.references( :user_missions).select('missions.id, missions.title').where( user_missions:{ invitation_status: PENDING_MESA_INVITATION})
 		respond_to do |format|
-		      #format.html { redirect_to missions_url, notice: 'Mission was successfully destroyed.' }
 		      format.json {render :json=> {:mesa_invites=> missions, :status => true} }
 		end
         else
 	      respond_to do |format|
-		      #format.html { redirect_to missions_url, notice: 'Mission was successfully destroyed.' }
 		      format.json {render :json=> {:error=>'No user exists with id' , :status => false} }
 	      end
 	end
   end
 
   # GET /get_working_missions
-  # GET /get_working_missions.json
+  # GET /get_working_missions.json 
   def get_working_missions
-   	#get all missions of user with invitaion_status = pending
+   	#get all missions of user with invitaion_status = pending and mission status = true
         user = User.find_by_id(params[:user_id])
 	if user
-		missions = user.missions.references(:user_missions).where( user_missions:{ invitation_status: 'accepted'})
+		missions = user.missions.references(:user_missions).select('missions.id, missions.title').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION}, missions: {status: true})
 		respond_to do |format|
-		      #format.html { redirect_to missions_url, notice: 'Mission was successfully destroyed.' }
 		      format.json {render :json=> {:working_mesa=> missions, :status => true} }
 		end
         else
 	      respond_to do |format|
-		      #format.html { redirect_to missions_url, notice: 'Mission was successfully destroyed.' }
 		      format.json {render :json=> {:error=>'No user exists with id' , :status => false} }
+	      end
+	end
+  end
+
+ # GET /get_mission_details
+  # GET /get_mission_details.json   
+  def get_mission_details
+   	mission = Mission.find_by_id(params[:mission_id])
+     	if mission
+		#users who have accepted invitation for this mesa
+		mission_users = mission.users.select('users.id', 'users.name').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION})
+         	respond_to do |format|
+		      format.json {render :json=> {:mesa_details=> mission, :mesa_users => mission_users, :status => true} }
+		end
+        else
+	      respond_to do |format|
+		      format.json {render :json=> {:error=>'No mesa exists with id' , :status => false} }
 	      end
 	end
   end
@@ -108,5 +121,10 @@ class MissionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
       params.require(:mission).permit(:title, :brief, :shared_motivation, :build_intent, :from_date, :to_date, :time, :place, :status, :is_authorized)
+    end
+
+    # Get Mesa Leader
+    def get_mesa_leader
+      @mission = Mission.find(params[:id])
     end
 end
