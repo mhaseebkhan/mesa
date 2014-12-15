@@ -42,7 +42,7 @@ class Session::RegistrationsController < Devise::RegistrationsController
 	if user
 		user.build_profile(params[:profile])
 		respond_to do |format|
-			format.json {render :json=> {:authentication_token=>user.authentication_token, :email=>user.email, :status => true}}
+			format.json {render :json=> {:authentication_token=>user.authentication_token, :email=>user.email, :user_id=> resource.id, :status => true}}
 		end
         else
 		respond_to do |format|
