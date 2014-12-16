@@ -7,4 +7,9 @@ class UserMailer < ActionMailer::Base
     mail(to: @user.email, subject: 'Welcome to My Awesome Site')
   end
 
+ def forgot_password_email(user)
+    @user = user
+    mail(to: 'munteha18@gmail.com', subject: 'Forgot Password - Mesa & Cadeira')
+  end
+
 end

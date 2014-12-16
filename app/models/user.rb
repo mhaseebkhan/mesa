@@ -40,6 +40,10 @@ class User < ActiveRecord::Base
 		end
   end
   
+  def self.email_exists? email
+	User.find_by_email(email)
+  end
+  
   private
   
   def generate_authentication_token

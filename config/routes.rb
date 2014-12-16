@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   get '/get_mission_invites', to: 'missions#get_mission_invites'
   get '/get_working_missions', to: 'missions#get_working_missions'
   get '/get_mission_details', to: 'missions#get_mission_details'
-  put '/reset_password', to: 'users#reset_password'
+  put '/forgot_password', to: 'users#forgot_password'
+  get '/verify_email', to: 'users#verify_email'
  
   resources :invitations
   resources :missions

@@ -61,16 +61,25 @@ class UsersController < ApplicationController
     end
   end
 
- def reset_password
-	@user = User.find_by_email(params[:email])
-	if @user.present?
-	 @user.send_reset_password_instructions
-	 render :json=> {:status => true}
+ # PUT /forgot_password.json
+ def forgot_password
+	user = User.find_by_email(params[:email])
+	if user.present?
+		 UserMailer.forgot_password_email(user)
+		 render :json=> {:status => true}
 	else
-	  render :json=> {:error => "Email doesnt exists", :status => false}
-end
+	  	render :json=> {:error => "Email doesnt exists", :status => false}
+	end
   end
 
+ # GET /verify_email.json
+ def verify_email
+	if User.email_exists? params[:email]
+		render :json=> {:error => "Email already exists", :status => false}
+	else
+		render :json=> {:status => true}  	
+	end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
