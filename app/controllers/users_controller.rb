@@ -80,6 +80,19 @@ class UsersController < ApplicationController
 		render :json=> {:status => true}  	
 	end
   end
+
+  
+  # POST /upload_profile_pic.json
+  def upload_profile_pic
+        user = User.exists? params[:user_id]
+        if user
+		user.update_attribute(:profile_pic, params[:profile_pic])
+		render :json=> {:status => true}  	
+	else
+		render :json=> {:error => "User with this id doesnot exist", :status => false}
+	end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -88,7 +101,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :experience, :skill, :tag, :languages, :authentication_token)
+      params.require(:user).permit(:name, :email, :password, :experience, :skill, :tag, :languages, :authentication_token, :profile_pic)
     end
 end
 

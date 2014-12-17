@@ -11,8 +11,9 @@ class User < ActiveRecord::Base
   has_many :user_missions, :dependent => :destroy  
   has_many :invitations
   has_one :curator_codes
-  
+  mount_uploader :profile_pic, ImageUploader
   before_save :ensure_authentication_token
+
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token
@@ -42,6 +43,10 @@ class User < ActiveRecord::Base
   
   def self.email_exists? email
 	User.find_by_email(email)
+  end
+
+  def self.exists? id
+	User.find_by_id(id)
   end
   
   private

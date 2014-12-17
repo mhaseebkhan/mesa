@@ -1,6 +1,5 @@
 %p#notice= notice
-
-
+=image_tag @user.profile_pic.to_s
 = link_to 'Edit', edit_user_path(@user)
 \|
 = link_to 'Back', users_path

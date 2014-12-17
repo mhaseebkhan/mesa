@@ -2,10 +2,9 @@ class Session::RegistrationsController < Devise::RegistrationsController
    prepend_before_filter :allow_params_authentication!, :only => :create
    skip_before_filter :restrict_access_by_token, :only => :create
   def create
-    unless User.find_by_email(params[:user][:email])
-	    build_resource(sign_up_params)
+            build_resource(sign_up_params)
 	    if resource.save
-		     UserMailer.welcome_email(resource).deliver
+		     #UserMailer.welcome_email(resource).deliver
 		     if resource.active_for_authentication?
 			set_flash_message :notice, :signed_up if is_navigational_format?
 			sign_up(resource_name, resource)
@@ -29,12 +28,6 @@ class Session::RegistrationsController < Devise::RegistrationsController
 			format.json { render :json => resource.errors, :status => :unprocessable_entity }
 		end
 	    end
-    else
-		respond_to do |format|
-			format.html {redirect_to  root_path, notice: 'Email already exists'}
-			 format.json { render :error => "Email already exists", :status => :false }
-		end
-    end
   end
 
   def update
