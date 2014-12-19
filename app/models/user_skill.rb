@@ -1,5 +1,5 @@
 class UserSkill < ActiveRecord::Base
- belongs_to :users
- belongs_to :skills
- has_one :user_ratings
+ belongs_to :user
+ belongs_to :skill
+ has_one :user_rating
 end

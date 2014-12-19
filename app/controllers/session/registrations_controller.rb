@@ -31,15 +31,29 @@ class Session::RegistrationsController < Devise::RegistrationsController
   end
 
   def update
-	user =User.find_by_email(params[:user][:email])
+	user =User.exists? (params[:user][:user_id])
 	if user
-		user.build_profile(params[:profile])
+		user.update_profile(params[:profile])
 		respond_to do |format|
 			format.json {render :json=> {:authentication_token=>user.authentication_token, :email=>user.email, :user_id=> resource.id, :status => true}}
 		end
         else
 		respond_to do |format|
-			format.json {render :json => { :error => 'Invalid email', :status => false }}
+			format.json {render :json => { :error => 'Invalid id', :status => false }}
+		end
+        end     
+  end
+
+  def get
+	user = User.exists? params[:user_id]
+	if user
+		user_profile = user.get_profile
+		respond_to do |format|
+			format.json {render :json=> {:user =>user_profile, :status => true}}
+		end
+        else
+		respond_to do |format|
+			format.json {render :json => { :error => 'No user found with this id', :status => false }}
 		end
         end     
   end

@@ -65,7 +65,7 @@ class MissionsController < ApplicationController
   # GET /get_mission_invites.json
   def get_mission_invites
 	#get all missions of user with invitaion_status = pending
-        user = User.find_by_id(params[:user_id])
+        user = User.exists? (params[:user_id])
 	if user
 		missions = user.missions.references( :user_missions).select('missions.id, missions.title').where( user_missions:{ invitation_status: PENDING_MESA_INVITATION})
 		respond_to do |format|
@@ -82,7 +82,7 @@ class MissionsController < ApplicationController
   # GET /get_working_missions.json 
   def get_working_missions
    	#get all missions of user with invitaion_status = pending and mission status = true
-        user = User.find_by_id(params[:user_id])
+        user = User.exists?(params[:user_id])
 	if user
 		missions = user.missions.references(:user_missions).select('missions.id, missions.title').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION}, missions: {status: true})
 		respond_to do |format|
@@ -95,22 +95,60 @@ class MissionsController < ApplicationController
 	end
   end
 
- # GET /get_mission_details
+  # GET /get_mission_details
   # GET /get_mission_details.json   
   def get_mission_details
    	mission = Mission.find_by_id(params[:mission_id])
      	if mission
+		mission_leader = nil
 		#users who have accepted invitation for this mesa
-		mission_users = mission.users.select('users.id', 'users.name').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION})
+		mission_users = mission.users.select('users.id', 'users.name','users.profile_pic').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION})
+		mission_users.each_with_index do |user,i|
+			mission_leader = mission_users.to_a.delete_at(i) if user.roles.first.id == ROLE_ADMIN 
+	        end
          	respond_to do |format|
-		      format.json {render :json=> {:mesa_details=> mission, :mesa_users => mission_users, :status => true} }
+		      format.json {render :json=> {:mesa_details=> mission, :mesa_users => mission_users, :mesa_leader => mission_leader, :status => true} }
 		end
         else
 	      respond_to do |format|
-		      format.json {render :json=> {:error=>'No mesa exists with id' , :status => false} }
+		      format.json {render :json=> {:error=>'No mesa exists with id' , :status => false}}
 	      end
 	end
   end
+
+  # GET /accept_mesa
+  # GET /accept_mesa.json
+  def accept_mesa_invite
+        mesa_pending_invitation = get_mesa_pending_invitations
+     	if  mesa_pending_invitation.exists?
+		mesa_pending_invitation.take.update_attribute(:invitation_status, ACCEPTED_MESA_INVITATION)
+		respond_to do |format|
+		      format.json {render :json=> {:status => true} }
+		end
+        else
+	      respond_to do |format|
+		      format.json {render :json=> {:error=>'No user with this mission id has pending invitation' , :status => false} }
+	      end
+	end
+  end
+
+  # GET /reject_mesa
+  # GET /reject_mesa.json
+  def reject_mesa_invite
+        mesa_pending_invitation = get_mesa_pending_invitations
+     	if  mesa_pending_invitation.exists?
+		mesa_pending_invitation.take.update_attribute(:invitation_status, REJECTED_MESA_INVITATION)
+		respond_to do |format|
+		      format.json {render :json=> {:status => true} }
+		end
+        else
+	      respond_to do |format|
+		      format.json {render :json=> {:error=>'No user with this mission id has pending invitation' , :status => false} }
+	      end
+	end
+  end
+
+ 
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -122,9 +160,9 @@ class MissionsController < ApplicationController
     def mission_params
       params.require(:mission).permit(:title, :brief, :shared_motivation, :build_intent, :from_date, :to_date, :time, :place, :status, :is_authorized)
     end
-
-    # Get Mesa Leader
-    def get_mesa_leader
-      @mission = Mission.find(params[:id])
+   
+    def get_mesa_pending_invitations
+	UserMission.where(user_id: params[:user_id],mission_id: params[:mission_id],invitation_status: PENDING_MESA_INVITATION)
     end
+
 end

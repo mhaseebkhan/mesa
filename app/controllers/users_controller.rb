@@ -93,6 +93,16 @@ class UsersController < ApplicationController
 	end
   end
 
+  # GET /profile_pic.json
+  def get_profile_pic
+        user = User.exists? params[:user_id]
+        if user
+		render :json=> {:profile_pic => user.profile_pic.url.to_s, :status => true}  	
+	else
+		render :json=> {:error => "User with this id doesnot exist", :status => false}
+	end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

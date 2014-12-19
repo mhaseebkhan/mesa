@@ -4,7 +4,8 @@ class CreateUserSkills < ActiveRecord::Migration
       t.text :time_spent
       t.text :company
       t.string :work_ref
-       t.references :user, index: true
+      t.text :founded
+      t.references :user, index: true
       t.references :skill, index: true
 
       t.timestamps

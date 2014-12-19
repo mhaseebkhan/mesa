@@ -2,15 +2,18 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-  belongs_to :role
+  
   has_many  :skills, :through => :user_skills
-  has_many :skills, :dependent => :destroy  
+  has_many :user_skills, :dependent => :destroy  
   has_many  :tags, :through => :user_tags
-  has_many :tags, :dependent => :destroy  
+  has_many :user_tags, :dependent => :destroy  
   has_many  :missions, :through => :user_missions
   has_many :user_missions, :dependent => :destroy  
   has_many :invitations
   has_one :curator_codes
+  has_many :roles, :through => :user_roles
+  has_many :user_roles,:dependent => :destroy  
+
   mount_uploader :profile_pic, ImageUploader
   before_save :ensure_authentication_token
 
@@ -30,7 +33,7 @@ class User < ActiveRecord::Base
 		if (profile[:skills])
 			profile[:skills].each do |skill|
 				skill_found = Skill.find_or_create_by(name: skill[:name])
-				UserSkill.create( user_id: self.id, skill_id: skill_found.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent] )
+				UserSkill.create( user_id: self.id, skill_id: skill_found.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
 			end
 		end
 		if (profile[:tags])
@@ -39,6 +42,34 @@ class User < ActiveRecord::Base
 				UserTag.create( user_id: self.id, tag_id: tag_found.id)
 			end
 		end
+  end
+
+  def update_profile(profile)
+	  self.update_attributes(name: profile[:name], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
+		if (profile[:skills])
+			UserSkill.where(user_id: self.id).delete_all
+			profile[:skills].each do |skill|
+				skill_found = Skill.find_or_create_by(name: skill[:name])
+				UserSkill.create( user_id: self.id, skill_id: skill_found.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
+			end
+		end
+		if (profile[:tags])
+			UserTag.where(user_id: self.id).delete_all
+			profile[:tags].each do |tag|
+				tag_found = Tag.find_or_create_by(name: tag[:name])
+				UserTag.create( user_id: self.id, tag_id: tag_found.id)
+			end
+		end
+  end
+
+
+  def get_profile
+       skills = self.skills
+       skill_array = Skill.get_skill_set skills if skills
+       skills = self.tags
+       tag_array = Tag.get_tag_set tags if tags
+	
+	{:email=> self.email,:profile =>{:name=>self.name,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array,:tags => tag_array,:passions => self.passions}}
   end
   
   def self.email_exists? email
