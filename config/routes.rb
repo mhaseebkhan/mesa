@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get '/accept_mesa', to: 'missions#accept_mesa_invite'
   get '/reject_mesa', to: 'missions#reject_mesa_invite'
 devise_scope :user do
-    get '/users'=> 'session/registrations#get'
+    get '/get_user'=> 'session/registrations#get_user'
   end
 
   resources :invitations

@@ -44,7 +44,7 @@ class Session::RegistrationsController < Devise::RegistrationsController
         end     
   end
 
-  def get
+  def get_user
 	user = User.exists? params[:user_id]
 	if user
 		user_profile = user.get_profile
