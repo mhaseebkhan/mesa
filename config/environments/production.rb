@@ -77,7 +77,8 @@ Rails.application.configure do
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
-
+  config.assets.compress = false
+  config.assets.debug = true
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 
@@ -86,4 +87,28 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+    # Compile Assets *.js and *,css and icons
+  config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif,
+                                  "/fonts/glyphicons-halflings-regular.ttf",
+                                 "/fonts/glyphicons-halflings-regular.eot",
+                                 "/fonts/glyphicons-halflings-regular.svg",
+                                 "/fonts/glyphicons-halflings-regular.woff")
+
+  # config/application.rb
+  config.assets.precompile << Proc.new do |path|
+    if path =~ /\.(css|js)\z/
+      full_path = Rails.application.assets.resolve(path).to_path
+      app_assets_path = Rails.root.join('app', 'assets').to_path
+      if full_path.starts_with? app_assets_path
+        puts "including asset: " + full_path
+        true
+      else
+        puts "excluding asset: " + full_path
+        false
+      end
+    else
+      false
+    end
+  end
 end
