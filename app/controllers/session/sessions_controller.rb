@@ -11,7 +11,7 @@ class Session::SessionsController < Devise::SessionsController
 	sign_in("user", resource)
         resource.ensure_authentication_token
         format.html { redirect_to  dashboard_welcome_index_path, notice: 'Signed in sucessfully!' }
-        format.json { render :json=> {:authentication_token=>resource.authentication_token, :email=>resource.email, :status => true}}
+        format.json { render :json=> {:authentication_token=>resource.authentication_token, :email=>resource.email, :user_id=> resource.id, :status => true}}
       else
 	format.html { invalid_login_attempt }
         format.json { invalid_login_attempt}
