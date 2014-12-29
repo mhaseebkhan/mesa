@@ -30,12 +30,12 @@ class Session::RegistrationsController < Devise::RegistrationsController
 	    end
   end
 
-  def update
+  def update_user
 	user =User.exists? (params[:user][:user_id])
 	if user
 		user.update_profile(params[:profile])
 		respond_to do |format|
-			format.json {render :json=> {:authentication_token=>user.authentication_token, :email=>user.email, :user_id=> resource.id, :status => true}}
+			format.json {render :json=> {:authentication_token=>user.authentication_token, :email=>user.email, :user_id=> user.id, :status => true}}
 		end
         else
 		respond_to do |format|
@@ -57,9 +57,6 @@ class Session::RegistrationsController < Devise::RegistrationsController
 		end
         end     
   end
-
-  
-
   #private
   #def sign_up_params
   #  params.require(:user).permit(:email, :password, :password_confirmation, :remember_me, :plan_id, :is_active, :shorturl)
