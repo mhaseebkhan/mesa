@@ -73,7 +73,7 @@ class UsersController < ApplicationController
  def forgot_password
 	user = User.email_exists? (params[:email])
 	if user.present?
-		UserMailer.forgot_password_email(user).deliver
+		#UserMailer.forgot_password_email(user).deliver
 		render :json=> {:status => true}
 	else
 	  	render :json=> {:error => "Email doesn't exists", :status => false}

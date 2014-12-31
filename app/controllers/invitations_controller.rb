@@ -37,7 +37,7 @@ class InvitationsController < ApplicationController
 		@invitation.status = PENDING_INVITATION_STATUS
 		@invitation.save
 		InvitationCode.create(invitation_id: @invitation.id, code_text: params[:code])
-                UserMailer.invite_user_email(params[:code],user_name,invitation_params[:invitee_email]).deliver
+                #UserMailer.invite_user_email(params[:code],user_name,invitation_params[:invitee_email]).deliver
 		format.html { redirect_to @invitation, notice: 'Invitation was successfully created.' }
 		format.json { render :json=> {:status => true} }
 	      else
