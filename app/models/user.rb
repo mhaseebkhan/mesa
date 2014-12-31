@@ -42,6 +42,8 @@ class User < ActiveRecord::Base
 				UserTag.create( user_id: self.id, tag_id: tag_found.id)
 			end
 		end
+		UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
+           
   end
 
   def update_profile(profile)

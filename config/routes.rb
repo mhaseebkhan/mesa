@@ -10,11 +10,12 @@ Rails.application.routes.draw do
   get '/profile_pic', to: 'users#get_profile_pic'
   get '/accept_mesa', to: 'missions#accept_mesa_invite'
   get '/reject_mesa', to: 'missions#reject_mesa_invite'
+  get '/invite_to_mesa', to: 'missions#invite_to_mesa'
 devise_scope :user do
     get '/get_user'=> 'session/registrations#get_user'
     put '/update_user'=> 'session/registrations#update_user'
   end
-
+  
   resources :invitations
   resources :missions
 

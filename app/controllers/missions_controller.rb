@@ -149,8 +149,26 @@ class MissionsController < ApplicationController
 	end
   end
 
+  # GET /invite_to_mesa
+  # GET /invite_to_mesa.json
+  # To validate:
+	# Only Admin/leader can send invitations
+	# mesa invitation will be expired after its time
+  def invite_to_mesa
+    unless UserMission.exists?(params[:user_id],params[:mesa_id]).nil?
+      @mission_invitation = UserMission.create(user_id: params[:user_id], mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: PENDING_MESA_INVITATION )
+    end
+    respond_to do |format|
+      if  @mission_invitation
+        format.html { redirect_to @mission, notice: 'Mission was successfully created.' }
+        format.json { render :json=> {:status => true} }
+      else
+        format.html { render :new }
+        format.json { render :json=> {:error => 'Invalid user id,mesa id or duplicate invitation', :status => false} }
+      end
+    end
+  end
  
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_mission
