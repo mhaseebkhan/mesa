@@ -71,14 +71,19 @@ Mesa::Application.configure do
   config.action_mailer.default_url_options = {:host => 'tool.socialmomo.com'}
   #config.action_mailer.default_options = {from: "'SocialMomo' <help@localincomelab.com>"}
   #config.action_mailer.delivery_method = :smtp
-  #config.action_mailer.smtp_settings = {
-   #   address: 'email-smtp.us-east-1.amazonaws.com',
-    #  port: 587,
-    #  domain: 'socialmomo.com',
-    #  user_name: 'AKIAJ6USGJDWWHVEZKJQ',
-    #  password: 'Av4JtQBzSb7Pdv/ikLm5l1AlM0dMHL4ABWSdGdwIrTK7',
-    #  authentication: 'login',
-    #  enable_starttls_auto: true}
+   config.assets.digest = true
+   config.action_mailer.raise_delivery_errors = true
+   config.action_mailer.default_url_options = { :host => "mesacadeira.herokuapp.com" }
+   config.action_mailer.default_options = { from: "'Mesa&Cadeira' <no-reply@test.com>" }
+   config.action_mailer.delivery_method = :smtp
+   config.action_mailer.smtp_settings = {
+      address:              'smtp.gmail.com',
+      port:                 587,
+      domain:               'mesacadeira.com',
+      user_name:            'munteha18@gmail.com',
+      password:             'munteh@@18',
+      authentication:       'plain',
+      enable_starttls_auto: true  }
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
   config.i18n.fallbacks = true

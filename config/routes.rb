@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get '/get_mission_invites', to: 'missions#get_mission_invites'
   get '/get_working_missions', to: 'missions#get_working_missions'
   get '/get_mission_details', to: 'missions#get_mission_details'
-  put '/forgot_password', to: 'users#forgot_password'
+  get '/forgot_password', to: 'users#forgot_password'
   get '/verify_email', to: 'users#verify_email'
   post '/upload_profile_pic', to: 'users#upload_profile_pic'
   get '/profile_pic', to: 'users#get_profile_pic'

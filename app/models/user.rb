@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 
   mount_uploader :profile_pic, ImageUploader
   before_save :ensure_authentication_token
-
+ 
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token

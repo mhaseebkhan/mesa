@@ -69,12 +69,12 @@ class UsersController < ApplicationController
     end
   end
 
- # PUT /forgot_password.json
+ # GET /forgot_password.json
  def forgot_password
-	user = User.find_by_email(params[:email])
+	user = User.email_exists? (params[:email])
 	if user.present?
-		 UserMailer.forgot_password_email(user)
-		 render :json=> {:status => true}
+		UserMailer.forgot_password_email(user).deliver
+		render :json=> {:status => true}
 	else
 	  	render :json=> {:error => "Email doesn't exists", :status => false}
 	end

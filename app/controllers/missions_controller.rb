@@ -24,17 +24,22 @@ class MissionsController < ApplicationController
   # POST /missions
   # POST /missions.json
   def create
-    @mission = Mission.new(mission_params)
-    @mission.status = true
-    @mission.is_authorized = true
+    mission_owner =  User.exists? mission_params[:owner_id] 
     respond_to do |format|
-      if @mission.save
-        format.html { redirect_to @mission, notice: 'Mission was successfully created.' }
-        format.json { render :json=> {:status => true} }
-      else
-        format.html { render :new }
-        format.json { render :json=> {:status => false} }
-      end
+		unless  mission_owner.nil?  
+			owner_role = mission_owner.roles.first.id unless mission_owner.roles.first.nil? 
+		end
+	      if (owner_role == ROLE_LEADER || owner_role == ROLE_ADMIN)
+		@mission = Mission.new(mission_params)
+	    	@mission.status = true
+	    	@mission.is_authorized = true
+		@mission.save
+		format.html { redirect_to @mission, notice: 'Mission was successfully created.' }
+		format.json { render :json=> {:status => true} }
+	      else
+		format.html { render :new }
+		format.json { render :json=> {:error => 'This owner id is not authorized to create mesa', :status => false} }
+	      end
     end
   end
 
@@ -99,16 +104,14 @@ class MissionsController < ApplicationController
   # GET /get_mission_details
   # GET /get_mission_details.json   
   def get_mission_details
-   	mission = Mission.find_by_id(params[:mission_id])
+   	mission = Mission.exists? params[:mission_id]
      	if mission
-		mission_leader = nil
-		#users who have accepted invitation for this mesa
-		mission_users = mission.users.select('users.id', 'users.name','users.profile_pic').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION})
-		mission_users.each_with_index do |user,i|
-			mission_leader = mission_users.to_a.delete_at(i) if !user.roles.first.nil? && user.roles.first.id == ROLE_ADMIN 
-	        end
+                mission_details = mission.get_details
+		mission_users = mission.get_mission_users 
+		mission_leader = mission.get_mission_leader mission_users
+                mission_owner = mission.get_mission_owner 
          	respond_to do |format|
-		      format.json {render :json=> {:mesa_details=> mission, :mesa_users => mission_users, :mesa_leader => mission_leader, :status => true} }
+		      format.json {render :json=> {:mesa_details=> mission_details, :mesa_users => mission_users, :mesa_leader => mission_leader, :mesa_owner => mission_owner, :status => true} }
 		end
         else
 	      respond_to do |format|
@@ -177,7 +180,7 @@ class MissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
-      params.require(:mission).permit(:title, :brief, :shared_motivation, :build_intent, :from_date, :to_date, :time, :place, :status, :is_authorized)
+      params.require(:mission).permit(:title, :brief, :shared_motivation, :build_intent, :from_date, :to_date, :time, :place, :status, :is_authorized, :owner_id)
     end
    
     def get_mesa_pending_invitations

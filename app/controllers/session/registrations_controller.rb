@@ -4,12 +4,12 @@ class Session::RegistrationsController < Devise::RegistrationsController
   def create
             build_resource(sign_up_params)
 	    if resource.save
-		     #UserMailer.welcome_email(resource).deliver
-		     if resource.active_for_authentication?
+		      if resource.active_for_authentication?
 			set_flash_message :notice, :signed_up if is_navigational_format?
 			sign_up(resource_name, resource)
 		        respond_to do |format|
-	       		 	format.html { respond_with resource, :location => after_sign_up_path_for(resource) }
+                                UserMailer.welcome_email(resource).deliver
+                               	format.html { respond_with resource, :location => after_sign_up_path_for(resource) }
 			 	format.json { resource.build_profile(params[:profile])
 					      render :json=> {:authentication_token=>resource.authentication_token, :email=>resource.email, :user_id=> resource.id, :status => true}}
 			end
