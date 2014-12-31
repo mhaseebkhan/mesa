@@ -5,7 +5,15 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = Array.new
+     User.all.each do |user|
+        user_role = user.roles.first.name.to_s unless user.roles.first.nil?
+	@users << {id: user.id, name: user.name, profile_pic: user.profile_pic.url.to_s, role: user_role   }
+     end
+
+     respond_to do |format|
+       format.json { render :json=> {:users => @users, :status => true} }
+    end
   end
 
   # GET /users/1
@@ -68,7 +76,7 @@ class UsersController < ApplicationController
 		 UserMailer.forgot_password_email(user)
 		 render :json=> {:status => true}
 	else
-	  	render :json=> {:error => "Email doesnt exists", :status => false}
+	  	render :json=> {:error => "Email doesn't exists", :status => false}
 	end
   end
 

@@ -25,14 +25,15 @@ class MissionsController < ApplicationController
   # POST /missions.json
   def create
     @mission = Mission.new(mission_params)
-
+    @mission.status = true
+    @mission.is_authorized = true
     respond_to do |format|
       if @mission.save
         format.html { redirect_to @mission, notice: 'Mission was successfully created.' }
-        format.json { render :show, status: :created, location: @mission }
+        format.json { render :json=> {:status => true} }
       else
         format.html { render :new }
-        format.json { render json: @mission.errors, status: :unprocessable_entity }
+        format.json { render :json=> {:status => false} }
       end
     end
   end
@@ -104,7 +105,7 @@ class MissionsController < ApplicationController
 		#users who have accepted invitation for this mesa
 		mission_users = mission.users.select('users.id', 'users.name','users.profile_pic').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION})
 		mission_users.each_with_index do |user,i|
-			mission_leader = mission_users.to_a.delete_at(i) if user.roles.first.id == ROLE_ADMIN 
+			mission_leader = mission_users.to_a.delete_at(i) if !user.roles.first.nil? && user.roles.first.id == ROLE_ADMIN 
 	        end
          	respond_to do |format|
 		      format.json {render :json=> {:mesa_details=> mission, :mesa_users => mission_users, :mesa_leader => mission_leader, :status => true} }
