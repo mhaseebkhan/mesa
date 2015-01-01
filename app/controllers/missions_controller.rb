@@ -34,8 +34,9 @@ class MissionsController < ApplicationController
 	    	@mission.status = true
 	    	@mission.is_authorized = true
 		@mission.save
+                UserMission.create(user_id: mission_params[:owner_id], mission_id: @mission.id,invitation_time: Time.now.utc, invitation_status: ACCEPTED_MESA_INVITATION)
 		format.html { redirect_to @mission, notice: 'Mission was successfully created.' }
-		format.json { render :json=> {:status => true} }
+		format.json { render :json=> {:mesa_id => @mission.id, :status => true} }
 	      else
 		format.html { render :new }
 		format.json { render :json=> {:error => 'This owner id is not authorized to create mesa', :status => false} }
@@ -110,6 +111,9 @@ class MissionsController < ApplicationController
 		mission_users = mission.get_mission_users 
 		mission_leader = mission.get_mission_leader mission_users
                 mission_owner = mission.get_mission_owner 
+                if mission_leader.nil? || mission_leader == ""
+			mission_leader = mission_owner
+		end
          	respond_to do |format|
 		      format.json {render :json=> {:mesa_details=> mission_details, :mesa_users => mission_users, :mesa_leader => mission_leader, :mesa_owner => mission_owner, :status => true} }
 		end
