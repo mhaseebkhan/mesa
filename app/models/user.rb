@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   end
  
   def build_profile(profile)
+          #Set user attributes
 	  self.update_attributes(name: profile[:name], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
 		if (profile[:skills])
 			profile[:skills].each do |skill|
@@ -42,7 +43,11 @@ class User < ActiveRecord::Base
 				UserTag.create( user_id: self.id, tag_id: tag_found.id)
 			end
 		end
+                #Set user role
 		UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
+                #Occupy code
+		invitaion_code = InvitationCode.find_by_code_text(profile[:code])
+		invitation = Invitation.where(id: invitaion_code.id, status: PENDING_INVITATION_STATUS).take.update_attribute(:status, TAKEN_INVITATION_STATUS) if invitaion_code
            
   end
 

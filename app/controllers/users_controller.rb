@@ -5,14 +5,16 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = Array.new
-     User.all.each do |user|
+     users = Array.new
+     @users = User.all
+     @users.each do |user|
         user_role = user.roles.first.name.to_s unless user.roles.first.nil?
-	@users << {id: user.id, name: user.name, profile_pic: user.profile_pic.url.to_s, role: user_role   }
+	users << {id: user.id, name: user.name, profile_pic: user.profile_pic.url.to_s, role: user_role}
      end
 
      respond_to do |format|
-       format.json { render :json=> {:users => @users, :status => true} }
+       format.html { render :index }
+       format.json { render :json=> {:users => users, :status => true} }
     end
   end
 
