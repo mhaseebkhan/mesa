@@ -5,7 +5,7 @@ class Skill < ActiveRecord::Base
 
 def self.get_skill_set skills
 	skill_array =Array.new
-	skills.each do |skill|
+	skills.order('skill_id ASC').each do |skill|
 		user_skill = skill.user_skills.take
 		skill_array <<	{:name => skill.name,
 		:work_ref => user_skill.work_ref,
