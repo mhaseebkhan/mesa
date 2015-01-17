@@ -1,0 +1,31 @@
+<% unless @users_array.empty? %>
+	<% @users_array.each do |user|%>
+		<span id='user_primary_info_<%= user[:id] %>' >
+		<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
+		<p onclick="show_user_detail(<%= user[:id] %>);"><%= user[:name] %></p> 
+		</span>
+	<% end %>
+<% else %>
+ 	<p> No result found </p>
+<% end %>
+
+<script type="text/javascript">
+    function show_user_detail(user_id){
+     var url = '/get_user';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {user_id: user_id },
+		success:function (data) {
+		    {
+		    	$("#col2").html(data);
+
+   		    }
+		}
+	    });
+
+       
+   }
+
+</script>
+

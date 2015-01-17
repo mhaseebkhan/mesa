@@ -1,0 +1,78 @@
+<div style="width: 100%; display: table;">
+<div style="display: table-row">
+<div id="mesa_col1" style="width: 50%; display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
+<div id='mesa_title'>
+	<p> What's the title of this Mesa? </p>
+	<textarea rows="4" cols="50" required></textarea>
+</div>
+<div id='mesa_brief'>
+	<p> Whatis your brief? </p>
+	<textarea rows="4" cols="50"></textarea>
+</div>
+<div id='mesa_shared_motivation'>
+	<p> What's the shared motivation? </p>
+	<textarea rows="4" cols="50"></textarea>
+</div>
+<div id='mesa_tangible'>
+	<p> Can you create something tangible? </p>
+	
+</div>
+<div id='mesa_build_intent'>
+	<p> What do you intend to build? </p>
+	<textarea rows="4" cols="50"></textarea>
+	
+</div>
+<div id='mesa_when'>
+	<p> When is it happening? </p>
+	Date: <input id= "mesa_date" type="text">
+	Time: <input id= "mesa_time" type="text">
+	Place: <input id= "mesa_place" type="text">
+        <button onclick='show_mission_summary();'>Next</button>
+</div>
+</div>
+<div id="mesa_col2" style="width: 50%; display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
+<div id='mesa_summary' style="display:none;">
+ <p> Time to verify your mesa's invitation before sending it for validation</p>
+ <p>Name:<span id='mesa_title_lbl'></span></p>
+ <p>Date:<span id='mesa_date_lbl'></span></p> 
+ <p>Time:<span id='mesa_time_lbl'></span></p>
+ <p>Place:<span id='mesa_place_lbl'></span></p>
+ <p>Mission:<span id='mesa_mission_lbl'></span></p>
+ <button onclick='send_brief();'>Send</button>
+</div>
+<div id="brief_validation_msg"  style="display:none;">
+<p>Great.<br> Now we need to validate your brief.We'll reply as soon as possible</p>
+</div>
+
+<script type="text/javascript">
+function show_mission_summary(){
+    $("#mesa_title_lbl").text($( "div#mesa_title" ).find( "textarea" ).val());
+    $("#mesa_mission_lbl").text($( "div#mesa_shared_motivation" ).find( "textarea" ).val());
+    $("#mesa_date_lbl").text(document.getElementById( "mesa_date" ).value);
+    $("#mesa_time_lbl").text(document.getElementById( "mesa_time" ).value);
+    $("#mesa_place_lbl").text(document.getElementById( "mesa_place" ).value);
+    $("#mesa_summary").show();
+   }
+
+function send_brief(){
+     var title = $( "div#mesa_title" ).find( "textarea" ).val()
+     var shared_motivation = $( "div#mesa_shared_motivation" ).find( "textarea" ).val()
+     var brief = $( "div#mesa_brief" ).find( "textarea" ).val()
+     var build_intent = $( "div#mesa_build_intent" ).find( "textarea" ).val()
+     var date = document.getElementById( "mesa_date" ).value
+     var time = document.getElementById( "mesa_time" ).value
+     var place = document.getElementById( "mesa_place" ).value
+     var url = 'send_brief_validation';
+	    $.ajax({
+		url:url,
+		type:'post',
+		data : {title: title,brief: brief,shared_motivation: shared_motivation,build_intent: build_intent,from_date: date,to_date: build_intent,time: time,place: place},
+		success:function (data) {
+		    {
+		    	$("#brief_validation_msg").show();
+   		    }
+		}
+	    });
+   }
+ 
+</script>

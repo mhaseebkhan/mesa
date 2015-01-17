@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  #load_and_authorize_resource
-
+  load_and_authorize_resource
   # GET /users
   # GET /users.json
   def index
@@ -9,7 +8,7 @@ class UsersController < ApplicationController
      @users = User.all
      @users.each do |user|
         user_role = user.roles.first.name.to_s unless user.roles.first.nil?
-	users << {id: user.id, name: user.name, profile_pic: user.profile_pic.url.to_s, role: user_role}
+	users <<  user.get_primary_info(user.id)
      end
 
      respond_to do |format|
@@ -113,6 +112,14 @@ class UsersController < ApplicationController
 	end
   end
 
+   #def get_user_detail
+   #     user = User.exists? params[:user_id]
+	# if user
+		#@user = user.get_profile
+	 #end
+     #render partial: '/users/user_details' , layout: false 
+ # end
+ 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

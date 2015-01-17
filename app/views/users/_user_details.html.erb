@@ -1,0 +1,30 @@
+<% if @user %>
+<div id='profile_title'>
+	<div id='profile_fav' style="float:left;width:40%"><img src="/assets/fav.png" style="width:40px;height:40px" /> </div>
+	<div id='profile_pic'style="float:left;width:40%" ><img src="<%= @user[:profile][:profile_pic] %>" style="width:40px;height:40px" /> </div>
+	<div id='profile_rate' ><p>Rates</p></div>
+</div>
+<div id='profile_details'style="padding:10px;" >
+<p><%= @user[:profile][:name].humanize  %></p>
+<p>Working at <%= @user[:profile][:working_at].humanize  %></p>
+<br>
+<p>Skill</p>
+<% @user[:profile][:skills].each do |skill| %>
+	<p><%= skill[:name].humanize  %></p>
+	<p><%= skill[:time_spent] %> of experience </p>
+	<p><%= skill[:company]  %></p>
+	<p><%= skill[:founded]  %></p>
+	<p><%= skill[:work_ref]  %></p>
+	<br>
+<% end %>
+<p>Tags</p>
+<p><%= stringify_tags @user[:profile][:tags] %></p>
+<br>
+<p>Passions</p>
+<p><%= @user[:profile][:passions].humanize %></p>
+<br>
+<p><%= @user[:profile][:languages].humanize %></p>
+</div>
+<% end %>
+
+

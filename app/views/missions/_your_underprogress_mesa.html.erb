@@ -1,0 +1,30 @@
+<div style="width: 100%; display: table;">
+	<div style="display: table-row">
+		<div id="col2_1"  style="display: table-cell;width: 30%;display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
+			<div id='mesa_primary_info' onclick='$("#mesa_detail").show();$("#user_detail").hide();$("#col2_2").hide();'>
+				<p>Mesa:<%= @mission_details[:title] %></p>
+				<p>Leader:<%= @mission_leader.name%></p>
+			</div>
+			This Mesa in currently in progress with these participants:
+			<% unless @mission_users.empty? %>
+				<ul>
+				<% @mission_users.each do |user|%>
+					<%= render :partial => "/users/user_primary_details", :locals => { :user => user,:mesa_type => 'underprogress'  } %>
+				<% end %>
+				</ul>
+			<% end %>
+		</div>
+		<div id="col2_2"  style="display: table-cell;width: 30%; display:none;"> 
+			
+		</div>
+		<div id="col2_3"  style="display: table-cell;width: 30%;"> 
+					<div id='mesa_detail' style="display:none;"> 
+						<%= render :partial => "mission_details", :locals => { :mission_details => @mission_details } %>
+					</div>
+					<div id='user_detail' style="display:none;"> 
+					</div>
+		</div>
+	</div>
+</div>
+</div>	
+

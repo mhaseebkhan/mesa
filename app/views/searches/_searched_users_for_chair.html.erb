@@ -1,0 +1,89 @@
+<% unless @users_array.empty? %>
+
+	<% @users_array.each do |user|%>
+		<%= render :partial => "/users/user_primary_details", :locals => { :user => user } %>
+		<% if user_is_already_invited(user[:id], @mesa_id ).empty? && user_is_already_assigned_chair(user[:id], @mesa_id ).empty? %>	
+			<label id="chair_user_<%= user[:id] %>" onclick="add_to_chair(<%= user[:id] %>,<%= @mesa_id %>);">Add to chair +</label>
+		<% end %>
+		
+	<% end %>
+	<p>Click on name to select participant.Reorder them in a list for more than one pick.</p>
+<% else %>
+	<div id='no_result_found'>
+ 		<p> There’s no profile that matches your search request. You can ask the Mesa team for help finding the right person. </p>
+		<button onclick="get_help_from_mesa(<%= @mesa_id %>);">Get help from Mesa</button>
+	</div>
+	<div id ='no_result_found_notification' style = "display:none'" >
+	</div>
+<% end %>
+
+<script type="text/javascript">
+    function show_user_detail(user_id){
+     var url = '/get_user';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {user_id: user_id },
+		success:function (data) {
+		    {
+			$("#user_detail").html(data).show();
+   		    }
+		}
+	    });
+
+       
+   }
+
+  function add_to_chair(user_id,mesa_id){
+    var first_available_chair = $('#mesa_chairs li:not(.chair_occupied):first');
+	     if (first_available_chair.attr('id') == undefined )
+		     {
+			     alert("No Empty chair found!");
+	             }
+	     else
+		     { 
+			var chair_id = $(first_available_chair).attr('id').split("chair_")[1];
+		        var url = '/missions/add_to_chair';
+			    $.ajax({
+				url:url,
+				type:'post',
+				data : {user_id: user_id,chair_id: chair_id },
+				success:function (data) {
+				    {
+					var user_primary_info = $("#user_primary_info_"+user_id).clone();
+					first_available_chair.append(user_primary_info);
+					first_available_chair.append('<label id=empty_chair'+chair_id+' onclick=empty_chair('+chair_id+','+user_id+')>Empty Chair</label>');
+					first_available_chair.removeClass("chair_empty").addClass("chair_occupied");
+					$("#chair_user_"+user_id).hide();
+		   		    }
+				}
+			    });
+
+		     }
+
+       
+   }
+
+  function get_help_from_mesa(mesa_id){
+    search_strings = [];
+    var li = document.getElementsByClassName("tagit-choice");
+    $(li).each(function(){
+	search_strings.push($(this).find('span.tagit-label').text());
+    });
+     var url = '/missions/get_help_from_mesa';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {search_keys: search_strings,mesa_id: mesa_id },
+		success:function (data) {
+		    {
+			$("#no_result_found_notification").html("<p>Mesa received your help request to find an"+ data +". They’ll get in touch soon.</p>").show();
+   		    }
+		}
+	    });
+
+       
+   }
+
+</script>
+

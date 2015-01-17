@@ -1,0 +1,70 @@
+<% if @user %>
+<input type="hidden" name="user_id" id="hidden_user_id" value="<%= @user[:profile][:id] %>">
+<div id='profile_title'>
+	<div id='profile_pic' ><img src="<%= @user[:profile][:profile_pic] %>" style="width:80px;height:80px" /> </div>
+</div>
+<br>
+<div id='profile_details'style="padding:10px;" >
+<p><%= @user[:profile][:name].humanize  %></p>
+<p>Rate only the skills he used during the Mesa. 1 for poor 5 for excellent. Unrated means the skill wasn’t used during the Mesa.</p>
+
+<% @user[:profile][:skills].each do |skill| %>
+	<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+	<br>
+<% end %>
+ <p>Add tags to:</p>
+<p><%= stringify_tags @user[:profile][:tags] %></p>
+<ul id="myTags">
+</ul>
+
+<div id='user_notes'>
+Notes:
+	<textarea rows="4" cols="5"></textarea>
+</div>
+<button onclick="rate_user_detail(<%= @user[:profile][:id] %>);">Submit</button>
+<% end %>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#myTags").tagit();
+    });
+
+   function rate_user_detail(user_id){
+	//get start rating values
+	var radios = document.getElementsByTagName('input');
+	star_values=[];
+	for (var i = 0; i < radios.length; i++) {
+	    
+	    if (radios[i].type === 'radio' && radios[i].checked) {
+		star_values.push(radios[i].value);     
+
+	    }
+	}
+	//get added tags values
+	 new_tags = [];
+	 var li = document.getElementsByClassName("tagit-choice");
+	 $(li).each(function(){
+		new_tags.push($(this).find('span.tagit-label').text());
+	 });
+	//get notes
+  	var notes = $( "div#user_notes" ).find( "textarea" ).val();
+	//send values to update
+	 var mesa_id = $('#hidden_mesa_id').val();
+	 var user_id = $('#hidden_user_id').val();
+	 var url = '/missions/rate_user_detail';
+	    $.ajax({
+		url:url,
+		type:'post',
+		data : {star_rating: star_values,new_tags: new_tags, notes: notes, mesa_id: mesa_id,user_id: user_id },
+		success:function (data) {
+		    {
+		    	//$("#mesa_user_search_results").html(data).show();
+			alert("Your rating hasbeen saved");
+   		    }
+		}
+	    });
+
+
+   }
+	 
+</script>

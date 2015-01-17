@@ -1,7 +1,7 @@
 class Tag < ActiveRecord::Base
  has_many  :users, :through => :user_tags
  has_many :user_tags, :dependent => :destroy  
-
+ has_many :added_tags
 
 def self.get_tag_set tags
 	tag_array =Array.new

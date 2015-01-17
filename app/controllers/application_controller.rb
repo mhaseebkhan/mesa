@@ -8,7 +8,9 @@ class ApplicationController < ActionController::Base
     params[resource] &&= send(method) if respond_to?(method, true)
   end
   before_action :authenticate_user_from_token!
-  
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
   private
   
   def authenticate_user_from_token!

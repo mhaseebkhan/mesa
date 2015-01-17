@@ -1,0 +1,128 @@
+<div style="width: 100%; display: table;">
+	<div style="display: table-row">
+		<div id="col2_1"  style="display: table-cell;width: 30%;display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
+			<div id='mesa_primary_info' onclick='$("#mesa_detail").show();$("#user_detail").hide();$("#col2_2").hide();'>
+				<p>Mesa:<%= @mission_details[:title] %></p>
+				<p>Leader:<%= @mission_leader.name%></p>
+			</div>
+			<% unless @mission_users.empty? %>
+				Confirmed:
+				<ul>
+				<% @mission_users.each do |user|%>
+					<%= render :partial => "/users/user_primary_details", :locals => { :user => user, :mesa_type => 'open'  } %>
+				<% end %>
+				</ul>
+			<% end %>
+			<label onclick='$("#col2_2").show();$("#user_detail").hide();'>Team Assembling:</label>
+
+			<label onclick="create_new_chair('<%= @mission_details[:id] %>');">Create new chair + </label>
+			<div id="mesa_all_chairs">
+				<%= render :partial => "mesa_chairs" %>
+			</div>
+			<button onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
+
+		</div>
+		<div id="col2_2"  style="display: table-cell;width: 30%; display:none;"> 
+			<div id='team_assembling'> 
+				 <%= render :partial => "/searches/search_by_key_for_chair", :locals => { :mesa_id => @mission_details[:id] } %>
+				<div id='mesa_user_search_results' style="width:200px;">
+		                </div> 
+				
+			</div>
+		</div>
+		<div id="col2_3"  style="display: table-cell;width: 30%;"> 
+					<div id='mesa_detail' style="display:none;"> 
+						<%= render :partial => "mission_details", :locals => { :mission_details => @mission_details } %>
+					</div>
+					<div id='user_detail' style="display:none;"> 
+					</div>
+		</div>
+	</div>
+</div>
+</div>	
+
+<script type="text/javascript">
+    function create_new_chair(mesa_id){
+     var url = '/missions/create_new_chair';
+	    $.ajax({
+		url:url,
+		type:'post',
+		data : {mesa_id: mesa_id },
+		success:function (data) {
+		    { 	
+			if (data == "count completed")
+			{
+				alert("You have reached your maximum limit of 12 chairs!Can't create more.")
+			}
+			else
+			{		
+				chair_id = data.split("|")[0];
+				chair_order = data.split("|")[1];
+		                var li_id = "chair_"+chair_id
+				$("#mesa_chairs").append('<li id='+li_id+'> Chair '+chair_order+' </li>');
+		                $("#"+li_id).append('<label id=remove_chair'+chair_id+' onclick=remove_chair('+chair_id+')>Remove Chair - </label>');
+			}
+   		    }
+		}
+	    });
+
+       
+   }
+
+  function empty_chair(chair_id,user_id){
+     var url = '/missions/empty_chair';
+	    $.ajax({
+		url:url,
+		type:'post',
+		data : {chair_id: chair_id },
+		success:function (data) {
+		    { 	
+			$("#user_primary_info_"+ user_id).remove();
+			$("#empty_chair"+ chair_id).remove();
+			$("#chair_"+ chair_id).removeClass("chair_occupied").addClass("chair_empty");
+   		    }
+		}
+	    });
+
+       
+   }
+
+  function remove_chair(chair_id){
+     var url = '/missions/remove_chair';
+	    $.ajax({
+		url:url,
+		type:'post',
+		data : {chair_id: chair_id },
+		success:function (data) {
+		    { 	
+			$("#chair_"+ chair_id).remove();
+   		    }
+		}
+	    });
+
+       
+   }
+
+  function send_mesa_invites(mesa_id){
+      user_array = [];
+      var li = document.getElementsByClassName("chair_occupied");
+    	$(li).each(function(){
+		user_array.push($(this).find('div').attr('id').split("user_primary_info_")[1]);
+	});
+      var url = '/missions/send_mesa_invites';
+	    $.ajax({
+		url:url,
+		type:'post',
+		data : {mesa_id: mesa_id,user_list: user_array },
+		success:function (data) {
+		    { 	
+			$("#mesa_all_chairs").html(data);
+   		    }
+		}
+	    });
+
+       
+   }
+
+
+</script>

@@ -4,11 +4,26 @@ class Ability
   def initialize(user)
     # Define abilities for the passed in user here. For example:
     #
-    #   user ||= User.new # guest user (not logged in)
-      if user.role.name == 'admin'
+      user ||= User.new # guest user (not logged in)
+      case user.role?
+      when ROLE_MASTER
         can :manage, :all
+        can :view_pending_mesas, :all
+      when ROLE_ADMIN
+       	can :manage, [User,Mission]
+	can :admin_users, :all
+        can :view_others_mesas, :all #, Mission.others_mesa(1) do |mesa|
+	    # puts mesa.inspect
+#	end
+        can :create_mesa, :all
+      when ROLE_LEADER
+	can :manage, Mission
+	can :create_mesa, :all
+      when ROLE_CURATOR
+      else
+	#user is common-flagger
       end
-    #
+    # #  can :admin_users, :all
     # The first argument to `can` is the action you are giving the user 
     # permission to do.
     # If you pass :manage it will apply to every action. Other common actions

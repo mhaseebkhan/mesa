@@ -1,0 +1,26 @@
+<% if @user %>
+	<div id='profile_title'>
+		<div id='profile_pic' ><img src="<%= @user[:profile][:profile_pic] %>" style="width:80px;height:80px" /> </div>
+	</div>
+	<br>
+	<div id='profile_details'style="padding:10px;" >
+	<p><%= @user[:profile][:name].humanize  %></p>
+	</div>
+	<input type="hidden" id="hidden_skills_count" value="<%= @user[:skills].count %>">
+	<% @user[:skills].each_with_index do |skill,i|  %>
+   		<input type="hidden" id="skills[<%= i %>]" value="<%= skill[:rating] %>_<%= skill[:id] %>">
+	<% end %>
+	<% @user[:skills].each do |skill| %>
+		<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+		<br>
+	<% end %>
+	 <p>Added Tags:</p>
+	<p><%= stringify_tags @user[:added_tags] %></p>
+
+	<div id='user_notes'>
+	Notes:
+		<textarea rows="4" cols="5" readonly="readonly"><%= @user[:notes] %></textarea>
+	</div>
+
+<% end %>
+

@@ -1,0 +1,23 @@
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %p 
+      Challenge 
+      #{@challenge} 
+      %br
+      When
+      #{@when} 
+      %br
+      Leader
+      #{@leader} 
+      %br
+      Who's in?
+      %br
+      - @users.each do |user|
+        = render :partial => "/users/user_primary_details", :locals => { :user => user } 
+        %br
+      Are you in?
+      =link_to 'Yes',"http://localhost:3000.com/accept_mesa?mission_id=#{@mission_id}&user_id=#{@user_id}"
+      =link_to 'No Thanks!',"http://localhost:3000.com/reject_mesa?mission_id=#{@mission_id}&user_id=#{@user_id}"
+

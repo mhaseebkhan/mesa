@@ -1,0 +1,28 @@
+<p> Serach profiles by name, skill or tag </p>
+ <%= render partial: '/searches/search_box' %>
+<input type="hidden" name="mesa_id" id="hidden_mesa_value" value="<%= mesa_id %>">
+<button onclick="search_user_for_chair();">Search</button>
+		
+
+<script type="text/javascript">
+    function search_user_for_chair(){
+    search_strings = [];
+    var li = document.getElementsByClassName("tagit-choice");
+    $(li).each(function(){
+	search_strings.push($(this).find('span.tagit-label').text());
+    });
+     var mesa_id = $('#hidden_mesa_value').val();
+     var url = '/searches/search_keys_for_chair';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {search_keys: search_strings,mesa_id: mesa_id },
+		success:function (data) {
+		    {
+		    	$("#mesa_user_search_results").html(data).show();
+   		    }
+		}
+	    });
+      
+   }
+</script>

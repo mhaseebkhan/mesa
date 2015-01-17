@@ -1,0 +1,18 @@
+<div style="width: 100%; display: table;">
+	<div style="display: table-row">
+		<div id="col2_1"  style="display: table-cell;width: 30%;display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
+			<div id='pending_mesa_detail' > 
+				<%= render :partial => "mission_details", :locals => { :mission_details => @mission_details } %>
+				Leader <br>
+				<p><%= @mission_owner[:name]%></p>
+			</div>
+			<%= link_to "Authorise Mesa",   {:controller => "missions", :action => "authorize_mesa", :mesa_id => @mission_details[:id] }, :class => "btn btn-default" %>
+		</div>
+		<div id="col2_2"  style="display: table-cell;width: 30%; display:none;"> 
+		</div>
+		<div id="col2_3"  style="display: table-cell;width: 30%;"> 
+		</div>
+	</div>
+</div>
+</div>	
+

@@ -1,0 +1,28 @@
+<p> Serach profiles by name, skill or tag </p>
+ <%= render partial: '/searches/search_box' %>
+<button onclick="search_user();">Search</button>
+		
+
+<script type="text/javascript">
+    function search_user(){
+    search_strings = [];
+    var li = document.getElementsByClassName("tagit-choice");
+    $(li).each(function(){
+	search_strings.push($(this).find('span.tagit-label').text());
+    });
+    
+     var url = '/searches/search_keys';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {search_keys: search_strings },
+		success:function (data) {
+		    {
+		    	$("#search_results").html(data);
+   		    }
+		}
+	    });
+
+       
+   }
+</script>

@@ -1,3 +1,3 @@
 class UserRating < ActiveRecord::Base
- belongs_to :user_skills
+ belongs_to :user_skill
 end

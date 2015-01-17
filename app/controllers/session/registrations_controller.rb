@@ -47,9 +47,19 @@ class Session::RegistrationsController < Devise::RegistrationsController
   def get_user
 	user = User.exists? params[:user_id]
 	if user
-		user_profile = user.get_profile
+		@user = user.get_profile
 		respond_to do |format|
-			format.json {render :json=> {:user =>user_profile, :status => true}}
+			format.json {render :json=> {:user => @user, :status => true}}
+			format.html {if params[:mesa_type] == 'open'
+					render partial: '/users/user_details' , layout: false 
+				     elsif params[:mesa_type] == 'closed'
+					render partial: '/users/rate_user_details', layout: false 
+				     elsif params[:mesa_type] == 'others_closed'
+					@user = user.get_mesa_rating(params[:mesa_id])
+					render partial: '/users/read_only_rate_user_details', layout: false 
+				     elsif params[:mesa_type] == 'underprogress'
+					render partial: '/users/user_details' , layout: false 
+				     end}
 		end
         else
 		respond_to do |format|
@@ -57,6 +67,7 @@ class Session::RegistrationsController < Devise::RegistrationsController
 		end
         end     
   end
+
   #private
   #def sign_up_params
   #  params.require(:user).permit(:email, :password, :password_confirmation, :remember_me, :plan_id, :is_active, :shorturl)

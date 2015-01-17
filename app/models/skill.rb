@@ -7,11 +7,26 @@ def self.get_skill_set skills
 	skill_array =Array.new
 	skills.order('skill_id ASC').each do |skill|
 		user_skill = skill.user_skills.take
-		skill_array <<	{:name => skill.name,
+		skill_array <<	{:id => skill.id,
+		:name => skill.name,
 		:work_ref => user_skill.work_ref,
 		:company => user_skill.company,
 		:time_spent => user_skill.time_spent,
 		:founded => user_skill.founded
+		}
+	end
+skill_array
+end
+
+def self.get_skill_rating(skills,mesa_id,user_id)
+	skill_array =Array.new
+	skills.order('skill_id ASC').each do |skill|
+		user_skill = skill.user_skills.where(user_id: user_id).take
+		user_rating = user_skill.user_ratings.where(mission_id: mesa_id).take if user_skill.user_ratings
+		rating = user_rating.rating if user_rating
+		skill_array <<	{:id => skill.id,
+		:name => skill.name,
+		:rating => rating 
 		}
 	end
 skill_array

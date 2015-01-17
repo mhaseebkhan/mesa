@@ -14,6 +14,8 @@
  *= require_self
  *= require foundation_and_overrides
  *= require welcome
+ *= require jquery.tagit
+ *= require tagit.ui-zendesk
  */
 
 @font-face {
@@ -61,9 +63,6 @@
     src: url(/assets/fonts/Apercu-Regular.otf) format("truetype");
 }
 
-
-
-
 html, body {
     margin: 0px;
     padding: 0px;
@@ -84,8 +83,55 @@ html, body {
     width: 77%;
     padding-left: 25px;
 }
+.starRating{
+  display        : inline-block;
+  position       : relative;
+  height         : 24px;
+  background     : url('../assets/stars.png') repeat-x 0 0;
+  vertical-align : bottom;
+}
 
+.starRating div{
+  float    : left;
+  position : relative;
+  height   : 24px;
+}
 
+.starRating input{
+  position : relative;
+  z-index  : 1;
+  width    : 24px;
+  height   : 24px;
+  margin   : 0;
+  padding  : 0;
+  opacity  : 0;
+}
 
+.starRating label{
+  position : absolute;
+  top      : 0;
+  left     : 0;
+  width    : 100%;
+  height   : 24px;
+}
+
+.starRating span{
+  display : none;
+}
+
+.starRating       input:checked       + label,
+.starRating:hover input:checked:hover + label{
+  background : url('../assets/stars.png') repeat-x 0 -24px;
+  margin: 0px;
+}
+
+.starRating:hover input:checked + label{
+  background : transparent;
+}
+
+.starRating:hover input:hover + label{
+  background : url('../assets/stars.png') repeat-x 0 -48px;
+  margin: 0px;
+}
 
 

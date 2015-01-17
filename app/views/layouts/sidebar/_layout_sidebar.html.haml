@@ -6,14 +6,18 @@
 .side-nav-bar-menu
   %ul.side-nav{:role => "navigation", :title => "Link List"}
     %li{:role => "menuitem"}
-      = link_to 'Search', '#'
+      = link_to 'Search', searches_path
+    -if can? :admin_users, @users
+      %li{:role => "menuitem"}
+        = link_to 'Add & Admin Users', new_users_admin_path
+    -if can? :create_mesa, @mission
+      %li{:role => "menuitem"}
+        = link_to 'Create Mission', create_mission_missions_path
     %li{:role => "menuitem"}
-      = link_to 'Add & Admin Users', new_users_admin_path
-    %li{:role => "menuitem"}
-      = link_to 'Create Mesa', '#'
-    %li{:role => "menuitem"}
-      = link_to 'Admin Mesas', '#'
+      = link_to 'Admin Mesas', '/missions'
     %li{:role => "menuitem"}
       = link_to 'Invites', '#'
     %li{:role => "menuitem"}
       = link_to "Log out", destroy_user_session_path, :method => :delete
+
+

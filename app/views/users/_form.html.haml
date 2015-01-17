@@ -14,16 +14,8 @@
             %label.right.inline{:for => "right-label"} Name
             %label.right.inline{:for => "right-label"} Email
             %label.right.inline{:for => "right-label"} Password
-            %label.right.inline{:for => "right-label"} Experience
-            %label.right.inline{:for => "right-label"} Skill
-            %label.right.inline{:for => "right-label"} Tag
-            %label.right.inline{:for => "right-label"} Languages
           .small-9.columns
             = f.text_field :name, id: 'right-label', placeholder: 'enter'
             = f.text_field :email, id: 'right-label', placeholder: 'enter'
             = f.text_field :password, id: 'right-label', placeholder: 'enter'
-            = f.text_field :experience, id: 'right-label', placeholder: 'enter'
-            = f.text_field :skill, id: 'right-label', placeholder: 'enter'
-            = f.text_field :tag, id: 'right-label', placeholder: 'enter'
-            = f.text_field :languages, id: 'right-label', placeholder: 'enter'
             = f.submit 'Save', class: 'button'

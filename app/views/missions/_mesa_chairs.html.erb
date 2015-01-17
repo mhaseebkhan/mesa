@@ -1,0 +1,24 @@
+<ul id ='mesa_chairs'>
+				<% if @mission_chairs %>
+					<% @mission_chairs.each do |chair|%>
+						<%if chair[:user_id] %>
+							<li class="chair_occupied" id="chair_<%= chair[:id] %>"> Chair <%= chair[:order] %>
+									<label id="remove_chair<%= chair[:id] %>" onclick="remove_chair(<%= chair[:id] %>)">Remove Chair - </label>
+									<div id="user_primary_info_<%= chair[:user_id] %>" style= "width: 50%;" >
+									<img src="<%= chair[:user_profile_pic] %>" style="width:20px;height:20px" /> 
+									<label onclick="show_user_detail(<%= chair[:user_id] %>);"><%= chair[:user_name] %></label>
+									</div> 
+									<label id="empty_chair<%= chair[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= chair[:user_id] %>)">Empty Chair</label>
+							
+						<% else %>
+									<li  class="chair_empty" id="chair_<%= chair[:id] %>"> Chair <%= chair[:order] %>
+						<% end %>
+							<% unless pending_invitation(chair[:user_id],chair[:mesa_id]).empty? %>
+								<span> invited </span>
+							<% end %>		
+							</li>		
+					<%end%>
+				<% end %>
+			</ul>
+
+		
