@@ -55,26 +55,41 @@ class User < ActiveRecord::Base
 	  self.update_attributes(name: profile[:name], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
                 # this code will only add new skills, will not delete the missing ones, as if we delete them, their relevany star rating would also be gone
 		if (profile[:skills])
-			profile[:skills].each do |skill|
-				skill_found = Skill.find_by_name(skill[:name])
-				if skill_found
-					user_skill = UserSkill.find_or_create_by(user_id: self.id, skill_id: skill_found.id)
-					user_skill.update_attributes( work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded])
-				else
-					new_skill = Skill.create(name: skill[:name])
-					UserSkill.create( user_id: self.id, skill_id: new_skill.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
+			#existing_skills = UserSkill.where(user_id: self.id).pluck(:id)
+			#profile[:skills].each do |skill|
+			#	skill_found = Skill.find_by_name(skill[:name])
+			#	existing_skills.delete_if{|existing_skill_id| existing_skill_id == skill_found.id}
+			#	if skill_found
+			#		user_skill = UserSkill.find_or_create_by(user_id: self.id, skill_id: skill_found.id)
+			#		user_skill.update_attributes( work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded])
+			#	else
+			#		new_skill = Skill.create(name: skill[:name])
+			#		UserSkill.create( user_id: self.id, skill_id: new_skill.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
 
-				end
+			#	end
+			#end
+			#UserSkill.where(id: existing_skills).delete_all
+			UserSkill.where(user_id: self.id).delete_all
+			profile[:skills].each do |skill|
+				skill_found = Skill.find_or_create_by(name: skill[:name])
+				user_skill = UserSkill.find_or_create_by(user_id: self.id, skill_id: skill_found.id)		
+				user_skill.update_attributes( work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded])
 			end
+			
 		end
 		if (profile[:tags])
-			existing_tags = UserTag.where(user_id: self.id).pluck(:id)
+			#existing_tags = UserTag.where(user_id: self.id).pluck(:id)
+			#profile[:tags].each do |tag|
+			#	tag_found = Tag.find_or_create_by(name: tag[:name])
+			#	existing_tags.delete_if{|existing_tag_id| existing_tag_id == tag_found.id}
+			#	UserTag.find_or_create_by( user_id: self.id, tag_id: tag_found.id)
+			#end
+			#UserTag.where(id: existing_tags).delete_all
+			UserTag.where(user_id: self.id).delete_all
 			profile[:tags].each do |tag|
 				tag_found = Tag.find_or_create_by(name: tag[:name])
-				existing_tags.delete_if{|existing_tag_id| existing_tag_id == tag_found.id}
-				UserTag.create( user_id: self.id, tag_id: tag_found.id)
+				UserTag.find_or_create_by( user_id: self.id, tag_id: tag_found.id)
 			end
-			UserTag.where(id: existing_tags).delete_all
 		end
   end
 
