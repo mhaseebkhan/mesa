@@ -114,7 +114,7 @@ class MissionsController < ApplicationController
   def get_mission_details
    	mission = Mission.exists? params[:mission_id]
      	if mission
-		get_mission_details(mission)
+		mission_details(mission)
                 respond_to do |format|
 		      format.json {render :json=> {:mesa_details=> @mission_details, :mesa_users => @mission_users, :mesa_leader => @mission_leader, :mesa_owner => @mission_owner, :status => true} }
 		end
@@ -200,7 +200,7 @@ class MissionsController < ApplicationController
   def show_your_open_mesa_detail
 	mission = Mission.exists? params[:id]
      	if mission
-		get_mission_details(mission)
+		mission_details(mission)
 		if mission.get_status == MESA_IS_AUTHORIZED
 			render partial: '/missions/your_open_mesa' , layout: false 
 		else
@@ -322,11 +322,11 @@ class MissionsController < ApplicationController
    def get_mission
 	mission = Mission.exists? params[:id]
      	if mission
-		get_mission_details(mission)
+		mission_details(mission)
 	end
    end
 
-   def get_mission_details(mission)
+   def mission_details(mission)
 		@mission_details = mission.get_details
 		@mission_users = mission.get_mission_users 
 		@mission_leader =  mission.get_mission_owner # mission.get_mission_leader @mission_users
