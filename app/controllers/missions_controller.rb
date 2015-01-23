@@ -1,7 +1,7 @@
 class MissionsController < ApplicationController
   before_action :set_mission, only: [:show, :edit, :update, :destroy]
   skip_before_filter :verify_authenticity_token
-  load_and_authorize_resource 
+  #load_and_authorize_resource 
   # GET /missions
   # GET /missions.json
   def index
