@@ -113,7 +113,12 @@ class User < ActiveRecord::Base
   end
  
   def role? 
-	self.roles.first.id
+	if self.roles.first.nil?
+		UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
+		ROLE_CURATOR
+	else
+		self.roles.first.id
+	end
   end
 
   def get_primary_info id

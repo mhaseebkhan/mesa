@@ -1,11 +1,13 @@
 class MissionsController < ApplicationController
   before_action :set_mission, only: [:show, :edit, :update, :destroy]
   skip_before_filter :verify_authenticity_token
-  #load_and_authorize_resource 
+  load_and_authorize_resource 
+  # skip_authorize_resource fro API calls 
+  skip_authorize_resource :only => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite, :create, :invite_to_mesa]
   # GET /missions
   # GET /missions.json
   def index
-    @missions = Mission.all
+    #@missions = Mission.all
     @my_open_missions = @missions.find_all{|mission| mission.owner_id == current_user.id && mission.is_authorized == true}
     @my_closed_missions = @missions.find_all{|mission| mission.owner_id ==  current_user.id && mission.get_status == MESA_IS_COMPLETED }
     @others_open_missions = @missions.find_all{|mission| mission.owner_id !=  current_user.id  && mission.is_authorized == true}
@@ -81,7 +83,7 @@ class MissionsController < ApplicationController
 	#get all missions of user with invitaion_status = pending
         user = User.exists? (params[:user_id])
 	if user
-		missions = user.missions.references( :user_missions).select('missions.id, missions.title').where( user_missions:{ invitation_status: PENDING_MESA_INVITATION})
+		missions = user.missions.references( :user_missions).select('missions.id, missions.title, user_missions.invitation_time').where( user_missions:{ invitation_status: PENDING_MESA_INVITATION})
 		respond_to do |format|
 		      format.json {render :json=> {:mesa_invites=> missions, :status => true} }
 		end
@@ -145,7 +147,7 @@ class MissionsController < ApplicationController
 		end
         else
 	      respond_to do |format|
-		      format.json {render :json=> {:error=>'No user with this mission id has pending invitation' , :status => false} }
+		      format.json {render :json=> {:error=>'Invitation expired or No user with this mission id has pending invitation' , :status => false} }
 	      end
 	end
   end
@@ -166,7 +168,7 @@ class MissionsController < ApplicationController
 		end
         else
 	      respond_to do |format|
-		      format.json {render :json=> {:error=>'No user with this mission id has pending invitation' , :status => false} }
+		      format.json {render :json=> {:error=>'Invitation expired or No user with this mission id has pending invitation' , :status => false} }
 	      end
 	end
   end
