@@ -3,10 +3,10 @@ class Skill < ActiveRecord::Base
  has_many :user_skills, :dependent => :destroy  
 
 
-def self.get_skill_set skills
+def self.get_skill_set (skills,user_id)
 	skill_array =Array.new
 	skills.order('skill_id ASC').each do |skill|
-		user_skill = skill.user_skills.take
+		user_skill = skill.user_skills.where(user_id: user_id).take
 		skill_array <<	{:id => skill.id,
 		:name => skill.name,
 		:work_ref => user_skill.work_ref,

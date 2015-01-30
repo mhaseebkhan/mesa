@@ -97,9 +97,9 @@ class User < ActiveRecord::Base
 
   def get_profile
        skills = self.skills
-       skill_array = Skill.get_skill_set skills if skills
+       skill_array = Skill.get_skill_set(skills,self.id) if skills
        tags = self.tags
-       tag_array = Tag.get_tag_set tags if tags
+       tag_array = Tag.get_tag_set(tags,self.id) if tags
 	
 	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array,:tags => tag_array,:passions => self.passions}}
   end
