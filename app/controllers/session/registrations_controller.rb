@@ -59,6 +59,8 @@ class Session::RegistrationsController < Devise::RegistrationsController
 					render partial: '/users/read_only_rate_user_details', layout: false 
 				     elsif params[:mesa_type] == 'underprogress'
 					render partial: '/users/user_details' , layout: false 
+				     else 
+					render partial: '/users/user_details' , layout: false 
 				     end}
 		end
         else

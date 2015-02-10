@@ -1,10 +1,13 @@
 class InvitationsController < ApplicationController
-  before_action :set_invitation, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_invitation, only: [:verify_code]
+  before_filter :authenticate_user!, :except => :verify_code
+  load_and_authorize_resource 
+  # skip_authorize_resource fro API calls 
+  skip_authorize_resource :only => [:verify_code]
   # GET /invitations
   # GET /invitations.json
   def index
-    @invitations = Invitation.all
+   # @invitations = Invitation.all
   end
 
   # GET /invitations/1
@@ -80,9 +83,9 @@ class InvitationsController < ApplicationController
   # GET /verify_code
   # GET /verify_code.json
   def verify_code
-    invitaion_code = verify_code_validity
-    invitation = Invitation.where(id: invitaion_code.id, status: PENDING_INVITATION_STATUS).take if invitaion_code
-    invitor_name = User.find(invitation.user_id).name if invitation
+    invitation = verify_code_validity
+    invitation_status = invitation.status if invitation
+    invitor_name = User.find(invitation.user_id).name if invitation_status == PENDING_INVITATION_STATUS
     respond_to do |format|
       #format.html { redirect_to invitations_url, notice: 'Invitation was successfully destroyed.' }
       if invitor_name
@@ -91,6 +94,21 @@ class InvitationsController < ApplicationController
         format.json { render :json => { :error => 'Invalid or taken code.', :status => false } }
       end
     end
+  end
+
+  def generate_code
+	user = User.exists? current_user.id
+	if user
+		user.generate_invitation_code
+		@code_list= current_user.invitation_codes
+	end
+	render partial: '/invitations/code_list' , layout: false 
+  end
+
+  def save_code
+	InvitationCode.find(params[:id]).update_attribute(:out_to, params[:out_to])
+	@code_list= current_user.invitation_codes
+	render partial: '/invitations/code_list' , layout: false 
   end
 
 

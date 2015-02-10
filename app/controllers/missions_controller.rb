@@ -1,13 +1,14 @@
 class MissionsController < ApplicationController
   before_action :set_mission, only: [:show, :edit, :update, :destroy]
-  skip_before_filter :verify_authenticity_token
-  load_and_authorize_resource 
+  #skip_before_filter :verify_authenticity_token
+   before_filter :authenticate_user!, :except => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite, :create, :invite_to_mesa]
+  #load_and_authorize_resource 
   # skip_authorize_resource fro API calls 
-  skip_authorize_resource :only => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite, :create, :invite_to_mesa]
+#  skip_authorize_resource :only => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite, :create, :invite_to_mesa]
   # GET /missions
   # GET /missions.json
   def index
-    #@missions = Mission.all
+    @missions = Mission.all
     @my_open_missions = @missions.find_all{|mission| mission.owner_id == current_user.id && mission.is_authorized == true}
     @my_closed_missions = @missions.find_all{|mission| mission.owner_id ==  current_user.id && mission.get_status == MESA_IS_COMPLETED }
     @others_open_missions = @missions.find_all{|mission| mission.owner_id !=  current_user.id  && mission.is_authorized == true}
@@ -33,24 +34,22 @@ class MissionsController < ApplicationController
   # POST /missions.json
   def create
     mission_owner =  User.exists? mission_params[:owner_id] 
-    respond_to do |format|
+   # respond_to do |format|
 		unless  mission_owner.nil?  
 			owner_role = mission_owner.roles.first.id unless mission_owner.roles.first.nil? 
 		end
-	      if (owner_role == ROLE_LEADER || owner_role == ROLE_ADMIN)
+	   #   if VALID_ADMIN_USERS.include?(owner_role)
 		@mission = Mission.new(mission_params)
 		@mission.save
-                @mission.set_status(MESA_IS_CREATED)
+                @mission.set_status(MESA_IS_AUTHORIZED)
                 UserMission.create(user_id: mission_params[:owner_id], mission_id: @mission.id,invitation_time: Time.now.utc, invitation_status: ACCEPTED_MESA_INVITATION)
                 mission_owner = @mission.get_mission_owner 
                 #UserMailer.validate_brief_email(mission_owner[:name]).deliver
-		format.html { render :json=> "true" }
-		format.json { render :json=> {:mesa_id => @mission.id, :status => true} }
-	      else
-		format.html { render :new }
-		format.json { render :json=> {:error => 'This owner id is not authorized to create mesa', :status => false} }
-	      end
-    end
+		#format.json { render :json=> {:mesa_id => @mission.id, :status => true} }
+	   #   else
+		#format.json { render :json=> {:error => 'You do not have permission to create mesa', :status => false} }
+	  #    end
+   # end
   end
 
   # PATCH/PUT /missions/1
@@ -158,6 +157,7 @@ class MissionsController < ApplicationController
         mesa_pending_invitation = get_mesa_pending_invitations
      	if  mesa_pending_invitation.exists? && mesa_pending_invitation.take.mesa_invitation_not_expired
 		mesa_pending_invitation.take.update_attribute(:invitation_status, REJECTED_MESA_INVITATION)
+		mesa_pending_invitation.take.allocate_time_slot_to_next_user	
 		user_name = User.find(params[:user_id]).name
 		mesa = Mission.find(params[:mission_id])
 		mesa_title = mesa.title
@@ -196,36 +196,33 @@ class MissionsController < ApplicationController
   def send_brief_validation
    params[:mission] = params
    params[:owner_id] = current_user.id
-   create
+   if can_create_new_mesa(params[:owner_id])
+   	create
+	render :text => "<p>Great.<br> Now we need to validate your brief.We'll reply as soon as possible</p>"
+   else
+     	 render :text => "Your Mesa cannot be created.You have reached maximum limit of 3 mesas per year"
+   end
+
   end
 
-  def show_your_open_mesa_detail
+  def show_open_mesa_detail
 	mission = Mission.exists? params[:id]
      	if mission
 		mission_details(mission)
 		if mission.get_status == MESA_IS_AUTHORIZED
-			render partial: '/missions/your_open_mesa' , layout: false 
+			render partial: '/missions/open_mesa' , layout: false 
 		else
 			# MESA_IS_STARTED
-			render partial: '/missions/your_underprogress_mesa' , layout: false 
+			render partial: '/missions/underprogress_mesa' , layout: false 
 		end	
 
 	end
 	
   end
 
-  def show_your_closed_mesa_detail
+  def show_closed_mesa_detail
 	get_mission
-	render partial: '/missions/your_closed_mesa' , layout: false 
-  end
-
-  def show_others_open_mesa_detail
-	render partial: '/missions/others_open_mesa' , layout: false 
-  end
-
-  def show_others_closed_mesa_detail
-	get_mission
-	render partial: '/missions/others_closed_mesa' , layout: false 
+	render partial: '/missions/closed_mesa' , layout: false 
   end
 
   def show_pending_mesa_detail
@@ -247,20 +244,27 @@ class MissionsController < ApplicationController
   end
 
   def add_to_chair
-	 MesaChair.where(id: params[:chair_id]).take.update_attribute(:user_id,  params[:user_id])
+	 chair = MesaChair.where(id: params[:chair_id]).take
+	 if chair
+		MesaChairUser.create(mesa_chair_id: chair.id, user_id: params[:user_id])
+	 end
 	 render :text => "added to chair"
   end
 
   def empty_chair
-	MesaChair.where(id: params[:chair_id]).take.update_attribute(:user_id, "")
+	 chair = MesaChair.where(id: params[:chair_id]).take
+	 if chair
+		MesaChairUser.find_by(mesa_chair_id: chair.id, user_id: params[:user_id]).destroy
+	 end
 	 render :text => "removed"
   end
 
-  def remove_chair
-	 MesaChair.where(id: params[:chair_id]).take.destroy
-	 #pending_invitation = get_mesa_pending_invitations
-	 #pending_invitation.take.destroy if pending_invitation 
-	 render :text => "removed"
+  def edit_chair
+	 mesa_chair = MesaChair.where(id: params[:chair_id]).take
+	 mesa_chair.update_attribute(:title, params[:chair_title])
+	 mission = Mission.exists? mesa_chair.mission_id
+	 @mission_chairs = mission.get_chairs
+	 render partial: '/missions/mesa_chairs' , layout: false 
   end
 
   def get_help_from_mesa
@@ -273,21 +277,32 @@ class MissionsController < ApplicationController
   end
 
   def send_mesa_invites
-        mission = Mission.exists? params[:mesa_id]
-	@mission_chairs = mission.get_chairs
-	# global vars for email
-        @challenge = mission.shared_motivation
-     	@when = mission.mesa_when	
-     	@leader =  User.find(mission.owner_id).name
-     	@users = mission.get_mission_users
-	@mission_id = params[:mesa_id]
-     
-	user_ids = params[:user_list]
-	user_ids.collect{|user_id| params[:user_id] = user_id
-						@user_id = user_id
-						send_invite }
+	if params[:user_list]
+		mission = Mission.exists? params[:mesa_id]
+		@mission_id = params[:mesa_id]
+		mission.set_all_invites_out
+		mission_details(mission)
+		# global vars for email
+		@challenge = mission.shared_motivation
+	     	@when = mission.mesa_when	
+		users_info = params[:user_list]
+		chair_array = Array.new
+		users_info.each do |user|
+			chair_id = user.split("_")[0]
+			user_id = user.split("_")[1]
+			params[:user_id] = user_id
+			@user_id = user_id
+			if chair_array.include?(chair_id)
+				UserMission.create(user_id:  user_id, mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: WAITING_MESA_INVITATION )
+			else
+			 send_invite
+			end
+                        chair_array << chair_id
+		end
+		
+	end
 	
-	render partial: '/missions/mesa_chairs' , layout: false 
+	render partial: '/missions/your_open_mesa' , layout: false 
   end
 
   def rate_user_detail
@@ -304,6 +319,36 @@ class MissionsController < ApplicationController
      leader = mission.get_mission_owner 
      UserMailer.mission_accepted_email(leader[:name],leader[:email]).deliver
      redirect_to missions_path, :notice => ("Mesa has been authorized") 
+  end
+
+  def get_mission_chairs
+	mission = Mission.exists? params[:mesa_id]
+	@mission_chairs = mission.get_chairs
+	user = User.exists? params[:user_id]
+	@chair_user = user.get_primary_info
+	render partial: '/missions/chair_list' , layout: false 
+  end
+
+  def start_mesa
+	mission = Mission.exists? params[:mesa_id]
+     	mission.set_status(MESA_IS_STARTED)
+	mission_details(mission)
+	render partial: '/missions/your_underprogress_mesa' , layout: false 
+  end
+ 
+   def close_mesa
+	mission = Mission.exists? params[:mesa_id]
+     	mission.set_status(MESA_IS_COMPLETED)
+	mission_details(mission)
+        index
+	render partial: '/missions/index' , layout: false 
+  end
+
+  def rate_users
+	mission = Mission.exists? params[:mesa_id]
+     	#mission.set_status(MESA_IS_COMPLETED)
+	mission_details(mission)
+	render partial: '/missions/rate_users' , layout: false 
   end
  
   private
@@ -340,7 +385,7 @@ class MissionsController < ApplicationController
    end
 	
    def send_invite
-	 #UserMailer.send_mesa_invitation_email(@challenge,@when,@leader,@users,@mission_id,@user_id).deliver
+	 #UserMailer.send_mesa_invitation_email(@challenge,@when,@leader[:name],@users,@mission_id,@user_id).deliver
 	 @mission_invitation = UserMission.create(user_id: params[:user_id], mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: PENDING_MESA_INVITATION )
 	
    end
@@ -357,6 +402,12 @@ class MissionsController < ApplicationController
 	end
 	
 	
+   end
+
+  def can_create_new_mesa(user_id)
+	mesa_creation_dates = Mission.where(owner_id: user_id).pluck(:created_at)
+	mission_created_this_year = mesa_creation_dates.find_all{|creation_date| creation_date.to_date.year == Time.now.utc.year}.length
+	mission_created_this_year <= 2 ? true : false
    end
 
 end

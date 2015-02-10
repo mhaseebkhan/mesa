@@ -1,0 +1,53 @@
+ <div class="second_col_header">
+      <div class="title_heading">
+        <a href="#"><img src="/assets/back_butn.png" class="" alt="back"  onclick="enable_prev_step('.third_col','.second_col');"/></a> Add & admin users
+      </div>
+      <div class="title_heading_sep"></div>
+ </div>
+	<% if @searched_user %>
+		 <input id= "search_user" type="text" value="<%= @searched_user %>"><br>
+		<div class="show_result">Showing Result for:</div>
+    		<div class="common_flaggers"><%= @searched_user %></div>
+	<!--  <input id= "search_user" type="text" value="<%= @searched_user %>"><br> -->
+	<% end %>
+	 <% unless @users_array.empty? %>
+		<% @users_array.each do |user|%>
+			 <div  id="user_primary_info_<%= user[:id] %>" class="hand_cursor media opacity-05" onclick="show_user_detail(<%= user[:id] %>,<%= user[:role] %>);">
+			      <div class="media-left media-middle">
+				<a href="#">
+				  <img class="media-object search_user_img" src="<%= user[:profile_pic] %>" alt="..." height="55px" width="55px">
+				</a>
+			      </div>
+			      <div class="media-body">
+				<div class="media-heading user_name">
+				  <span><%= user[:name] %></span>
+				</div>
+			      </div>
+			  </div>
+		<% end %>
+	<% else %>
+	 	<p> No result found </p>
+	<% end %>
+
+<script type="text/javascript">
+    function show_user_detail(user_id,role){
+     var url = '/users/get_editable_users';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {user_id: user_id,user_role: role },
+		success:function (data) {
+		    {
+			$(".fourth_col").show();
+		    	$("#user_col3").html(data);
+			show_next_step(".third_col",".fourth_col")
+   		    }
+		}
+	    });
+
+       
+   }
+
+</script>
+
+

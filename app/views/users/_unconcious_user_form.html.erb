@@ -1,0 +1,83 @@
+<%= form_for @unconcious_user,:url => "/users/create_unconcious_user", :html => {id: "create_user"} do |f| %>
+	<div class="second_col_header">
+	      <div class="title_heading">
+		<a href="#"><img src="/assets/back_butn.png" class="" alt="back"  onclick="enable_prev_step('.third_col','.second_col');"/></a> Add & admin users
+	      </div>
+	      <div class="title_heading_sep"></div>
+	</div>
+	<div class="show_result">Create a new user by filling the below form</div>
+
+	  <div class="media">
+	      <div class="media-middle">
+		  <img class="media-object search_user_img" src="/assets/rsz_1johnny_bravo_by_freevil.jpg" alt="..." height="55px" width="55px">
+		      <div class="media-body">
+			<div class="media-heading user_name_s">
+			  Add Image
+			</div>
+		      </div>
+	       </div>
+	 </div>
+
+	  <div class="user_separator"></div>
+      <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">Enter Name
+        	<%= f.text_field :name, :value => "Name", :class => "form-control pass_text" %> 
+        </label>
+      </div>
+      <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">Working at
+        	<%= f.text_field :working_at, :value => "Working at", :class => "form-control pass_text" %> 
+        </label>
+      </div>
+      <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">Skills
+        	<%= f.text_field :skills, :class => "form-control pass_text col-lg-12" %> 
+        </label>
+      </div>
+ 
+      <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">Tags
+        	<%= f.text_field :tags, :class => "form-control pass_text col-lg-12" %> 
+        </label>
+      </div>
+      <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">Passions
+        	<%= f.text_field :passions, :class => "form-control pass_text col-lg-12" %> 
+        </label>
+      </div>
+      <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">Language
+        	<%= f.text_field :languages, :class => "form-control pass_text col-lg-12" %> 
+        </label>
+      </div>
+	
+      <div class=" margin-top25">
+      	<%= f.submit "Create User", :class => 'btn btn-default btn_clear', :id => "submit_btn", :name => "create_user_btn"%>
+      </div>
+
+<% end %>
+  
+<script>
+
+$("#create_user").submit(function() {
+
+    var url = "/users/create_unconcious_user"; // the script where you handle the form input.
+
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: $("#create_user").serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+             alert("VVV");
+               		$(".fourth_col").show();
+		    	$("#user_col3").html(data);
+			show_next_step(".third_col",".fourth_col");
+           }
+         });
+
+    return false; // avoid to execute the actual submit of the form.
+});
+
+ 
+</script>

@@ -9,7 +9,7 @@ class Mission < ActiveRecord::Base
  end
 
  def get_details 
-	{id: self.id, title: self.title, brief: self.brief,shared_motivation: self.shared_motivation, build_intent: self.build_intent, from_date: self.from_date.to_date, to_date: self.to_date.to_date,time: self.time, place: self.place}
+	{id: self.id, title: self.title, brief: self.brief,shared_motivation: self.shared_motivation, build_intent: self.build_intent, from_date: self.from_date.to_date, to_date: self.to_date.to_date,time: self.time, place: self.place, invites_out: self.invites_out}
  end
 
  def get_mission_users 
@@ -33,17 +33,19 @@ class Mission < ActiveRecord::Base
  def get_chairs
 	chairs = MesaChair.where(mission_id: self.id).order('mesa_chairs.order ASC');
 	chairs_hash_array = Array.new;
-        chairs.each do |chair|
+	chairs.each do |chair|
 		chairs_hash = Hash.new
-		chairs_hash = {id: chair.id, order: chair.order, mesa_id: chair.mission_id }
-		if chair.user_id
-			user = User.exists? chair.user_id
-			user_hash = user.get_primary_info(user.id) if user
-			chairs_hash[:user_id] = user_hash[:id]
-			chairs_hash[:user_name] = user_hash[:name]
-			chairs_hash[:user_profile_pic] = user_hash[:profile_pic]
+		chair_users_array =Array.new;
+		chairs_hash = {id: chair.id, order: chair.order, mesa_id: chair.mission_id, title: chair.title }
+		chair_users = chair.mesa_chair_users
+		unless chair_users.empty?
+			chair_users.each do |chair_user|
+				user = User.exists? chair_user.user_id
+				chair_users_array << user.get_primary_info if user
+			end
+		chairs_hash[:user_array] = chair_users_array
 		end
-		chairs_hash_array << chairs_hash
+ 		chairs_hash_array << chairs_hash
 	end
 	chairs_hash_array 
  end
@@ -80,6 +82,14 @@ class Mission < ActiveRecord::Base
 		MESA_IS_CREATED
 	end
   end
+
+ def set_all_invites_out
+	self.update_attribute(:invites_out, Time.now.utc)
+ end
+
+ def get_all_invites_out
+	self.invites_out
+ end
 
 
 end

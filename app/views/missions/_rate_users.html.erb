@@ -2,16 +2,19 @@
 	<div style="display: table-row">
 		<div id="col2_1"  style="display: table-cell;width: 30%;display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
 			<div id='mesa_primary_info' onclick='$("#mesa_detail").show();$("#user_detail").hide();$("#col2_2").hide();'>
+			<input type="hidden" name="mesa_id" id="hidden_mesa_id" value="<%=  @mission_details[:id] %>">
 				<p>Mesa:<%= @mission_details[:title] %></p>
 				<p>Leader:<%= @mission_leader.name%></p>
 			</div>
-			This Mesa in currently in progress with these participants:
+			<br>
+			You can rate skills, add tags and general observations to each participant.
 			<% unless @mission_users.empty? %>
 				<ul>
 				<% @mission_users.each do |user|%>
-					<%= render :partial => "/users/user_primary_details", :locals => { :user => user,:mesa_type => 'underprogress'  } %>
+					<%= render :partial => "/users/user_primary_details", :locals => { :user => user, :mesa_type => 'closed' } %>
 				<% end %>
 				</ul>
+			<button onclick="close_mesa(<%= @mission_details[:id] %>);">Close Mesa</button>
 			<% end %>
 		</div>
 		<div id="col2_2"  style="display: table-cell;width: 30%; display:none;"> 
@@ -27,4 +30,33 @@
 	</div>
 </div>
 </div>	
+<script type="text/javascript">
+function close_mesa(mesa_id){
+     
+      var url = '/missions/close_mesa';
+	    $.ajax({
+		url:url,
+		type:'post',
+		data : {mesa_id: mesa_id },
+		success:function (data) {
+		    { 	
+			//$("#mesa_all_chairs").html(data);
+			$("#mesa_col1").html(data);
+			 var url = '/missions/show_closed_mesa_detail';
+			    $.ajax({
+				url:url,
+				type:'get',
+				data : {id: mesa_id },
+				success:function (data) {
+				    { 	
+					$("#mesa_col2").html(data);
+				    }
+				}
+			    });
+   		    }
+		}
+	    });
 
+       
+   }
+</script>

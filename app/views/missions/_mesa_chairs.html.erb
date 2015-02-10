@@ -1,24 +1,45 @@
 <ul id ='mesa_chairs'>
 				<% if @mission_chairs %>
 					<% @mission_chairs.each do |chair|%>
-						<%if chair[:user_id] %>
-							<li class="chair_occupied" id="chair_<%= chair[:id] %>"> Chair <%= chair[:order] %>
-									<label id="remove_chair<%= chair[:id] %>" onclick="remove_chair(<%= chair[:id] %>)">Remove Chair - </label>
-									<div id="user_primary_info_<%= chair[:user_id] %>" style= "width: 50%;" >
-									<img src="<%= chair[:user_profile_pic] %>" style="width:20px;height:20px" /> 
-									<label onclick="show_user_detail(<%= chair[:user_id] %>);"><%= chair[:user_name] %></label>
-									</div> 
-									<label id="empty_chair<%= chair[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= chair[:user_id] %>)">Empty Chair</label>
+						<%if chair[:user_array] %>
+							<li class="chair_occupied" id="chair_<%= chair[:id] %>">
+									<div id="chair_title_div_<%= chair[:id] %>" >
+										<span id="chair_title_span_<%= chair[:id] %>"><%= chair[:title] %></span>
+										
+									</div>
+									<div style="float:right;">
+										<img id="edit_chair<%= chair[:id] %>" onclick="edit_chair_title('<%= chair[:id] %>','<%= chair[:title] %>')" src="assets/icon-edit.png" >			</div>
+									<div id="chair_user_div_<%= chair[:id]%>" >
+										<% chair[:user_array].each do |user|%>
+											<div id="user_primary_info_<%= user[:id] %>"  style= "width: 50%;" >
+												<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
+												<label onclick="show_user_detail(<%= user[:id] %>);"><%= user[:name] %></label>
+											</div> 
+											<div id="empty_chair<%= chair[:id] %>_<%= user[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= user[:id] %>)" class = "user_chair_info" >Empty Chair</div>
+										<% if invitation = pending_invitation(user[:id],chair[:mesa_id]) %>
+											<span> <%= invitation.invitation_status %></span>
+											<% if invitation.invitation_status == 'pending' %>
+												<span> <%= distance_of_time_in_words(invitation.invitation_time, Time.now.utc) %></span>
+											<% end %>
+										<% end %>
+										<% end %>
+									</div>
 							
 						<% else %>
-									<li  class="chair_empty" id="chair_<%= chair[:id] %>"> Chair <%= chair[:order] %>
+							<li  class="chair_empty" id="chair_<%= chair[:id] %>">
+									<div id="chair_title_div_<%= chair[:id] %>">
+										<span id="chair_title_span_<%= chair[:id] %>"><%= chair[:title] %></span>
+										
+									</div>
+									<div style="float:right;">
+										<img id="edit_chair<%= chair[:id] %>" onclick="edit_chair_title('<%= chair[:id] %>','<%= chair[:title] %>')" src="assets/icon-edit.png" >			</div>
+									<div id="chair_user_div_<%= chair[:id]%>" >
+									</div>
+									
 						<% end %>
-							<% unless pending_invitation(chair[:user_id],chair[:mesa_id]).empty? %>
-								<span> invited </span>
-							<% end %>		
 							</li>		
 					<%end%>
 				<% end %>
-			</ul>
+</ul>
 
 		

@@ -1,48 +1,206 @@
-<div style="width: 100%; display: table;">
-<div style="display: table-row">
-<div id="mesa_col1" style="width: 50%; display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
-<div id='mesa_title'>
-	<p> What's the title of this Mesa? </p>
-	<textarea rows="4" cols="50" required></textarea>
-</div>
-<div id='mesa_brief'>
-	<p> Whatis your brief? </p>
-	<textarea rows="4" cols="50"></textarea>
-</div>
-<div id='mesa_shared_motivation'>
-	<p> What's the shared motivation? </p>
-	<textarea rows="4" cols="50"></textarea>
-</div>
-<div id='mesa_tangible'>
-	<p> Can you create something tangible? </p>
-	
-</div>
-<div id='mesa_build_intent'>
-	<p> What do you intend to build? </p>
-	<textarea rows="4" cols="50"></textarea>
-	
-</div>
-<div id='mesa_when'>
-	<p> When is it happening? </p>
-	Date: <input id= "mesa_date" type="text">
-	Time: <input id= "mesa_time" type="text">
-	Place: <input id= "mesa_place" type="text">
-        <button onclick='show_mission_summary();'>Next</button>
-</div>
-</div>
-<div id="mesa_col2" style="width: 50%; display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
-<div id='mesa_summary' style="display:none;">
- <p> Time to verify your mesa's invitation before sending it for validation</p>
- <p>Name:<span id='mesa_title_lbl'></span></p>
- <p>Date:<span id='mesa_date_lbl'></span></p> 
- <p>Time:<span id='mesa_time_lbl'></span></p>
- <p>Place:<span id='mesa_place_lbl'></span></p>
- <p>Mission:<span id='mesa_mission_lbl'></span></p>
- <button onclick='send_brief();'>Send</button>
-</div>
-<div id="brief_validation_msg"  style="display:none;">
-<p>Great.<br> Now we need to validate your brief.We'll reply as soon as possible</p>
-</div>
+<% if user_signed_in? %>
+    <!-- Second Column start-->
+  <div class="border col-xs-3 hrLineRightGrey second_col">
+    <div class="stepA second_col_stepA">
+      <div class="second_col_header">
+        <div class="title_heading">Create Mission </div>
+        <div class="title_heading_sep"></div>
+      </div>
+
+      <div class="create_mission">
+        <div class="create_mission_title">"What's the title of this Mesa?</div>
+        <div class="create_mission_desc">It has to be simple and functional as Mesa Packaging or Mesa Coke."</div>
+        <div class="create_mission_input" id= "mesa_title">
+          <textarea rows="4" cols="50" placeholder="|Write here"></textarea>
+        </div>
+        <div class="create_mission_next_btn">
+           <img src="/assets/next.png" class="pull-right hand_cursor" onclick = "show_next_step('.second_col','.third_col');" >
+        </div>
+      </div>
+    </div>
+
+    <!--Step B-->
+    <div class="stepB second_col_stepB">
+      <div class="second_col_header">
+        <div class="title_heading">
+          <img src="/assets/back_butn.png" class="" alt="back" onclick="show_first_steps();"/> Back
+        </div>
+        <div class="title_heading_sep"></div>
+      </div>
+
+      <div class="create_mission">
+        <div class="create_mission_title">Can you create something tangible?</div>
+        <div class="create_mission_desc">Mesa exists to create something real.It's not about planing or coming up with an idea.It's about really making something real.</div>
+        <div class="create_mission_next_btn">
+             <img src="/assets/next.png" class="pull-right" onclick="show_build_intend();">
+        </div>
+      </div>
+    </div>
+    <!--end end stepb-->
+
+    <!--Step C-->
+    <div class="stepC second_col_stepC">
+      <div class="second_col_header">
+        <div class="title_heading">
+          <img src="/assets/back_butn.png" class="" alt="back" onclick="show_last_steps();"/> Back
+        </div>
+        <div class="title_heading_sep"></div>
+      </div>
+
+      <div class="create_mission">
+        <div class="create_mission_title">Time to verify your Mesa’s information</div>
+
+        <div class="mesa_item">
+          <div class="mesa_title">Name:</div><div class="mesa_name" id='mesa_title_lbl' ></div>
+        </div>
+
+        <div class="mesa_item">
+          <div class="mesa_title">Date:</div><div class="mesa_name" id='mesa_date_lbl'></div>
+        </div>
+
+        <div class="mesa_item">
+          <div class="mesa_title">Time:</div><div class="mesa_name" id='mesa_time_lbl'></div>
+        </div>
+
+        <div class="mesa_item">
+          <div class="mesa_title">Place:</div><div class="mesa_name" id='mesa_place_lbl'></div>
+        </div>
+
+        <div class="mesa_item">
+          <div class="mesa_title">Mission:</div><div class="mesa_name" id='mesa_mission_lbl'></div>
+        </div>
+
+        <div class="mesa_send_btn">
+           <button type="button" class="btn btn-default btn-admin btn-selected" onclick='send_brief();'>Send</button>
+        </div>
+
+      </div>
+    </div>
+    <!--end end stepb-->
+
+  </div>
+
+  <!-- end Second column-->
+   <!-- Third column start-->
+  <div class="border col-xs-3 hrLineRightGrey third_col">
+    <div class="stepA third_col_stepA">
+      <div class="second_col_header">
+        <div class="title_heading">
+          <img src="/assets/back_butn.png" class="" alt="back" onclick="enable_prev_step('.third_col','.second_col');"/> Back
+        </div>
+        <div class="title_heading_sep"></div>
+      </div>
+
+      <div class="create_mission">
+        <div class="create_mission_title">What is your brief?</div>
+        <div class="create_mission_desc">Tels us your business challenges and what goals you need to achieve.</div>
+        <div class="create_mission_input" id="mesa_brief">
+          <textarea rows="4" cols="50" placeholder="|Write here"></textarea>
+        </div>
+        <div class="create_mission_next_btn" id="mesa_brief">
+            <img src="/assets/next.png" class="pull-right hand_cursor" onclick = "show_next_step('.third_col','.fourth_col');">
+        </div>
+      </div>
+    </div>
+
+    <!--Step B-->
+    <div class="stepB third_col_stepB">
+      <div class="second_col_header">
+        <div class="title_heading">
+          <img src="/assets/back_butn.png" class="" alt="back"  onclick="enable_prev_step('.third_col','.second_col');" /> Back
+        </div>
+        <div class="title_heading_sep"></div>
+      </div>
+
+      <div class="create_mission">
+        <div class="create_mission_title">What do you intend to built?</div>
+        <div class="create_mission_desc">This is the mission of Mesa: the sentence we put in an envelop, So, tell us the task and the goal that participants will receive and solve</div>
+        <div class="create_mission_input" id="mesa_build_intent">
+          <textarea rows="4" cols="50" placeholder="|Write here"></textarea>
+        </div>
+        <div class="create_mission_next_btn">
+             <img src="/assets/next.png" class="pull-right" onclick="show_when();">
+        </div>
+      </div>
+    </div>
+    <!--end step b-->
+
+    <!--Step c-->
+    <div class="stepC third_col_stepC">
+	      <div class="second_col_header">
+		<div class="title_heading">
+		  <img src="/assets/back_butn.png" class="" alt="back" onclick="enable_prev_step('.third_col .third_col_stepC','.second_col');" />Back
+		</div>
+		<div class="title_heading_sep"></div>
+	      </div>
+
+	      <div class="create_mission">
+	      	<div id="brief_validation_msg"  style="display:none;">
+		</div>
+	     </div>
+    </div>
+    <!--end step b-->
+
+  </div>
+  <!--third column end-->
+
+  <!--fourth column start-->
+  <div class="border col-xs-3 fourth_col">
+    <div class="stepA fourth_col_stepA">
+      <div class="second_col_header">
+        <div class="title_heading">
+          <img src="/assets/back_butn.png" class="" alt="back"  onclick="enable_prev_step('.fourth_col','.third_col');"/> Back
+        </div>
+        <div class="title_heading_sep"></div>
+      </div>
+
+      <div class="create_mission">
+        <div class="create_mission_title">What's the shared motivation?</div>
+        <div class="create_mission_desc">How can you win the hearts of the best talents to join you in the mesa?</div>
+        <div class="create_mission_input" id= "mesa_shared_motivation">
+          <textarea rows="4" cols="50" placeholder="|Write here"></textarea>
+        </div>
+        <div class="create_mission_next_btn">
+            <img src="/assets/next.png" class="pull-right hand_cursor" onclick = 'show_tangible();'>
+       </div>
+      </div>
+      </div>
+    <!--Stepb-->
+    <div class="stepB fourth_col_stepB">
+      <div class="second_col_header">
+        <div class="title_heading">
+          <img src="/assets/back_butn.png" class="" alt="back"  onclick="enable_prev_step('.fourth_col','.third_col');" /> Back
+        </div>
+        <div class="title_heading_sep"></div>
+      </div>
+
+      <div class="create_mission">
+        <div class="create_mission_title">When is it happening?</div>
+        <div class="mesa_label">Date:</div>
+        <div class="mesa_input"><input type="text" class="mesa_input_txt" id="mesa_date"></div>
+
+        <div class="mesa_label">Time:</div>
+        <div class="mesa_input"><input type="text" class="mesa_input_txt" id="mesa_time"></div>
+
+        <div class="mesa_label">Place:</div>
+        <div class="mesa_input"><input type="text" class="mesa_input_txt" id="mesa_place"></div>
+
+        <div class="create_mission_next_btn">
+          <img src="/assets/next.png" class="pull-right" onclick='show_mission_summary();'>
+        </div>
+      </div>
+    </div>
+    <!--stepb-->
+
+
+  </div>
+  <!--end four column-->
+
+
+  </div>
+<% end %>
+
+
 
 <script type="text/javascript">
 function show_mission_summary(){
@@ -51,6 +209,13 @@ function show_mission_summary(){
     $("#mesa_date_lbl").text(document.getElementById( "mesa_date" ).value);
     $("#mesa_time_lbl").text(document.getElementById( "mesa_time" ).value);
     $("#mesa_place_lbl").text(document.getElementById( "mesa_place" ).value);
+    $(".second_col_stepA").hide();
+    $(".second_col_stepB").hide();
+    $(".second_col_stepC").show();
+    $('.second_col').removeClass('opacity-05');
+    $(".fourth_col").hide();
+    $(".third_col").hide();
+    disable_previous_steps (".second_col" )
     $("#mesa_summary").show();
    }
 
@@ -65,14 +230,73 @@ function send_brief(){
      var url = 'send_brief_validation';
 	    $.ajax({
 		url:url,
-		type:'post',
+		type:'get',
 		data : {title: title,brief: brief,shared_motivation: shared_motivation,build_intent: build_intent,from_date: date,to_date: build_intent,time: time,place: place},
 		success:function (data) {
 		    {
-		    	$("#brief_validation_msg").show();
+			$(".third_col").show();
+			$(".third_col_stepA").hide();
+    			$(".third_col_stepB").hide();
+    			$(".third_col_stepC").show();
+    			disable_previous_steps (".third_col");
+			$("#brief_validation_msg").html(data).show();
    		    }
 		}
 	    });
    }
  
+function show_tangible()
+{
+$(".second_col_stepA").hide();
+$(".second_col_stepB").show();
+$(".fourth_col").hide();
+$(".third_col").hide();
+disable_previous_steps(".second_col");
+}
+
+function show_build_intend()
+{
+$(".third_col").show();
+$(".third_col_stepA").hide();
+$(".third_col_stepB").show();
+disable_previous_steps(".third_col");
+}
+
+function show_when()
+{
+$(".fourth_col").show();
+$(".fourth_col_stepA").hide();
+$(".fourth_col_stepB").show();
+disable_previous_steps(".fourth_col");
+}
+
+function show_last_steps()
+{
+$(".second_col").show();
+$(".third_col").show();
+$(".fourth_col").show();
+$(".second_col_stepC").hide();
+$(".stepB").show();
+disable_previous_steps(".fourth_col");
+}
+
+function show_first_steps()
+{
+$(".second_col").show();
+$(".third_col").show();
+$(".fourth_col").show();
+$(".stepB").hide();
+$(".stepA").show();
+disable_previous_steps(".fourth_col");
+}
+
+function disable_previous_steps (active_step )
+{
+$('.second_col').addClass('opacity-05 disabled_step');
+$('.third_col').addClass('opacity-05 disabled_step');
+$('.fourth_col').addClass('opacity-05 disabled_step');
+$(active_step).removeClass('opacity-05 disabled_step');
+}
+
+
 </script>

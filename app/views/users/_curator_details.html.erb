@@ -1,0 +1,32 @@
+<% if @user %>
+
+<div id='profile_title'>
+	<div id='profile_pic'style="float:left;width:40%" ><img src="<%= @user[:profile_pic] %>" style="width:40px;height:40px" /> </div>
+	
+</div>
+<div id='profile_details'style="padding:10px;" >
+	 <p><%= @user[:name].humanize  %> gets</p>
+	 <input id= "no_of_codes" type="text" value="<%= @user[:no_of_codes]%>" > new code(s) every<br>
+	 <input id= "code_frequency" type="text" value= '<%= @user[:code_frequency]%>' > months <br>
+	 <button onclick='save_details(<%= @user[:id]%>);'>Save</button>
+</div>
+<% end %>
+
+
+<script type="text/javascript">
+function save_details(id){
+    var no_of_codes = document.getElementById( "no_of_codes" ).value;
+    var code_frequency = document.getElementById( "code_frequency" ).value;
+    url = '/users/update_curator_details'
+       $.ajax({
+		url:url,
+		type:'post',
+		data : {no_of_codes: no_of_codes,code_frequency: code_frequency,user_id: id},
+		success:function (data) {
+		    {
+		    	alert("updated!");
+   		    }
+		}
+	    });
+   }
+</script>

@@ -1,0 +1,37 @@
+			<% if  @recent_users %>
+				<div id= 'users_joind_by_you'>
+					These are the people that joined the network recently:
+					<ul>
+					<%  @recent_users.each do |user| %>
+						<li>
+						<span id='user_primary_info_<%= user[:id] %>' >
+							<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
+							<p onclick="show_recent_user_detail(<%= user[:id] %>);"><%= user[:name] %><br>
+							through <%= user[:invited_by] %> </p>
+						</span>
+						</li>	
+					<% end %>
+					<ul>
+				</div>
+			<% end %>
+
+<script type="text/javascript">
+   
+    function show_recent_user_detail(user_id){
+     var url = '/get_user';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {user_id: user_id },
+		success:function (data) {
+		    {
+		    	$("#invite_col3").html(data);
+
+   		    }
+		}
+	    });
+
+       
+   }
+
+</script>

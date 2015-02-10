@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
+
+  before_filter :mailer_set_url_options
   protect_from_forgery with: :null_session
   before_action do
     resource = controller_name.singularize.to_sym
@@ -11,6 +13,16 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
+
+  def mailer_set_url_options
+    ActionMailer::Base.default_url_options[:host] = request.host_with_port
+  end
+
+  def generate_random_string
+	[*('A'..'Z')].sample(8).join
+  end
+ 
+
   private
   
   def authenticate_user_from_token!
@@ -24,5 +36,8 @@ class ApplicationController < ActionController::Base
       sign_in user
     end
   end
+
+ 
+
 
 end

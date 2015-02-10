@@ -10,7 +10,7 @@ class Session::SessionsController < Devise::SessionsController
       if resource.valid_password?(params[:user][:password])
 	sign_in("user", resource)
         resource.ensure_authentication_token
-        format.html { redirect_to  dashboard_welcome_index_path, notice: 'Signed in sucessfully!' }
+        format.html {after_sign_in_path_for(resource) } #dashboard_welcome_index_path, notice: 'Signed in sucessfully!' 
         format.json { render :json=> {:authentication_token=>resource.authentication_token, :email=>resource.email, :user_id=> resource.id, :status => true}}
       else
 	format.html { invalid_login_attempt }
@@ -34,6 +34,22 @@ class Session::SessionsController < Devise::SessionsController
         
       end
   end
+
+
+ def after_sign_in_path_for(resource)
+     if VALID_ADMIN_USERS.include?(resource.role?) 
+	redirect_to dashboard_welcome_index_path, notice: 'Signed in sucessfully!' 	
+     else 
+	redirect_to '/invalid_user_sign_out' 
+     end
+ end
+
+  def invalid_user_sign_out
+	sign_out(resource)
+	redirect_to '/' , :alert => 'You are not authorized to access Mesa Admin panel'
+  end
+
+ 
 
   protected
   

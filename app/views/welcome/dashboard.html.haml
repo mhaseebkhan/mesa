@@ -1,0 +1,4 @@
+- if current_user.is_new_admin
+  =render partial: '/welcome/new_admin' , layout: false 
+-else
+  =render partial: '/searches/search_by_key', layout: false 

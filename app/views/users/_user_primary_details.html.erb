@@ -1,7 +1,7 @@
-<span id='user_primary_info_<%= user[:id] %>' >
+<div id='user_primary_info_<%= user[:id] %>' >
 	<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
 	<p onclick="show_mesa_user_detail(<%= user[:id] %>);"><%= user[:name] %></p>
-</span>
+</div>
 <input type="hidden" name="mesa_type" id="hidden_mesa_type" value="<%= mesa_type %>">
 <script type="text/javascript">
     function show_mesa_user_detail(user_id){

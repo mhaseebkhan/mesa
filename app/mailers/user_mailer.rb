@@ -8,11 +8,6 @@ class UserMailer < ActionMailer::Base
     mail(to: @user.email, subject: 'Welcome to Mesa & Cadeira')
   end
 
- def forgot_password_email(user)
-   @user = user
-    mail(to: @user.email, subject: 'Forgot Password - Mesa & Cadeira')
-  end
- 
  def invite_user_email(code_text,invitation_by,email)
     @code_text = code_text
     @invitation_by = invitation_by
@@ -72,5 +67,14 @@ class UserMailer < ActionMailer::Base
      #@email = 
      email = 'munteha18@gmail.com'#mesa owner
      mail(to: email, subject: 'Mission Accepted - Mesa & Cadeira')
+  end
+
+  
+  def admin_email(user,code)
+     #@email = 
+     @user = user
+     @code = code
+     email = 'munteha18@gmail.com'
+     mail(to: email, subject: 'Admin Invitation - Mesa & Cadeira')
   end
 end

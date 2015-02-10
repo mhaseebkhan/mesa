@@ -12,6 +12,7 @@
 					<%= render :partial => "/users/user_primary_details", :locals => { :user => user, :mesa_type => 'open'  } %>
 				<% end %>
 				</ul>
+				<button onclick="start_mesa(<%= @mission_details[:id] %>);">Start Mesa</button>
 			<% end %>
 			<label onclick='$("#col2_2").show();$("#user_detail").hide();'>Team Assembling:</label>
 
@@ -19,7 +20,12 @@
 			<div id="mesa_all_chairs">
 				<%= render :partial => "mesa_chairs" %>
 			</div>
-			<button onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
+			<% if  check_all_invites_out(@mission_details[:id]) %>
+				<span> All invites are out, you will be able to send invites again when none of your invitation is in pending state </span>
+			<% else %>
+				<button onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
+			<% end %>
+
 
 		</div>
 		<div id="col2_2"  style="display: table-cell;width: 30%; display:none;"> 
@@ -59,8 +65,8 @@
 				chair_id = data.split("|")[0];
 				chair_order = data.split("|")[1];
 		                var li_id = "chair_"+chair_id
-				$("#mesa_chairs").append('<li id='+li_id+'> Chair '+chair_order+' </li>');
-		                $("#"+li_id).append('<label id=remove_chair'+chair_id+' onclick=remove_chair('+chair_id+')>Remove Chair - </label>');
+				$("#mesa_chairs").append('<li id='+li_id+'>  <input id= "chair_title_'+chair_id+'" type="text" value= "Chair '+chair_order+'"> <button onclick= "edit_chair('+chair_id+');">OK</button> </li>');
+		              //  $("#"+li_id).append('<label id=edit_chair'+chair_id+' onclick=edit_chair_title('+chair_id+')>Edit</label>');
 			}
    		    }
 		}
@@ -74,12 +80,14 @@
 	    $.ajax({
 		url:url,
 		type:'post',
-		data : {chair_id: chair_id },
+		data : {chair_id: chair_id,user_id: user_id },
 		success:function (data) {
 		    { 	
 			$("#user_primary_info_"+ user_id).remove();
-			$("#empty_chair"+ chair_id).remove();
-			$("#chair_"+ chair_id).removeClass("chair_occupied").addClass("chair_empty");
+			$("#empty_chair"+ chair_id+"_"+user_id).remove();
+			if ($("#chair_user_div_"+chair_id+"> div").length == 0){
+				$("#chair_"+ chair_id).removeClass("chair_occupied").addClass("chair_empty");
+			}
    		    }
 		}
 	    });
@@ -87,27 +95,38 @@
        
    }
 
-  function remove_chair(chair_id){
-     var url = '/missions/remove_chair';
+  function edit_chair(chair_id){
+  var chair_title = document.getElementById( "chair_title_"+chair_id ).value
+     var url = '/missions/edit_chair';
 	    $.ajax({
 		url:url,
 		type:'post',
-		data : {chair_id: chair_id },
+		data : {chair_id: chair_id,chair_title: chair_title },
 		success:function (data) {
 		    { 	
-			$("#chair_"+ chair_id).remove();
+			$("#mesa_all_chairs").html(data);
    		    }
 		}
 	    });
 
        
    }
+
+ 
+  function edit_chair_title(chair_id,chair_title){
+    if( $("#chair_title_span_"+chair_id).is(':visible') )
+     {
+	     $("#chair_title_span_"+chair_id).hide();
+	     var li_id = "chair_"+chair_id
+	     $("#chair_title_div_"+chair_id).append('<input id= "chair_title_'+chair_id+'" type="text" value="'+chair_title+'"> <button onclick= "edit_chair('+chair_id+');">OK</button> ');
+     }
+    }
 
   function send_mesa_invites(mesa_id){
       user_array = [];
       var li = document.getElementsByClassName("chair_occupied");
-    	$(li).each(function(){
-		user_array.push($(this).find('div').attr('id').split("user_primary_info_")[1]);
+    	$(li).find('.user_chair_info').each(function(){
+		user_array.push($(this).attr('id').split("empty_chair")[1]);
 	});
       var url = '/missions/send_mesa_invites';
 	    $.ajax({
@@ -116,7 +135,26 @@
 		data : {mesa_id: mesa_id,user_list: user_array },
 		success:function (data) {
 		    { 	
-			$("#mesa_all_chairs").html(data);
+			//$("#mesa_all_chairs").html(data);
+			$("#mesa_col2").html(data);
+   		    }
+		}
+	    });
+
+       
+   }
+
+  function start_mesa(mesa_id){
+     
+      var url = '/missions/start_mesa';
+	    $.ajax({
+		url:url,
+		type:'post',
+		data : {mesa_id: mesa_id },
+		success:function (data) {
+		    { 	
+			//$("#mesa_all_chairs").html(data);
+			$("#mesa_col2").html(data);
    		    }
 		}
 	    });

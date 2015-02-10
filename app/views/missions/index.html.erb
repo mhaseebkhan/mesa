@@ -6,41 +6,7 @@
 <div style="width: 100%; display: table;">
     <div style="display: table-row">
         <div id="mesa_col1" style="width: 8%; display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
-		<h5> Your Open Mesas</h5>
-  		<ul>
-			<% @my_open_missions.each do |mission| %>
-				<li onclick="show_mesa_details('your_open_mesa','<%=mission.id%>');"><%= mission.title %></li>
-	   		<% end %>
-		</ul>
-                <h5> Your Closed Mesas</h5>
-  		<ul>
-			<% @my_closed_missions.each do |mission| %>
-				<li onclick="show_mesa_details('your_closed_mesa','<%=mission.id%>');"> <%= mission.title %></li>
-	   		<% end %>
-		</ul>
-		<% if can? :view_others_mesas, @missions %>
-		        <h5> Others Open Mesas</h5>
-	  		<ul>
-				<% @others_open_missions.each do |mission| %>
-					<li onclick="show_mesa_details('others_open_mesa','<%=mission.id%>');"><%= mission.title %> by <%=get_mission_owner(mission) %> </li>
-		   		<% end %>
-			</ul>
-		        <h5> Others Closed Mesas</h5>
-	  		<ul>
-				<% @others_closed_missions.each do |mission| %>
-					<li onclick="show_mesa_details('others_closed_mesa','<%=mission.id%>');"><%= mission.title %> by <%=get_mission_owner(mission) %></li>
-		   		<% end %>
-			</ul>
-		<% end %>
-                <% if can? :view_pending_mesas, @missions %>
-	        <h5> Pending Mesas</h5>
-  		<ul>
-			<% @pending_missions.each do |mission| %>
-				<li onclick="show_mesa_details('pending_mesa','<%=mission.id%>');"><%= mission.title %> </li>
-	   		<% end %>
-		</ul>
-                <% end %>
-
+		<%= render :partial => "/missions/index" %>
 	</div>
         <div id="mesa_col2"  style="width: 30%;display: table-cell; border-right: solid;border-width: 1px;border-color: #000;"></div>
 	

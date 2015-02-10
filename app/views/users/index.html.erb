@@ -1,0 +1,123 @@
+<% if user_signed_in? %>
+   <!-- Second Column start-->
+  <div id="user_col1" class="border col-xs-3 second_col hrLineRightGrey">
+    <div class="second_col_header">
+      <div class="title_heading">Add & Admin Users </div>
+      <div class="title_heading_sep"></div>
+    </div>
+
+    <div class="project_list">
+      <div class="proj_list_title">Add new user</div>
+      <div class="pull-right">
+         <a href="#"><img src="/assets/next.png" class="" alt="next" onclick="add_unconcious_user();" /></a>
+      </div>
+      <div class="proj_list_hr"></div>
+    </div>
+
+
+    <div class="project_list">
+      <div class="proj_list_title">Edit specific user:</div>
+	<div class="input-group col-lg-12">
+        <input  id= "search_user" type="text" class="form-control pass_text" placeholder="Enter Name" aria-describedby="basic-addon2">
+      </div>
+      <div class="pull-right">
+        Search <a href="#"><img src="/assets/next.png" class="" alt="next" onclick="search_user_by_name();" /></a>
+      </div>
+      <div class="proj_list_hr"></div>
+    </div>
+
+    <div class="project_list">
+      <div class="proj_list_title">Or, filter users by type:</div>
+      <select id="user_roles">
+		  <option value="<%= ROLE_ADMIN %>">Admins</option>
+		  <option value="<%= ROLE_LEADER %>">Leaders</option>
+		  <option value="<%= ROLE_CURATOR %>">Curators</option>
+		  <option value="<%= ROLE_COMMONFLAGGER %>">Common-flaggers</option>
+		  <option value="<%= ROLE_UNCONCIOUS %>">Unconcious</option>
+		  <option value="<%= ROLE_HARDINPUT %>">Hard Input</option>
+		  <option value="<%= ROLE_FAVORITED %>">Favorited</option>
+		  <option value="<%= ROLE_COMMON %>">Common</option>
+	</select>
+      <div class="pull-right margin-top25">
+        List <a href="#"><img src="/assets/next.png" class="" alt="next" onclick="filter_users();" /></a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- end Second column-->
+
+    <!-- Third column start-->
+    <div id="user_col2" class="border col-xs-3 hrLineRightGrey third_col">
+	        <div id="unconcious_user" style="display:none;">
+			 <%= render partial: '/users/unconcious_user_form' %>
+ 		</div>
+		<div id="search_by_name" style="display:none;">
+			
+ 		</div>	
+    		<div id="filter_user" style="display:none;">
+	
+ 		</div>	
+    </div>
+    <!--third column end-->
+
+    <!--fourth column start-->
+    <div id="user_col3" class="border col-xs-3 fourth_col">
+    </div>
+    <!--end four column-->
+
+<% end %>
+
+<script type="text/javascript">
+  
+   function search_user_by_name(){
+     search_string = document.getElementById( "search_user" ).value;
+     var url = '/searches/search_by_name';
+	   $.ajax({
+		url:url,
+		type:'get',
+		data : {search_key: search_string },
+		success:function (data) {
+		    {
+			$(".third_col").show();
+		    	$("#search_by_name").html(data).show();
+			$("#unconcious_user").hide();
+			$("#filter_user").hide();
+			show_next_step(".second_col",".third_col")
+   		    }
+		}
+	    });
+
+       
+   }
+
+ function filter_users(){
+     var search_string = $("#user_roles option:selected").text();
+     var filter_string = $('#user_roles').val();
+     var url = '/searches/filter_users';
+	   $.ajax({
+		url:url,
+		type:'get',
+		data : {user_role: filter_string,search_string: search_string},
+		success:function (data) {
+		    {
+			$(".third_col").show();
+		    	$("#filter_user").html(data).show();
+			$("#unconcious_user").hide();
+			$("#search_by_name").hide();
+			show_next_step(".second_col",".third_col")
+   		    }
+		}
+	    });
+   }
+
+  function add_unconcious_user(){
+	$(".third_col").show();
+      	$("#unconcious_user").show();
+	$("#search_by_name").hide();
+	$("#filter_user").hide();
+	show_next_step(".second_col",".third_col")
+   }
+
+ </script>
+

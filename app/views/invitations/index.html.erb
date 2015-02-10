@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<div style="width: 100%; display: table;">
+    <div style="display: table-row">
+        <div id="invite_col1" style="width: 30%; display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
+		<h5 onclick= get_recently_joined_users();> Recently joined </h5>
+		<h5 onclick= get_codes();> Your Codes</h5>
+		<h5  onclick= get_curators();> Curators </h5>
+		
+	</div>
+        <div id="invite_col2"  style="width: 30%;display: table-cell; border-right: solid;border-width: 1px;border-color: #000;">
+		<div id="your_codes" style="display:none;">
+			 <%= render partial: '/invitations/code_list' %>
+ 		</div>
+		<div id="recently_joined" style="display:none;">
+			 <%= render partial: '/invitations/recently_joined' %>
+ 		</div>	
+    		<div id="network_curators" style="display:none;">
+			 <%= render partial: '/invitations/network_curators' %>
+ 		</div>	
+        </div>
+        <div id="invite_col3"  style="width: 30%;display: table-cell; border-right: solid;border-width: 1px;border-color: #000;">
+        </div>
+	
+    </div>
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript">
+  
+   function get_recently_joined_users(){
+        
+     var url = '/users/recently_joined_users';
+	    $.ajax({
+		url:url,
+		type:'get',
+		success:function (data) {
+		    {
+		    	$("#recently_joined").html(data).show();
+			$("#your_codes").hide();
+			$("#network_curators").hide();
+   		    }
+		}
+	    });
+
+       
+   }
+
+  function get_codes(){
+        
+     var url = '/users/user_invitation_codes';
+	    $.ajax({
+		url:url,
+		type:'get',
+		success:function (data) {
+		    {
+		    	$("#your_codes").html(data).show();
+			$("#recently_joined").hide();
+			$("#network_curators").hide();
+			//$("#col3").html(data);
+   		    }
+		}
+	    });
+
+       
+   }
+
+  function get_curators(){
+        
+     var url = '/users/get_curators';
+	    $.ajax({
+		url:url,
+		type:'get',
+		success:function (data) {
+		    {
+		    	$("#network_curators").html(data).show();
+			$("#recently_joined").hide();
+			$("#your_codes").hide();
+			//$("#col3").html(data);
+   		    }
+		}
+	    });
+
+       
+   }
+
+</script>
+

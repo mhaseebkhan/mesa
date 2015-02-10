@@ -9,11 +9,13 @@ class User < ActiveRecord::Base
   has_many :user_tags, :dependent => :destroy  
   has_many  :missions, :through => :user_missions
   has_many :user_missions, :dependent => :destroy  
-  has_many :invitations
-  has_one :curator_codes
+  has_one :invitation
+  has_many :invitation_codes
+  has_one :curator_code
   has_many :roles, :through => :user_roles
   has_many :user_roles,:dependent => :destroy  
   has_many :added_tags
+  has_many :mesa_chair_users,:dependent => :destroy  
   mount_uploader :profile_pic, ImageUploader
   before_save :ensure_authentication_token
  
@@ -46,30 +48,18 @@ class User < ActiveRecord::Base
                 #Set user role
 		UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
                 #Occupy code
-		invitaion_code = InvitationCode.find_by_code_text(profile[:code])
-		invitation = Invitation.where(id: invitaion_code.id, status: PENDING_INVITATION_STATUS).take.update_attribute(:status, TAKEN_INVITATION_STATUS) if invitaion_code
+		invitaion_code = InvitationCode.find_by(code_text: profile[:code])
+		if invitaion_code
+			invitaion_code.update_attribute(:status, TAKEN_INVITATION_STATUS) 
+			Invitation.create(invitation_code_id: invitaion_code.id ,user_id: self.id)
+		end
            
   end
 
  def update_profile(profile)
 	  self.update_attributes(name: profile[:name], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
-                # this code will only add new skills, will not delete the missing ones, as if we delete them, their relevany star rating would also be gone
+                # this code assumes that skill once added wiill never be deleted in update
 		if (profile[:skills])
-			#existing_skills = UserSkill.where(user_id: self.id).pluck(:id)
-			#profile[:skills].each do |skill|
-			#	skill_found = Skill.find_by_name(skill[:name])
-			#	existing_skills.delete_if{|existing_skill_id| existing_skill_id == skill_found.id}
-			#	if skill_found
-			#		user_skill = UserSkill.find_or_create_by(user_id: self.id, skill_id: skill_found.id)
-			#		user_skill.update_attributes( work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded])
-			#	else
-			#		new_skill = Skill.create(name: skill[:name])
-			#		UserSkill.create( user_id: self.id, skill_id: new_skill.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
-
-			#	end
-			#end
-			#UserSkill.where(id: existing_skills).delete_all
-			UserSkill.where(user_id: self.id).delete_all
 			profile[:skills].each do |skill|
 				skill_found = Skill.find_or_create_by(name: skill[:name])
 				user_skill = UserSkill.find_or_create_by(user_id: self.id, skill_id: skill_found.id)		
@@ -78,13 +68,6 @@ class User < ActiveRecord::Base
 			
 		end
 		if (profile[:tags])
-			#existing_tags = UserTag.where(user_id: self.id).pluck(:id)
-			#profile[:tags].each do |tag|
-			#	tag_found = Tag.find_or_create_by(name: tag[:name])
-			#	existing_tags.delete_if{|existing_tag_id| existing_tag_id == tag_found.id}
-			#	UserTag.find_or_create_by( user_id: self.id, tag_id: tag_found.id)
-			#end
-			#UserTag.where(id: existing_tags).delete_all
 			UserTag.where(user_id: self.id).delete_all
 			profile[:tags].each do |tag|
 				tag_found = Tag.find_or_create_by(name: tag[:name])
@@ -101,7 +84,7 @@ class User < ActiveRecord::Base
        tags = self.tags
        tag_array = Tag.get_tag_set(tags,self.id) if tags
 	
-	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array,:tags => tag_array,:passions => self.passions}}
+	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array,:tags => tag_array,:passions => self.passions,:role =>  self.roles.first.id}}
   end
 
   def self.email_exists? email
@@ -114,16 +97,15 @@ class User < ActiveRecord::Base
  
   def role? 
 	if self.roles.first.nil?
-		UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
-		ROLE_CURATOR
+		#UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
+		ROLE_COMMONFLAGGER
 	else
 		self.roles.first.id
 	end
   end
 
-  def get_primary_info id
-        user = User.find_by_id(id)
-	{:id => user.id, :name=>user.name, :profile_pic => user.profile_pic.url.to_s }
+  def get_primary_info 
+      {:id => self.id, :name=>self.name, :profile_pic => self.profile_pic.url.to_s, :role => self.roles.first.id }
   end
 
   
@@ -165,10 +147,60 @@ class User < ActiveRecord::Base
    def get_mesa_rating(mesa_id)
        skills = self.skills
        skill_array = Skill.get_skill_rating(skills,mesa_id,self.id) if skills
+       added_tags = self.added_tags.where(mission_id: mesa_id)
+       tag_array = AddedTag.get_tag_set added_tags if added_tags
+       user_mission = self.user_missions.where(mission_id: mesa_id).take
+       if user_mission 
+	       notes = Array.new
+	       notes << {:note => user_mission.notes}
+       end
+       {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
+  end
+
+  def open_codes
+	self.invitation_codes.where(status: PENDING_INVITATION_STATUS)
+  end 
+ 
+  def taken_codes
+	self.invitation_codes.where(status: TAKEN_INVITATION_STATUS)
+  end  
+
+  def get_curator_details
+	curator = self.get_primary_info 
+	if self.curator_code
+		curator[:no_of_codes] = self.curator_code.no_of_codes
+		curator[:code_frequency] = self.curator_code.code_frequency
+	end
+	curator
+  end
+
+  def update_curator_details(no_of_codes,code_frequency)
+	CuratorCode.find_or_create_by(user_id: self.id).update_attributes(no_of_codes: no_of_codes,code_frequency: code_frequency)
+  end
+  
+  def generate_invitation_code
+	code = ''
+        loop do
+	      code = generate_random_string
+	      break code unless InvitationCode.where(code_text: code).first
+    	end
+	InvitationCode.create(code_text: code, user_id: self.id, status: PENDING_INVITATION_STATUS)
+  end
+
+  def generate_curator_code
+	generate_invitation_code
+	CuratorCode.find_or_create_by(user_id: self.id).update_attributes(last_code_time: Time.now.utc)
+  end
+
+  def get_user_rating
+	skills = self.skills
+       skill_array = Skill.get_average_skill_rating(skills,self.id) if skills
        added_tags = self.added_tags
        tag_array = AddedTag.get_tag_set added_tags if added_tags
-       notes = self.user_missions.where(mission_id: mesa_id).take.notes
-       {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
+	notes = Array.new
+        self.user_missions.collect{|user_mission| notes << {:note => user_mission.notes, :by => Mission.where(id: user_mission.mission_id).take.get_mission_owner } if user_mission.notes}
+	
+	 {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
   end
 
 

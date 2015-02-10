@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Mesa & Cadeira</title>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= csrf_meta_tags %>
+     <script charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+    <script charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript"></script>
+    <script charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js" type="text/javascript"></script>
+    <script charset="utf-8" src="http://malsup.github.com/jquery.form.js" type="text/javascript"></script>
+    <%= javascript_include_tag "application" %>
+    <%= stylesheet_link_tag    "application" %>
+  </head>
+  <body>
+	<div>
+		<div class="row" style="width: 100%; height: 100%;">
+		    <% if alert %>
+		      <div class="alert-box warning radius">
+			<%= alert %>
+			<%= link_to 'x', '#', class: 'close', onclick: '$(".alert-box").hide();' %>
+		      </div>
+		    <% end %>
+		    <% if notice %>
+		      <div class="alert-box success radius">
+			<%= notice %>
+			<%= link_to 'x', '#', class: 'close', onclick: '$(".alert-box").hide();' %>
+		      </div>
+		     <% end %>
+		     <% if user_signed_in? %>
+			 <%= render partial: '/layouts/sidebar/layout_sidebar' %>
+		     <% end %>
+		   
+		</div>
+		<%= yield %>
+	</div>
+ </body>
+</html>

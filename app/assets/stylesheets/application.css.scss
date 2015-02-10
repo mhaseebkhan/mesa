@@ -12,77 +12,38 @@
  *
  *= require_tree .
  *= require_self
- *= require foundation_and_overrides
- *= require welcome
- *= require jquery.tagit
- *= require tagit.ui-zendesk
  */
 
-@font-face {
-    font-family: "Apercu-Bold";
-    src: url(/assets/fonts/Apercu-Bold.otf) format("truetype");
+.alert-box.warning {
+	background-color: #f08a24;
+	border-color: #de770f;
+	color: white;
 }
 
-@font-face {
-    font-family: "Apercu-Bold-Italic";
-    src: url(/assets/fonts/Apercu-Bold-Italic.otf) format("truetype");
+.alert-box.success {
+	background-color: #43ac6a;
+	border-color: #3a945b;
+	color: white;
 }
 
-@font-face {
-    font-family: "Apercu-Italic";
-    src: url(/assets/fonts/Apercu-Italic.otf) format("truetype");
+.alert-box.radius {
+	border-radius: 3px;
 }
 
-@font-face {
-    font-family: "Apercu-Light";
-    src: url(/assets/fonts/Apercu-Light.otf) format("truetype");
+.alert-box {
+	border-style: solid;
+	border-width: 1px;
+	display: block;
+	font-weight: normal;
+	position: relative;
+	padding: 0.875rem 1.5rem 0.875rem 0.875rem;
+	font-size: 14px;
+	transition: opacity 300ms ease-out;
+	background-color: #008cba;
+	border-color: #0078a0;
+	color: white;
 }
 
-@font-face {
-    font-family: "Apercu-Light-Italic";
-    src: url(/assets/fonts/Apercu-Light-Italic.otf) format("truetype");
-}
-
-@font-face {
-    font-family: "Apercu-Medium";
-    src: url(/assets/fonts/Apercu-Medium.otf) format("truetype");
-}
-
-@font-face {
-    font-family: "Apercu-Medium-Italic";
-    src: url(/assets/fonts/Apercu-Medium-Italic.otf) format("truetype");
-}
-
-@font-face {
-    font-family: "Apercu-Mono";
-    src: url(/assets/fonts/Apercu-Mono.otf) format("truetype");
-}
-
-@font-face {
-    font-family: "Apercu-Regular";
-    src: url(/assets/fonts/Apercu-Regular.otf) format("truetype");
-}
-
-html, body {
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
-}
-
-.container {
-    height: 100%;
-    width: 100%;
-}
-.column-left {
-    float: left;
-    width: 23%;
-    background-color: #1a1a1a;
-    height: 100%;
-}
-.column-center {
-    width: 77%;
-    padding-left: 25px;
-}
 .starRating{
   display        : inline-block;
   position       : relative;
@@ -134,4 +95,22 @@ html, body {
   margin: 0px;
 }
 
+ul
+{
+    list-style-type: none;
+}
 
+.chair_list_div {
+background: red;
+/* position: relative; */
+z-index: 10;
+padding: 20px;
+border-radius: 5px;
+border: 2px solid #2E2E2D;
+box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+overflow-y: auto;
+position: fixed;
+height: 100px;
+left: 69%;
+width: 200px;
+}

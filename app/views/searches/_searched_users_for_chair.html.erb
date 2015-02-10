@@ -1,13 +1,17 @@
 <% unless @users_array.empty? %>
+<div id="chair_list_div" class="chair_list_div" style="display:none;">
+</div>
 
 	<% @users_array.each do |user|%>
-		<%= render :partial => "/users/user_primary_details", :locals => { :user => user } %>
-		<% if user_is_already_invited(user[:id], @mesa_id ).empty? && user_is_already_assigned_chair(user[:id], @mesa_id ).empty? %>	
+		<%= render :partial => "/users/user_primary_details", :locals => { :user => user, :mesa_type => 'open'  } %>
+		<%  chair = user_is_already_assigned_chair(user[:id], @mesa_id ) %>
+		<% if chair %>	
 			<label id="chair_user_<%= user[:id] %>" onclick="add_to_chair(<%= user[:id] %>,<%= @mesa_id %>);">Add to chair +</label>
+			<label id="chair_list_user_<%= user[:id] %>" onclick="show_chair_list(<%= @mesa_id %>,<%= user[:id] %>);">Add to chair list +</label>
 		<% end %>
-		
 	<% end %>
 	<p>Click on name to select participant.Reorder them in a list for more than one pick.</p>
+    
 <% else %>
 	<div id='no_result_found'>
  		<p> There’s no profile that matches your search request. You can ask the Mesa team for help finding the right person. </p>
@@ -17,7 +21,10 @@
 	</div>
 <% end %>
 
+
+
 <script type="text/javascript">
+
     function show_user_detail(user_id){
      var url = '/get_user';
 	    $.ajax({
@@ -52,9 +59,10 @@
 				    {
 					var user_primary_info = $("#user_primary_info_"+user_id).clone();
 					first_available_chair.append(user_primary_info);
-					first_available_chair.append('<label id=empty_chair'+chair_id+' onclick=empty_chair('+chair_id+','+user_id+')>Empty Chair</label>');
+					first_available_chair.append('<div id= "empty_chair'+chair_id+'_'+user_id+'" onclick= "empty_chair('+chair_id+','+user_id+' )" class = "user_chair_info" >Empty Chair</div>');
 					first_available_chair.removeClass("chair_empty").addClass("chair_occupied");
 					$("#chair_user_"+user_id).hide();
+					$("#chair_list_user_"+user_id).hide();
 		   		    }
 				}
 			    });
@@ -62,6 +70,23 @@
 		     }
 
        
+   }
+
+
+   function show_chair_list(mesa_id,user_id){
+    var url = '/missions/get_mission_chairs';
+			    $.ajax({
+				url:url,
+				type:'get',
+				data : {mesa_id: mesa_id,user_id: user_id},
+				success:function (data) {
+				    { 
+					//$('#hidden_chair_user_id').val(user_id);
+					$('.chair_list_div').html(data).toggle();
+		   		    }
+				}
+			    });
+        
    }
 
   function get_help_from_mesa(mesa_id){

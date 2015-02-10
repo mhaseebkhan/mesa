@@ -19,8 +19,12 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 3.minutes do
-   #command "/usr/bin/some_great_command"
-   #runner "MyModel.some_method"
-   rake "invitation:check_invitation_expiry",:environment =>'development', :output => { :error => 'error.log', :standard => 'cron.log' }
+every 1.hour do
+   	rake "invitation:check_invitation_expiry",:output => { :error => 'error.log', :standard => 'cron.log' }
 end
+
+every :day do
+	rake "invitation:allocate_curator_codes",:output => { :error => 'error.log', :standard => 'cron.log' }
+end
+
+

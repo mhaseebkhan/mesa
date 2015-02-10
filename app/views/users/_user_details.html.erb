@@ -1,30 +1,68 @@
 <% if @user %>
-<div id='profile_title'>
-	<div id='profile_fav' style="float:left;width:40%"><img src="/assets/fav.png" style="width:40px;height:40px" /> </div>
-	<div id='profile_pic'style="float:left;width:40%" ><img src="<%= @user[:profile][:profile_pic] %>" style="width:40px;height:40px" /> </div>
-	<div id='profile_rate' ><p>Rates</p></div>
-</div>
-<div id='profile_details'style="padding:10px;" >
-<p><%= @user[:profile][:name].humanize  %></p>
-<p>Working at <%= @user[:profile][:working_at].humanize  %></p>
-<br>
-<p>Skill</p>
-<% @user[:profile][:skills].each do |skill| %>
-	<p><%= skill[:name].humanize  %></p>
-	<p><%= skill[:time_spent] %> of experience </p>
-	<p><%= skill[:company]  %></p>
-	<p><%= skill[:founded]  %></p>
-	<p><%= skill[:work_ref]  %></p>
-	<br>
-<% end %>
-<p>Tags</p>
-<p><%= stringify_tags @user[:profile][:tags] %></p>
-<br>
-<p>Passions</p>
-<p><%= @user[:profile][:passions].humanize %></p>
-<br>
-<p><%= @user[:profile][:languages].humanize %></p>
-</div>
+          <div class="media">
+         <div class="media-left media-middle">
+	    <img class="media-object search_user_img" src="<%=  @user[:profile][:profile_pic] %>"  alt="..." height="55px" width="55px">
+	 </div>
+        <div class="media-body">
+          <div class="media-heading user_name_s">
+            <%= @user[:profile][:name].humanize  %></br> Working at  <%= @user[:profile][:working_at].humanize  %>
+            <div class="pull-right">
+              <img class="user_star hand_cursor" src="assets/fav.png" alt="star" id='profile_rate' onclick="show_user_rating(<%= @user[:profile][:id] %>);" >
+            </div>
+          </div>
+        </div>
+        <div class="user_separator"></div>
+      </div>
+
+      <div class="user_skills">
+        <div class="skill_title">Skills:</div>
+	<% @user[:profile][:skills].each do |skill| %>
+		<div class="skill_desc">
+			<div class="skill_title"><%= skill[:name].humanize  %></div><br>
+			<%= skill[:time_spent] %> of experience<br> 
+			<%= skill[:company]  %><br>
+			<%= skill[:founded]  %><br>
+			<%= skill[:work_ref]  %><br>
+		</div>
+		<br>
+	<% end %>
+      </div>
+      <div class="user_separator"></div>
+
+      <div class="user_tags">
+        <div class="user_tags_heading">Tags:</div>
+	<% @user[:profile][:tags].each do |tag| %>
+		<div class="user_tags_item"><%= tag[:name]  %></div>
+	<% end %>
+      </div>
+      <div class="user_separator"></div>
+
+      <div class="user_skills">
+        <div class="skill_title">Passions:</div>
+        <div class="skill_desc"><%= @user[:profile][:passions].humanize %></div><div class="user_separator"></div>
+        <div class="skill_title">Languages:</div>
+        <div class="skill_desc"><p><%= @user[:profile][:languages].humanize %></p></div>
+        <div class="user_separator"></div>
+
+      </div>
+
 <% end %>
 
+<script type="text/javascript">
+    function show_user_rating(user_id){
+     var url = '/users/get_user_rating';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {user_id: user_id },
+		success:function (data) {
+		    {
+		    	$(".fourth_col").html(data).show();
+			
+		    }
+		}
+	    });
+   }
+
+</script>
 

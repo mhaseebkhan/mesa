@@ -1,9 +1,16 @@
 <% unless @users_array.empty? %>
+	<div class="searched_user_title"> Search User:</div>
 	<% @users_array.each do |user|%>
-		<span id='user_primary_info_<%= user[:id] %>' >
-		<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
-		<p onclick="show_user_detail(<%= user[:id] %>);"><%= user[:name] %></p> 
-		</span>
+		<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_user_detail(<%= user[:id] %>);">
+					  <div class="media-left media-middle">
+					    <img class="media-object search_user_img" src="<%= user[:profile_pic] %>"  alt="..." height="55px" width="55px">
+					  </div>
+					  <div class="media-body">
+					    <div class="media-heading user_name">
+					      <span><%= user[:name] %></span> <img src="assets/next.png" class="pull-right" alt="select user">
+					    </div>
+					  </div>
+		</div>
 	<% end %>
 <% else %>
  	<p> No result found </p>
@@ -18,7 +25,7 @@
 		data : {user_id: user_id },
 		success:function (data) {
 		    {
-		    	$("#col2").html(data);
+		    	$(".third_col").html(data).show();
 
    		    }
 		}

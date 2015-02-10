@@ -1,4 +1,5 @@
 class Invitation < ActiveRecord::Base
- belongs_to :users
- has_one :invitation_code, :dependent => :destroy
+ belongs_to :user
+ belongs_to :invitation_code
+
 end

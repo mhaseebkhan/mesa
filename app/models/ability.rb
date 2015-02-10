@@ -10,16 +10,12 @@ class Ability
         can :manage, :all
         can :view_pending_mesas, :all
       when ROLE_ADMIN
-       	can :manage, [User,Mission]
-	can :admin_users, :all
-        can :view_others_mesas, :all #, Mission.others_mesa(1) do |mesa|
-	    # puts mesa.inspect
-#	end
-        can :create_mesa, :all
+       	can :manage, :all
+	cannot :view_pending_mesas, :all
       when ROLE_LEADER
-	can :manage, Mission
-	can :create_mesa, :all
-      when ROLE_CURATOR
+	can :manage, :all
+        cannot :view_pending_mesas, :all
+	cannot :view_others_mesas, :all
       else
 	#user is common-flagger
       end

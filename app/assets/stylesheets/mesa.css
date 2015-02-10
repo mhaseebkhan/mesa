@@ -1,0 +1,681 @@
+
+
+/* loading fonts*/
+
+@font-face {font-family: Apercu-Bold;src: url(../assets/Apercu-Bold.otf);}
+@font-face {font-family: Apercu-Bold-Italic;src: url(../assets/Apercu-Bold-Italic.otf);}
+@font-face {font-family: Apercu-Italic;src: url(../assets/Apercu-Italic.otf);}
+@font-face {font-family: Apercu-Light;src: url(../assets/Apercu-Light.otf);}
+@font-face {font-family: Apercu-Light-Italic;src: url(../assets/Apercu-Light-Italic.otf);}
+@font-face {font-family: Apercu-Medium;src: url(../assets/Apercu-Medium.otf);}
+@font-face {font-family: Apercu-Medium-Italic;src: url(../assets/Apercu-Medium-Italic.otf);}
+@font-face {font-family: Apercu-Mono;src: url(../assets/Apercu-Mono.otf);}
+@font-face {font-family: Apercu-Regular;src: url(../assets/Apercu-Regular.otf);}
+
+/* paddings and margins*/
+
+.padding-top10{padding-top:10px;}
+.no-margin-bottom{ margin-bottom:0px}
+.no-padding{ padding:0px}
+.no-margin{ margin:0px}
+.padding-top25{padding-top: 25px;}
+.margin-top25{margin-top: 25px !important;}
+.margin-top15{margin-top: 15px;}
+.apercu-light {font-family: Apercu-Light;}
+
+/* buttons */
+.green-btn{ padding:10px 35px 10px 35px; background-color:#7cb34b; color:#FFF; font-size:18px; border:none; border-radius:4px;}
+.green-btn:hover{ background-color:#68993c}
+.green-btn-subsribe{padding:15px 10px 15px 10px; background-color:#7cb34b; color:#FFF; font-family:ox-Bold; font-size:18px; border:none; -webkit-border-top-right-radius: 6px;
+-webkit-border-bottom-right-radius: 6px;
+-moz-border-radius-topright: 6px;
+-moz-border-radius-bottomright: 6px;
+border-top-right-radius: 6px;
+border-bottom-right-radius: 6px;}
+.green-btn-subsribe:hover{background-color:#68993c}
+
+.btn-Detail-plan{
+	padding:6px 20px 6px 20px;
+	background-color:#f9f9f9;
+	color:#999999;
+	font-size:16px;
+	border:1px solid #e5e5e5;
+	border-radius:4px;
+}
+
+.opacity-05 {
+	opacity: 0.5;
+}
+.btn-admin{
+	line-height: 1;
+	border-radius: 20px;
+	width: 256px;
+	height: 30px;
+	font-family: Apercu-Light;
+	font-size: 18px;
+	color: #000000;
+}
+
+.btn-selected {
+	background-color: #999999;
+	border-color: #999999;
+}
+
+.logo {
+	height: 30px;
+	width: 30px;
+	background-color: white;
+	border-radius: 50%;
+	float: left;
+	color: #FFFFFF;
+	margin-top: 15px;
+	margin-left: 6px;
+}
+
+.logo_text {
+	font-family: Apercu-Light;
+	font-size: 31px;
+	color: #FFFFFF;
+	padding-top: 7px;
+	padding-left: 45px;
+}
+
+/*text boxes*/
+.txtbox-subscription{
+	border:none;
+	padding-top:15px;
+	padding-bottom:15px;
+	font-size:18px;
+	color:#222222
+}
+
+.txt-hos-filter{
+	border:1px solid #dddddd;
+	color:#222222;
+	width:100%
+}
+
+/* horizontal lines */
+.hrLineGrey{border-top-color:#d6d6d6; }
+.hrLineWhite{border-top-color:#656563; }
+.hrLineBorderGrey{border-top-color:#ebebeb; }
+.hrLineLeftGrey{border-left: 2px solid #ebebeb; }
+.hrLineRightGrey{border-right: 2px solid #ebebeb; }
+/* borders */
+.no-border{ border:0px;}
+.border-bottom{ border-bottom:1px solid #dddddd;}
+
+
+/*mesa project css */
+
+.first_col {
+	background-color: #1A1A1A;
+	height:100vh;
+}
+.second_col, .third_col, .fourth_col {
+	height:100vh;
+	
+}
+
+.third_col, .fourth_col {
+display:none;
+}
+.first_column_header {
+	height: 60px;
+	background-color: black;
+	width: 285px;
+}
+
+.user_avatar_img{
+}
+
+.user_ctrl_buttons {
+	margin-top: 35px;
+	padding-bottom: 60px;
+}
+.user_ctrl_buttons ul{
+	list-style: none;
+	margin: 20px 0px 10px -25px;
+}
+
+.user_ctrl_buttons li{
+	margin-top: 20px;
+}
+
+.user_box {
+	text-align: center;
+	margin-top: 5px;
+}
+
+.user_title {
+	height: 65px;
+}
+
+.user_image img {
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	height: 160px; width: 160px;
+}
+
+.user_title span {
+	color: #FFFFFF;
+	font-family: Apercu-Light;
+	font-size: 30px;
+	margin-bottom: 1px;
+
+}
+
+.change_image {
+	height: 20px;
+	margin-top: 15px;
+}
+
+.change_image a {
+	font-family: Apercu-Regular;
+	font-size: 18px;
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+/************ second column  second column  ******************************************************************/
+.second_col_header {
+	height: 60px;
+}
+
+.title_heading {
+	font-family: Apercu-Medium;
+	font-size: 14px;
+	/*border-bottom: 2px solid #666666;*/
+	/*width: 80px;*/
+	height: 60px;
+	line-height: 60px;
+}
+
+.title_heading_sep {
+	border-bottom: 2px solid #666666;
+	width: 80px;
+}
+
+.btn_clear {
+	border-radius: 0px;
+	font-family: Apercu-Medium;
+	font-size: 14px;
+	color: #FFFFFF;
+	background-color: #000000;
+	height: 30px;
+	border: none;
+}
+
+.btn_clear:hover {
+	border-radius: 0px;
+	font-family: Apercu-Medium;
+	font-size: 14px;
+	color: #FFFFFF;
+	background-color: #000000;
+	height: 30px;
+	border: none;
+}
+
+.btn_clear:hover {
+	border-radius: 0px;
+	font-family: Apercu-Medium;
+	font-size: 14px;
+	color: #FFFFFF;
+	background-color: #000000;
+}
+
+.searched_user {
+	margin-top: 10px;
+}
+
+
+.search_user_img {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.searched_user_des {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 24px;
+	color: #000000;
+}
+
+.searched_user_title{
+	font-family: Apercu-Medium;
+	font-size: 24px;
+	color:  #000000;
+}
+
+.user_search {
+	float: right;
+	/*margin-top: -35px;*/
+}
+
+.searched_user_clear {
+	height: 70px;
+	clear: both;
+}
+
+.media-heading.user_name {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 24px;
+	color: #000000;
+	margin-top: 15px;
+}
+.user_star {
+	margin-top: -25px;
+}
+
+.user_separator {
+	border-bottom: gray 2px solid;
+	width: 10px;
+	height: 15px;
+	clear: both;
+}
+
+.user_tags_heading {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 24px;
+	/*padding-bottom: 20px;*/
+}
+.user_tags {
+	margin-top: 15px;
+}
+.user_tags_item{
+	float: left;
+	background-color: #999999;
+	margin: 5px;
+	padding-left:1px 7px;
+	font-size: 16px;
+	color: #FFFFFF;
+	line-height: 24px;
+}
+.tags_btn {
+	width: 17px;
+	padding-left: 4px;
+	background-color: #666666;
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+.user_rating_title {
+	height: 20px;
+	margin-top: 12px;
+	font-family: Apercu-Medium;
+	font-size: 18px;
+}
+
+.user_skills {
+	margin-top: 10px;
+}
+.skill_title{
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 24px;
+	height: 25px;
+}
+
+.user_skills_rating {
+	list-style: none;
+	margin-left: -40px;
+	clear: both;
+	margin-top: 20px;
+}
+.user_skills_rating li{
+	margin-bottom: 10px;
+	height: 30px;
+	font-family: Apercu-Medium;
+	font-size: 18px;
+
+}
+
+.skill_desc {
+	font-family: Apercu-Light;
+	font-size: 15px;
+}
+
+.rating_title {
+	float: left;
+	width: 125px;
+	margin-top: -12px;
+}
+
+.rating_images img{
+	height: 20px;
+	width: 20px;
+
+}
+
+.media.opacity-05:hover {
+	opacity: 1;
+
+}
+
+
+/************ third column  second column  ******************************************************************/
+
+.media-heading.user_name_s {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 18px;
+	color: #000000;
+	margin-top: 10px;
+}
+
+
+
+/************ Start Password Screen ******************************************************************/
+
+.user_password_block {
+	margin-top: 150px;
+}
+
+.password_change{
+	font-family: Apercu-Medium;
+	font-size: 24px;
+	line-height: 24px;
+
+}
+
+.new_login_msg {
+	font-family: Apercu-Medium;
+	font-size: 24px;
+	line-height: 24px;
+	padding-bottom: 40px;
+}
+
+.minimum_characters {
+	font-family: Apercu-Light;
+	line-height: 24px;
+	font-size: 24px;
+	height: 30px;
+}
+
+.pass_text {
+	border-radius: 0px;
+}
+
+.pass_btn_ok {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	color: #FFFFFF;
+	border-radius: 0px;
+	background-color: #1A1A1A;
+	border-color: #1A1A1A;
+	cursor: pointer;
+
+}
+
+.invalid_pass {
+	font-family: Apercu-Medium;
+	color: #DE6868;
+	margin-top: 20px;
+	font-size: 18px;
+	display: none;
+}
+.success_pass {
+	font-family: Apercu-Medium;
+	color: #489B6B;
+	margin-top: 20px;
+	font-size: 24px;
+	display: none;
+}
+
+/************ End Password Screen ********************************************************************/
+
+
+/************ Start Admin Messa ********************************************************************/
+
+.project_list {
+	margin-top: 20px;
+}
+
+.proj_list_title {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 24px;
+}
+
+.project_item {
+	margin-top: 25px;
+	margin-left: 5px;
+}
+
+.project_no {
+	height: 24px;
+	width: 24px;
+	border-radius: 50%;
+	background-color: #999999;
+	text-align: center;
+	float: left;
+	margin-right: 20px;
+	font-family: Apercu-Light;
+	font-size: 14px;
+	line-height: 24px;
+	color: #000000;
+}
+
+.project_name {
+	font-family: Apercu-Light;
+	font-size: 15px;
+	line-height: 24px;
+}
+
+.proj_list_hr {
+	border-bottom: 2px solid #666666;
+	width: 80px;
+	height: 20px;
+	margin-top: 10px;
+}
+
+
+.mesa_details {
+	margin-top: 15px;
+}
+
+.mesa_item{
+
+}
+.mesa_title {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	margin-right: 5px;
+	line-height: 24px;
+	float: left;
+}
+
+
+.mesa_name{
+	font-family: Apercu-Light;
+	font-size: 18px;
+}
+
+.mesa_leader{
+
+}
+.leader_title{
+	font-family: Apercu-Medium;
+	font-size: 15px;
+	float: left;
+	line-height: 24px;
+	margin-right: 5px;
+
+}
+.leader_name{
+	font-family: Apercu-Light;
+	font-size: 15px;
+
+}
+.mesa_description{
+	font-family: Apercu-Light;
+	line-height: 24px;
+	margin-top: 25px;
+	font-size: 15px;
+
+}
+
+/************ End Admin Messa ********************************************************************/
+
+
+
+/************Start Create Mission ********************************************************************/
+
+.create_mission {
+	margin-top: 15px;
+}
+
+.create_mission_title {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 24px;
+}
+
+.create_mission_desc {
+	font-family: Apercu-Light;
+	font-size: 18px;
+	line-height: 24px;
+	margin-top: 15px;
+}
+
+.create_mission_input {
+	margin-top: 35px;
+}
+
+.create_mission_input textarea {
+	border: none;
+	color: #000000;
+	background-color: #E6E6E6;
+	height: 125px;
+	width: 100%;
+	outline: none;
+	resize: none;
+}
+
+.create_mission_next_btn {
+	margin-top: 10px;
+}
+
+
+
+.create_mission_input textarea::-webkit-input-placeholder {
+	color:#000000;font-family: Apercu-Medium;font-size: 15px;}
+.create_mission_input textarea::-moz-placeholder {
+	color:#000000;font-family: Apercu-Medium;font-size: 15px;  } /* firefox 19+ */
+.create_mission_input textarea:-ms-input-placeholder { 	color:#000000;font-family: Apercu-Medium;font-size: 15px;  } /* ie */
+.create_mission_input textarea:-moz-placeholder {	color:#000000;font-family: Apercu-Medium;font-size: 15px;}
+
+/************End   Create Mission ********************************************************************/
+
+.show_result {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	margin-right: 5px;
+	line-height: 24px;
+	margin-top: 15px;
+}
+
+.stepB{
+	display: none;
+}
+
+.stepC{
+	display: none;
+}
+
+.mesa_label{
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 24px;
+	margin-top: 10px;
+}
+
+.mesa_input {
+	margin-top: 5px;
+}
+
+input.mesa_input_txt {
+	background-color: #E6E6E6;
+	border: none;
+	height: 30px;
+	outline: none;
+}
+
+.mesa_send_btn {
+	margin-top: 100px;
+}
+/*******************invites *******************/
+
+.invites_user_desc {
+	font-family: Apercu-Medium;
+	font-size: 18px;
+	line-height: 24px;
+	color: #000000;
+	margin-top: 15px;
+}
+
+.curators_item {
+	margin-top: 5px;
+}
+
+.curators_count {
+	background-color: #E6E6E6;
+	height: 25px;
+	width: 33px;
+	font-family: Apercu-Medium;
+	font-size: 15px;
+	text-align: center;
+	padding-top: 3px;
+	float: left;
+	margin-right: 5px;
+}
+
+.curators_text {
+	font-family: Apercu-Light;
+	font-size: 15px;
+	padding-top: 2px;
+}
+
+.save_changes {
+	margin-top: 50px;
+	float: right;
+}
+.btn_save_changes{
+	font-family: Apercu-Medium;
+	border-radius: 0px;
+	border: none;
+	background-color: #000000;
+	color: #FFFFFF;
+}
+/*******************end invites *******************/
+
+.common_flaggers {
+	height: 30px;
+	font-family: Apercu-Medium;
+	font-size: 15px;
+	background-color: #E6E6E6;
+	padding-top: 5px;
+	padding-left: 7px;
+	margin-top: 10px;
+}
+
+.save_user_block {
+
+}
+
+span.ui-helper-hidden-accessible > div
+{
+display:none;
+}
+
+.hand_cursor
+{
+cursor:pointer;
+}
+
+.disabled_step { pointer-events: none; }
+.enabled_step { pointer-events: auto; }

@@ -1,0 +1,27 @@
+<p>
+This is your first login.
+Please change your
+password (min 8
+characters long):
+</p>
+
+<input id= "user_password" type="text">
+ <button onclick="change_password(<%= current_user.id %>);">OK</button>
+
+<script type="text/javascript">
+function change_password(user_id){
+     var password = document.getElementById( "user_password" ).value
+     var url = '/users/change_password';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {password: password,user_id: user_id},
+		success:function (data) {
+		    {
+		    	alert("your password has been changed");
+   		    }
+		}
+	    });
+   }
+ 
+</script>

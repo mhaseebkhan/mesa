@@ -1,26 +1,55 @@
 <% if @user %>
-	<div id='profile_title'>
-		<div id='profile_pic' ><img src="<%= @user[:profile][:profile_pic] %>" style="width:80px;height:80px" /> </div>
-	</div>
-	<br>
-	<div id='profile_details'style="padding:10px;" >
-	<p><%= @user[:profile][:name].humanize  %></p>
-	</div>
-	<input type="hidden" id="hidden_skills_count" value="<%= @user[:skills].count %>">
-	<% @user[:skills].each_with_index do |skill,i|  %>
-   		<input type="hidden" id="skills[<%= i %>]" value="<%= skill[:rating] %>_<%= skill[:id] %>">
-	<% end %>
-	<% @user[:skills].each do |skill| %>
-		<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
-		<br>
-	<% end %>
-	 <p>Added Tags:</p>
-	<p><%= stringify_tags @user[:added_tags] %></p>
+<div class="second_col_header" >
+        <div class="title_heading">
+          <img src="assets/back_butn.png" class="hand_cursor" alt="back"  onclick="$('.fourth_col').hide();"/> Profile
+        </div>
+        <div class="title_heading_sep"></div>
+      </div>
 
-	<div id='user_notes'>
-	Notes:
-		<textarea rows="4" cols="5" readonly="readonly"><%= @user[:notes] %></textarea>
+       <div class="media">
+         <div class="media-left media-middle">
+	    <img class="media-object search_user_img" src="<%=  @user[:profile][:profile_pic] %>"  alt="..." height="55px" width="55px">
+	 </div>
+        <div class="media-body">
+          <div class="media-heading user_name_s">
+            <%= @user[:profile][:name].humanize  %>
+           </div>
+        </div>
+        <div class="user_separator"></div>
+      </div>
+
+     <% unless @user[:skills].empty? %>
+	 <div class="user_skills">
+     		 <div class="user_rating_title">Skills:</div>
+		<input type="hidden" id="hidden_skills_count" value="<%= @user[:skills].count %>">
+		<% @user[:skills].each_with_index do |skill,i|  %>
+	   		<input type="hidden" id="skills[<%= i %>]" value="<%= skill[:rating] %>_<%= skill[:id] %>">
+		<% end %>
+		<% @user[:skills].each do |skill| %>
+			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+			<br>
+		<% end %>
 	</div>
+     <% end %>
+     
+     <% unless @user[:added_tags].empty? %>
+        <div class="user_tags">
+		<div class="user_tags_heading">Added Tags:</div>
+	       <% @user[:added_tags].each do |tag| %>
+			<div class="user_tags_item"><%= tag[:name]  %></div>
+		<% end %>
+        </div>
+        <div class="user_separator"></div>
+      <% end %>
+
+     <% unless @user[:notes].empty? %>
+      <div class="user_skills">
+        <div class="skill_title">Notes:</div>
+	<% @user[:notes].each do |note| %>
+		<div class="skill_desc"><%= note[:note] %> <%if note[:by] %>  by <%= note[:by][:name] %>  <% end %> </div> <br>
+	<% end %>
+      </div>
+     <% end %>
 
 <% end %>
 

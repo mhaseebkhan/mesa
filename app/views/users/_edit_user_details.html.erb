@@ -1,0 +1,62 @@
+<div class="second_col_header">
+        <div class="title_heading">
+          <img src="assets/back_butn.png" class="hand_cursor" alt="back" onclick="enable_prev_step('.fourth_col','.third_col');" /> Search Result
+        </div>
+        <div class="title_heading_sep"></div>
+</div>
+<div class="skill_title"> Edit User: </div>
+<% if @user[:profile][:role]  == ROLE_UNCONCIOUS%>
+<%= render partial: '/users/unconcious_user_details' %>
+<% else %>
+<%= render partial: '/users/user_details' %>
+<div  class=" margin-top25">
+<div style="float:left;">
+     <select id="user_type">
+		  <option value="<%= ROLE_ADMIN %>" <%if @user[:profile][:role] == ROLE_ADMIN %>selected<% end%> >Admin</option>
+		  <option value="<%= ROLE_LEADER %>" <%if @user[:profile][:role] == ROLE_LEADER %>selected<% end%> >Leader</option>
+		  <option value="<%= ROLE_CURATOR %>" <%if @user[:profile][:role] == ROLE_CURATOR %>selected<% end%> >Curator</option>
+		  <option value="<%= ROLE_COMMONFLAGGER %>" <%if @user[:profile][:role] == ROLE_COMMONFLAGGER %>selected<% end%> >Common-flagger</option>
+     </select>
+</div>
+<div style="float:right;">
+<button type="button" class="btn btn-default btn_clear" onclick="edit_user_type(<%=@user[:profile][:id] %>,'<%= @user[:profile][:name]%>');">SAVE CHANGES</button>
+</div>
+</div>
+
+   
+
+      <div class="skill_desc edit_user_notification" style="display:none;">
+	
+      </div>
+
+      <div class="skill_desc curator_notification" style="display:none;">
+		  <div class="proj_list_hr"></div>
+		The user is now a curator. All new curator aren't automatically granted codes.<br>
+	To define the number and frequency of codes this user gets, go to the curators list in the "invites" session
+      </div>
+ 
+<% end %>
+
+<script type="text/javascript">
+    function edit_user_type(user_id,user_name){
+    var type = $('#user_type').val();
+     var url = '/users/edit_user_type';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {user_id: user_id, user_role: type },
+		success:function (data) {
+		    {
+		    	$(".edit_user_notification").html(" <div class='proj_list_hr'></div><br>The changes to user "+user_name+" were saved.").show();
+			if (type == 4)
+			{
+				$(".curator_notification").show();
+			}
+   		    }
+		}
+	    });
+
+       
+   }
+
+</script>

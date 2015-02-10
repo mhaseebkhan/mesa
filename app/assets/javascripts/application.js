@@ -16,4 +16,20 @@
 //= require turbolinks
 //= require tag-it
 //= require_tree .
- 
+//= bootstarp
+
+function enable_prev_step(hide_col,show_col)
+{
+$(hide_col).hide();
+$(hide_col).addClass('disabled_step');
+$(show_col).removeClass('opacity-05');
+$(show_col).removeClass('disabled_step');
+}
+
+function show_next_step(hide_col,show_col)
+{
+$(hide_col).addClass('opacity-05');
+$(hide_col).addClass('disabled_step');
+$(show_col).show();
+$(show_col).removeClass('disabled_step');
+}

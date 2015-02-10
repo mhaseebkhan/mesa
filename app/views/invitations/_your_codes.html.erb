@@ -1,0 +1,60 @@
+
+			These are the open codes you can use to invite people. To avoid sending the  same code out to different people, add or edit the name related to each one:
+			<div id= "code_list">
+				 <%= render partial: '/invitations/code_list' %>
+			</div>
+			<button onclick="generate_code();">Generate Code</button>
+			<% if @users_joined_by_you %>
+				<div id= 'users_joind_by_you'>
+					People that joined the network through your code:
+					<ul>
+					<% @users_joined_by_you.each do |user| %>
+						<li>
+						<span id='user_primary_info_<%= user[:id] %>' >
+							<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
+							<p onclick="show_connected_user_detail(<%= user[:id] %>);"><%= user[:name] %></p>
+						</span>
+						</li>	
+					<% end %>
+					<ul>
+				</div>
+			<% end %>
+
+<script type="text/javascript">
+
+    
+    function generate_code(){
+        
+     var url = '/invitations/generate_code';
+	    $.ajax({
+		url:url,
+		type:'get',
+		success:function (data) {
+		    {
+		    	$("#code_list").html(data);
+			//$("#col3").html(data);
+   		    }
+		}
+	    });
+
+       
+   }
+   
+    function show_connected_user_detail(user_id){
+     var url = '/get_user';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {user_id: user_id },
+		success:function (data) {
+		    {
+		    	$("#invite_col3").html(data);
+
+   		    }
+		}
+	    });
+
+       
+   }
+
+</script>

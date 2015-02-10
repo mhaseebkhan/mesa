@@ -1,0 +1,37 @@
+			<% if  @curators %>
+				<div id= 'curators'>
+					These are all the network’s curators. Click on the curator’s Name to edit number and frequency of invitation codes they get
+					<ul>
+					<%  @curators.each do |user| %>
+						<li>
+						<span id='user_primary_info_<%= user[:id] %>' >
+							<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
+							<p onclick="show_curator_detail(<%= user[:id] %>);"><%= user[:name] %><br>
+							<%= user[:open_codes] %> open codes</p>
+						</span>
+						</li>	
+					<% end %>
+					<ul>
+				</div>
+			<% end %>
+
+<script type="text/javascript">
+   
+    function show_curator_detail(user_id){
+     var url = '/users/get_curator_detail';
+	    $.ajax({
+		url:url,
+		type:'get',
+		data : {user_id: user_id },
+		success:function (data) {
+		    {
+		    	$("#invite_col3").html(data);
+
+   		    }
+		}
+	    });
+
+       
+   }
+
+</script>
