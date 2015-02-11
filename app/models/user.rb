@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
   end
  
   def build_profile(profile)
+	   if profile
           #Set user attributes
 	  self.update_attributes(name: profile[:name], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
 		if (profile[:skills])
@@ -45,14 +46,16 @@ class User < ActiveRecord::Base
 				UserTag.create( user_id: self.id, tag_id: tag_found.id)
 			end
 		end
-                #Set user role
-		UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
-                #Occupy code
+		#Occupy code
 		invitaion_code = InvitationCode.find_by(code_text: profile[:code])
 		if invitaion_code
 			invitaion_code.update_attribute(:status, TAKEN_INVITATION_STATUS) 
 			Invitation.create(invitation_code_id: invitaion_code.id ,user_id: self.id)
 		end
+             end
+                #Set user role
+		UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
+                
            
   end
 
