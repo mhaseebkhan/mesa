@@ -679,3 +679,85 @@ cursor:pointer;
 
 .disabled_step { pointer-events: none; }
 .enabled_step { pointer-events: auto; }
+
+
+.send-invite-btn {
+    margin-top: 50px;
+    float: left;
+}
+
+
+
+/************************* Start login sections     *******************/
+
+.login_sec {
+    margin-top: 15%;
+    max-width: 710px;
+}
+
+.login_heading {
+    font-family: Apercu-Regular;
+    font-size: 22px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-weight: normal;
+}
+
+.login_label {
+    font-family: Apercu-Regular;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.login_input {
+    font-family: Apercu-Regular;
+    font-size: 15px;
+    border-radius: 0px;
+    height: 45px;
+    font-weight: normal;
+}
+
+.btn_login {
+    background-color: #000000;
+    color: #FFFFFF;
+    border-radius: 0px;
+    border: black;
+}
+
+.btn_login:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+    border-radius: 0px;
+    border: black;
+}
+
+.login_forget a {
+    font-family: Apercu-Regular;
+    font-size: 18px;
+    color: #000000;
+    margin-right: 20px;
+    font-weight: normal;
+}
+
+.login_forget a:hover {
+    text-decoration: none;
+}
+
+
+.login_reset_label {
+    font-family: Apercu-Regular;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 20px;
+    margin-top: -8px;
+}
+
+.reset_pas_desc {
+    font-family: Apercu-Light;
+    font-size: 15px;
+    margin-bottom: 39px;
+}
+
+/************************* End login sections       *******************/
+
+
