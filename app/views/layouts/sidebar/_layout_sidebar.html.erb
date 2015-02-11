@@ -17,22 +17,22 @@
       <div class="user_ctrl_buttons">
         <ul>
           <li>
-            <a href="/searches"><button type="button" class="btn btn-default btn-admin btn-selected">Search</button></a>
+            <%= link_to 'Search', searches_path, :class => "btn btn-default btn-admin #{get_selected('/searches')}"%>
           </li>
           <li>
-            <a href="/users"><button type="button" class="btn btn-default btn-admin">Add & Admin Users</button></a>
+            <%= link_to 'Add & Admin Users', users_path, :class => "btn btn-default btn-admin #{get_selected('/users')}"%>
           </li>
           <li>
-            <a href="/missions/create_mission"><button type="button" class="btn btn-default btn-admin">Create Mission</button></a>
+            <%= link_to 'Create Mission', '/missions/create_mission', :class => "btn btn-default btn-admin #{get_selected('/missions/create_mission')}"%>
           </li>
           <li>
-            <a href="/missions"><button type="button" class="btn btn-default btn-admin">Admin Messa</button></a>
+            <%= link_to 'Admin Messa', missions_path, :class => "btn btn-default btn-admin #{get_selected('/missions')}"%>
           </li>
           <li>
-            <a href="/invitations"><button type="button" class="btn btn-default btn-admin">Invites</button></a>
+            <%= link_to 'Invites', invitations_path, :class => "btn btn-default btn-admin #{get_selected('/invitations')}"%>
           </li>
           <li>
-	    <button type="button" class="btn btn-default btn-admin"> <%= link_to "Log out", destroy_user_session_path, :method => :delete %></button>
+            <%= button_to 'Logout', destroy_user_session_path, :class => 'btn btn-default btn-admin ', :method => :delete%>
           </li>
         </ul>
       </div>

@@ -42,6 +42,13 @@
 	background-color: #008cba;
 	border-color: #0078a0;
 	color: white;
+    width: 100%;
+}
+
+.alert-box {
+  position: absolute;
+  z-index: 999;
+  top: 80px;
 }
 
 .starRating{

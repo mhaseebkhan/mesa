@@ -23,8 +23,8 @@
 		    <% end %>
 		    <% if notice %>
 		      <div class="alert-box success radius">
-			<%= notice %>
-			<%= link_to 'x', '#', class: 'close', onclick: '$(".alert-box").hide();' %>
+			    <%= notice %>
+			    <%= link_to 'x', '#', class: 'close', onclick: '$(".alert-box").hide();' %>
 		      </div>
 		     <% end %>
 		     <% if user_signed_in? %>
