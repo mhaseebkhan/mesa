@@ -1,6 +1,6 @@
  <!--start first column-->
     <div class="border col-xs-3 first_col">
-      <div class="first_column_header">
+      <div class="first_column_header" id="mesa_n_cadeira">
         <div class="logo"></div><div class="logo_text">Mesa & Cadeira </div>
       </div>
       <div class="user_box">
@@ -10,7 +10,14 @@
         <div class="user_image">
           <%= image_tag src='user.png', class: 'user_avatar_img', alt: 'user'  %>
           <div class="change_image">
-            <a href="#">Change picture</a>
+            <% if params['controller'] == 'welcome'%>
+              <a href="#" id="change_pro_pic">Change picture</a>
+              <%= form_tag '/upload_profile_pic', method: :post, multipart: true, id: 'post_pic' do -%>
+                <%= hidden_field_tag 'user_id', @current_user.id %>
+                <%= file_field_tag 'profile_pic', id: 'profile_pic1', style: 'display:none' %>
+              <% end -%>
+            <% end -%>
+
           </div>
         </div>
       </div>
@@ -38,5 +45,18 @@
       </div>
     <!-- first Column end -->
 
+<script>
+  $('#change_pro_pic').click(function(){
+    console.log('click change_pro_pic');
+    $('#profile_pic1').trigger('click');
+  });
 
+  $('#profile_pic1').change(function(){
+    console.log($('#profile_pic1').val());
+    $('#post_pic').submit();
+  });
+  $('#mesa_n_cadeira').click(function(){
+    window.location.href = '/';
+  });
+</script>
 

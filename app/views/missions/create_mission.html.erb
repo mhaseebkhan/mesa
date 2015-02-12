@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <% if user_signed_in? %>
     <!-- Second Column start-->
   <div class="border col-xs-3 hrLineRightGrey second_col">
@@ -14,7 +16,7 @@
           <textarea rows="4" cols="50" placeholder="|Write here"></textarea>
         </div>
         <div class="create_mission_next_btn">
-           <img src="/assets/next.png" class="pull-right hand_cursor" onclick = "show_next_step('.second_col','.third_col');" >
+           <img src="/assets/next.png" class="pull-right hand_cursor" onclick = "validate_and_next('mesa_title','.second_col','.third_col');" >
         </div>
       </div>
     </div>
@@ -94,11 +96,11 @@
       <div class="create_mission">
         <div class="create_mission_title">What is your brief?</div>
         <div class="create_mission_desc">Tels us your business challenges and what goals you need to achieve.</div>
-        <div class="create_mission_input" id="mesa_brief">
+        <div class="create_mission_input" id="mesa_brief_in">
           <textarea rows="4" cols="50" placeholder="|Write here"></textarea>
         </div>
         <div class="create_mission_next_btn" id="mesa_brief">
-            <img src="/assets/next.png" class="pull-right hand_cursor" onclick = "show_next_step('.third_col','.fourth_col');">
+            <img src="/assets/next.png" class="pull-right hand_cursor" onclick = "validate_and_next('mesa_brief_in', '.third_col','.fourth_col');">
         </div>
       </div>
     </div>
@@ -180,7 +182,7 @@
         <div class="mesa_input"><input type="text" class="mesa_input_txt" id="mesa_date"></div>
 
         <div class="mesa_label">Time:</div>
-        <div class="mesa_input"><input type="text" class="mesa_input_txt" id="mesa_time"></div>
+        <div class="mesa_input"><%= select_hour 13, prompt: 'Choose hour' %></div>
 
         <div class="mesa_label">Place:</div>
         <div class="mesa_input"><input type="text" class="mesa_input_txt" id="mesa_place"></div>
@@ -207,7 +209,7 @@ function show_mission_summary(){
     $("#mesa_title_lbl").text($( "div#mesa_title" ).find( "textarea" ).val());
     $("#mesa_mission_lbl").text($( "div#mesa_shared_motivation" ).find( "textarea" ).val());
     $("#mesa_date_lbl").text(document.getElementById( "mesa_date" ).value);
-    $("#mesa_time_lbl").text(document.getElementById( "mesa_time" ).value);
+    $("#mesa_time_lbl").text(document.getElementById( "date_hour" ).value);
     $("#mesa_place_lbl").text(document.getElementById( "mesa_place" ).value);
     $(".second_col_stepA").hide();
     $(".second_col_stepB").hide();
@@ -225,7 +227,7 @@ function send_brief(){
      var brief = $( "div#mesa_brief" ).find( "textarea" ).val()
      var build_intent = $( "div#mesa_build_intent" ).find( "textarea" ).val()
      var date = document.getElementById( "mesa_date" ).value
-     var time = document.getElementById( "mesa_time" ).value
+     var time = document.getElementById( "date_hour" ).value
      var place = document.getElementById( "mesa_place" ).value
      var url = 'send_brief_validation';
 	    $.ajax({
@@ -247,11 +249,15 @@ function send_brief(){
  
 function show_tangible()
 {
-$(".second_col_stepA").hide();
-$(".second_col_stepB").show();
-$(".fourth_col").hide();
-$(".third_col").hide();
-disable_previous_steps(".second_col");
+  if ($('#mesa_shared_motivation textarea').val()) {
+    $(".second_col_stepA").hide();
+    $(".second_col_stepB").show();
+    $(".fourth_col").hide();
+    $(".third_col").hide();
+    disable_previous_steps(".second_col");
+  } else {
+    alert('Please fill the required field');
+  }
 }
 
 function show_build_intend()
@@ -262,12 +268,15 @@ $(".third_col_stepB").show();
 disable_previous_steps(".third_col");
 }
 
-function show_when()
-{
-$(".fourth_col").show();
-$(".fourth_col_stepA").hide();
-$(".fourth_col_stepB").show();
-disable_previous_steps(".fourth_col");
+function show_when() {
+  if ($('#mesa_build_intent textarea').val()) {
+    $(".fourth_col").show();
+    $(".fourth_col_stepA").hide();
+    $(".fourth_col_stepB").show();
+    disable_previous_steps(".fourth_col");
+  } else {
+    alert('Please fill the required field');
+  }
 }
 
 function show_last_steps()
@@ -297,6 +306,16 @@ $('.third_col').addClass('opacity-05 disabled_step');
 $('.fourth_col').addClass('opacity-05 disabled_step');
 $(active_step).removeClass('opacity-05 disabled_step');
 }
+$(function() {
+  $( "#mesa_date" ).datepicker();
+});
 
+function validate_and_next(input, hide_col,show_col){
+  if ($('#'+input+' textarea' ).val()){
+    show_next_step(hide_col,show_col)
+  } else{
+    alert('Please fill the required field');
+  }
+}
 
 </script>
