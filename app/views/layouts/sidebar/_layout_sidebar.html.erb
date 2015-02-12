@@ -8,14 +8,16 @@
           <span>Kiko Shteinhoff</span>
         </div>
         <div class="user_image">
-          <%= image_tag src='user.png', class: 'user_avatar_img', alt: 'user'  %>
+          <% user_img = get_user_img %>
+          <%= image_tag src= user_img, class: 'user_avatar_img', alt: 'user'  %>
           <div class="change_image">
             <% if params['controller'] == 'welcome'%>
               <a href="#" id="change_pro_pic">Change picture</a>
-              <%= form_tag '/upload_profile_pic', method: :post, multipart: true, id: 'post_pic' do -%>
+              <%= form_tag '/upload_profile_pic', method: :post, remote: true, multipart: true, id: 'post_pic', onsubmit: false do %>
                 <%= hidden_field_tag 'user_id', @current_user.id %>
+                <%= hidden_field_tag 'admin_pic', true %>
                 <%= file_field_tag 'profile_pic', id: 'profile_pic1', style: 'display:none' %>
-              <% end -%>
+              <% end %>
             <% end -%>
 
           </div>

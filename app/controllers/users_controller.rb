@@ -89,13 +89,17 @@ class UsersController < ApplicationController
   
   # POST /upload_profile_pic.json
   def upload_profile_pic
-        user = User.exists? params[:user_id]
-        if user
-		user.update_attribute(:profile_pic, params[:profile_pic])
-		render :json=> {:status => true}  	
-	else
-		render :json=> {:error => "User with this id doesnot exist", :status => false}
-	end
+    user = User.exists? params[:user_id]
+    if user
+      user.update_attribute(:profile_pic, params[:profile_pic])
+      if params[:admin_pic] == 'true'
+        redirect_to root_path
+      else
+        render :json=> {:status => true}
+      end
+    else
+      render :json=> {:error => "User with this id doesnot exist", :status => false}
+    end
   end
 
   # GET /profile_pic.json
