@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-</head>
-<body>
-<div style="width: 100%; display: table;">
-    <div style="display: table-row">
-        <div id="mesa_col1" style="width: 8%; display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
-		<%= render :partial => "/missions/index" %>
-	</div>
-        <div id="mesa_col2"  style="width: 30%;display: table-cell; border-right: solid;border-width: 1px;border-color: #000;"></div>
-	
-    </div>
-</div>
+  <!-- Second Column start-->
+  <div id ="mesa_col1" class="border col-xs-3 hrLineRightGrey second_col">
+	<%= render :partial => "/missions/index" %>
+  </div>
+   <!-- Third column start-->
+  <div  id ="mesa_col2" style="width:100%">   
+  </div>
 
 
-</body>
-</html>
 <script type="text/javascript">
   
    function show_mesa_details(mesa_type,mesa_id){
@@ -27,9 +18,10 @@
 		data : {id: mesa_id },
 		success:function (data) {
 		    {
-		    	$("#mesa_col2").html(data);
-			//$("#col3").html(data);
-   		    }
+		    	$("#mesa_col2").html(data).show();
+			$(".third_col").show();
+			show_next_step(".second_col","#mesa_col2");
+		    }
 		}
 	    });
 

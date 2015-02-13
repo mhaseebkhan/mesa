@@ -1,7 +1,7 @@
 <% unless @users_array.empty? %>
 	<div class="searched_user_title"> Search User:</div>
 	<% @users_array.each do |user|%>
-		<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_user_detail(<%= user[:id] %>);">
+		<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_searched_user_detail(<%= user[:id] %>);">
 					  <div class="media-left media-middle">
 					    <img class="media-object search_user_img" src="<%= user[:profile_pic] %>"  alt="..." height="55px" width="55px">
 					  </div>
@@ -17,7 +17,7 @@
 <% end %>
 
 <script type="text/javascript">
-    function show_user_detail(user_id){
+    function show_searched_user_detail(user_id){
      var url = '/get_user';
 	    $.ajax({
 		url:url,

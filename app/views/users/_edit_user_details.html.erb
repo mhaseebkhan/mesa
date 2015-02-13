@@ -8,7 +8,7 @@
 <% if @user[:profile][:role]  == ROLE_UNCONCIOUS%>
 <%= render partial: '/users/unconcious_user_details' %>
 <% else %>
-<%= render partial: '/users/user_details' %>
+<%= render partial: '/users/user_details', :locals => { :rate => false }   %>
 <div  class=" margin-top25">
 <div style="float:left;">
      <select id="user_type">

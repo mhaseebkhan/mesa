@@ -1,58 +1,92 @@
-<div style="width: 100%; display: table;">
-	<div style="display: table-row">
-		<div id="col2_1"  style="display: table-cell;width: 30%;display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
-			<div id='mesa_primary_info' onclick='$("#mesa_detail").show();$("#user_detail").hide();$("#col2_2").hide();'>
-				<p>Mesa:<%= @mission_details[:title] %></p>
-				<p>Leader:<%= @mission_leader.name%></p>
-			</div>
-			<% unless @mission_users.empty? %>
-				Confirmed:
-				<ul>
-				<% @mission_users.each do |user|%>
-					<%= render :partial => "/users/user_primary_details", :locals => { :user => user, :mesa_type => 'open'  } %>
-				<% end %>
-				</ul>
-				<button onclick="start_mesa(<%= @mission_details[:id] %>);">Start Mesa</button>
-			<% end %>
-			<label onclick='$("#col2_2").show();$("#user_detail").hide();'>Team Assembling:</label>
+<div id ="mesa_col2_1" class="border col-xs-3 hrLineRightGrey third_col">
+     <div class="second_col_header">
+      <div class="title_heading"><img src="/assets/back_butn.png" class="hand_cursor" alt="back" onclick="enable_prev_step('.third_col','.second_col');" /> Back </div>
+      <div class="title_heading_sep"></div>
+    </div>
 
-			<label onclick="create_new_chair('<%= @mission_details[:id] %>');">Create new chair + </label>
-			<div id="mesa_all_chairs">
-				<%= render :partial => "mesa_chairs" %>
-			</div>
-			<% if  check_all_invites_out(@mission_details[:id]) %>
-				<span> All invites are out, you will be able to send invites again when none of your invitation is in pending state </span>
-			<% else %>
-				<button onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
-			<% end %>
-
-
-		</div>
-		<div id="col2_2"  style="display: table-cell;width: 30%; display:none;"> 
-			<div id='team_assembling'> 
-				 <%= render :partial => "/searches/search_by_key_for_chair", :locals => { :mesa_id => @mission_details[:id] } %>
-				<div id='mesa_user_search_results' style="width:200px;">
-		                </div> 
-				
-			</div>
-		</div>
-		<div id="col2_3"  style="display: table-cell;width: 30%;"> 
-					<div id='mesa_detail' style="display:none;"> 
-						<%= render :partial => "mission_details", :locals => { :mission_details => @mission_details } %>
-					</div>
-					<div id='user_detail' style="display:none;"> 
-					</div>
-		</div>
+    <div class="mesa_details" >
+	<div id='mesa_primary_info' style="padding-bottom: 45px; " >
+	      <div class="mesa_item">
+		<div class="mesa_title">Mesa:</div>
+		<div class="mesa_name"><%= @mission_details[:title] %></div>
+	      </div>
+	      <div class="mesa_leader" style="float:left;width:80%">
+		<div class="leader_title">Leader: </div>
+		<div class="leader_name"><%= @mission_leader.name%></div>
+	      </div>
+	      <div style="float:right;width:7%">
+		<img src="/assets/next.png" class="hand_cursor" alt="next" onclick="show_last_col('#mesa_detail');">
+	      </div>
 	</div>
+      <% unless @mission_users.empty? %>
+      <div class="mesa_details clearfix">
+        <div class="mesa_item">
+          <div class="mesa_title">Confirmed :</div>
+        </div>
+      </div>
+      <ul>
+	<% @mission_users.each do |user|%>
+		<%= render :partial => "/users/user_primary_details", :locals => { :user => user, :mesa_type => 'open', :search_type => 'default'  } %>
+	<% end %>
+      </ul>
+      <button class="btn btn-default btn_save_changes" style ="margin: 20px 0px;" onclick="start_mesa(<%= @mission_details[:id] %>);">Start Mesa</button>
+      <% end %>
+
+      <div class="mesa_details clearfix">
+        <div class="mesa_item" style="float:left;width:80%">
+          <div class="mesa_title" >Team Assembling :</div>
+        </div>
+	<div style="float:right;width:7%">
+		<img src="/assets/next.png" class="hand_cursor" alt="next" onclick="show_last_col('#team_assembling');" >
+	</div>
+      </div>
+
+       <div class="leader_title margin-top15 hand_cursor"  onclick="create_new_chair('<%= @mission_details[:id] %>');"><a> Create new chair + </a> </div><br>
+
+      <div id="mesa_all_chairs" style="clear:both;">
+        <%= render :partial => "mesa_chairs" %>
+      </div>
+	<% if  check_all_invites_out(@mission_details[:id]) %>
+		<span> All invites are out, you will be able to send invites again when none of your invitation is in pending state </span>
+	<% else %>
+		<div class="send-invite-btn " style="clear: both; padding: 20px 0px;">
+			<button type="button" class="btn btn-default btn_save_changes " onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
+		</div>
+	<% end %>
+
+    </div>
 </div>
-</div>	
+ <!--fourth column start-->
+  
+  
+<div id ="mesa_col2_2" class="border col-xs-3 fourth_col" style="display:none;">
+       	<div class="second_col_header">
+      		 <div class="title_heading"><img src="/assets/back_butn.png" class="hand_cursor" alt="back" onclick="enable_prev_step('.fourth_col','.third_col');" /> Back </div>
+      		<div class="title_heading_sep"></div>
+	</div>
+	<div id='mesa_detail' style="display:none;"> 
+		<%= render :partial => "mission_details", :locals => { :mission_details => @mission_details } %>
+	</div>
+	<div id='user_detail' style="display:none;"> 
+	</div>
+        <div id='team_assembling'> 
+		<%= render :partial => "/searches/search_by_key_for_chair", :locals => { :mesa_id => @mission_details[:id] } %>
+		<div id='mesa_user_search_results' >
+		</div> 
+	</div>
+
+  </div>
+</div>
+  <!--end four column--> 
+
 
 <script type="text/javascript">
+
     function create_new_chair(mesa_id){
      var url = '/missions/create_new_chair';
 	    $.ajax({
 		url:url,
-		type:'post',
+		type:'get',
 		data : {mesa_id: mesa_id },
 		success:function (data) {
 		    { 	
@@ -65,7 +99,7 @@
 				chair_id = data.split("|")[0];
 				chair_order = data.split("|")[1];
 		                var li_id = "chair_"+chair_id
-				$("#mesa_chairs").append('<li id='+li_id+'>  <input id= "chair_title_'+chair_id+'" type="text" value= "Chair '+chair_order+'"> <button onclick= "edit_chair('+chair_id+');">OK</button> </li>');
+				$("#mesa_chairs").append('<li id='+li_id+' style="clear:both;" class="chair_empty">  <input id= "chair_title_'+chair_id+'" type="text" value= "Chair '+chair_order+'"> <button class="btn btn-default btn_save_changes" onclick= "edit_chair('+chair_id+');">OK</button> </li>');
 		              //  $("#"+li_id).append('<label id=edit_chair'+chair_id+' onclick=edit_chair_title('+chair_id+')>Edit</label>');
 			}
    		    }
@@ -79,12 +113,13 @@
      var url = '/missions/empty_chair';
 	    $.ajax({
 		url:url,
-		type:'post',
+		type:'get',
 		data : {chair_id: chair_id,user_id: user_id },
 		success:function (data) {
 		    { 	
 			$("#user_primary_info_"+ user_id).remove();
 			$("#empty_chair"+ chair_id+"_"+user_id).remove();
+			$("#invitation_status"+ chair_id+"_"+user_id).remove();
 			if ($("#chair_user_div_"+chair_id+"> div").length == 0){
 				$("#chair_"+ chair_id).removeClass("chair_occupied").addClass("chair_empty");
 			}
@@ -100,7 +135,7 @@
      var url = '/missions/edit_chair';
 	    $.ajax({
 		url:url,
-		type:'post',
+		type:'get',
 		data : {chair_id: chair_id,chair_title: chair_title },
 		success:function (data) {
 		    { 	
@@ -118,7 +153,7 @@
      {
 	     $("#chair_title_span_"+chair_id).hide();
 	     var li_id = "chair_"+chair_id
-	     $("#chair_title_div_"+chair_id).append('<input id= "chair_title_'+chair_id+'" type="text" value="'+chair_title+'"> <button onclick= "edit_chair('+chair_id+');">OK</button> ');
+	     $("#chair_title_div_"+chair_id).append('<input id= "chair_title_'+chair_id+'" type="text" value="'+chair_title+'"> <button class="btn btn-default btn_save_changes" onclick= "edit_chair('+chair_id+');">OK</button> ');
      }
     }
 
@@ -131,12 +166,13 @@
       var url = '/missions/send_mesa_invites';
 	    $.ajax({
 		url:url,
-		type:'post',
+		type:'get',
 		data : {mesa_id: mesa_id,user_list: user_array },
 		success:function (data) {
 		    { 	
 			//$("#mesa_all_chairs").html(data);
 			$("#mesa_col2").html(data);
+			$(".third_col").show();
    		    }
 		}
 	    });
@@ -149,12 +185,13 @@
       var url = '/missions/start_mesa';
 	    $.ajax({
 		url:url,
-		type:'post',
+		type:'get',
 		data : {mesa_id: mesa_id },
 		success:function (data) {
 		    { 	
 			//$("#mesa_all_chairs").html(data);
 			$("#mesa_col2").html(data);
+			$(".third_col").show();
    		    }
 		}
 	    });

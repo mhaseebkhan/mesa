@@ -1,9 +1,9 @@
 class InvitationsController < ApplicationController
   before_action :set_invitation, only: [:verify_code]
   before_filter :authenticate_user!, :except => :verify_code
-  load_and_authorize_resource 
+ # load_and_authorize_resource 
   # skip_authorize_resource fro API calls 
-  skip_authorize_resource :only => [:verify_code]
+ # skip_authorize_resource :only => [:verify_code]
   # GET /invitations
   # GET /invitations.json
   def index

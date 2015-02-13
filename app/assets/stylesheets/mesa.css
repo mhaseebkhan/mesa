@@ -135,7 +135,7 @@ display:none;
 }
 .user_ctrl_buttons ul{
 	list-style: none;
-	margin: 20px 0px 10px -25px;
+	margin: 20px;
 }
 
 .user_ctrl_buttons li{
@@ -464,6 +464,8 @@ display:none;
 	font-family: Apercu-Light;
 	font-size: 15px;
 	line-height: 24px;
+	width: 70%;
+	float: left;
 }
 
 .proj_list_hr {
@@ -615,7 +617,7 @@ input.mesa_input_txt {
 	font-size: 18px;
 	line-height: 24px;
 	color: #000000;
-	margin-top: 15px;
+	margin: 15px 0px;
 }
 
 .curators_item {
@@ -678,4 +680,45 @@ cursor:pointer;
 }
 
 .disabled_step { pointer-events: none; }
-.enabled_step { pointer-events: auto; }
+.chair_title{
+	font-family: Apercu-Medium;
+	font-size: 15px;
+	line-height: 24px;
+	margin-right: 5px;
+
+}
+.empty_lbl
+{
+	font-family: Apercu-Medium;
+	font-size: 12px;
+	line-height: 20px;
+	margin-right: 5px;
+	color:red;
+	cursor:pointer;
+
+}
+
+.invitation_lbl
+{
+	font-family: Apercu-Medium;
+	font-size: 16px;
+	line-height: 20px;
+	margin-right: 5px;
+
+}
+.blue_text
+{
+color:blue;
+}
+.green_text
+{
+color:green;
+}
+.orange_text
+{
+color:orange;
+}
+.red_text
+{
+color:red;
+}

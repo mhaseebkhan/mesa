@@ -4,7 +4,7 @@
 	<% @mission_chairs.each do |chair|%>
 		<input id="radio_<%=chair[:id] %>" type="radio" name="chair" value="<%= chair[:id] %>" > <%= chair[:title] %> <br>
 	<% end %>
-	<button id = "add_to_chair_btn" onclick="add_to_chair_list();" disabled='disabled'>Add to chair</button>
+	<button id = "add_to_chair_btn" onclick="add_to_chair_list();" class="btn btn-default" disabled='disabled'>Add to chair</button>
 <%end%>
 
 <script type="text/javascript">
@@ -27,17 +27,18 @@
          var url = '/missions/add_to_chair';
 			    $.ajax({
 				url:url,
-				type:'post',
+				type:'get',
 				data : {user_id: user_id,chair_id: chair_id },
 				success:function (data) {
 				    {
 					$("#chair_list_div").hide();
 					var user_primary_info = $("#user_primary_info_"+user_id).clone();
 					selected_chair.append(user_primary_info);
-					selected_chair.append('<div id= "empty_chair'+chair_id+'_'+user_id+'"  onclick="empty_chair('+chair_id+','+user_id+');" class = "user_chair_info" >Empty Chair</div>');
+					selected_chair.append('<div id= "empty_chair'+chair_id+'_'+user_id+'"  onclick="empty_chair('+chair_id+','+user_id+');" class = "user_chair_info empty_lbl" >Remove User</div>');
 					$("#chair_"+ chair_id).removeClass("chair_empty").addClass("chair_occupied");
 					$("#chair_user_"+user_id).hide();
 					$("#chair_list_user_"+user_id).hide();
+					selected_chair.find(".expandable").show();
 		   		    }
 				}
 			    });

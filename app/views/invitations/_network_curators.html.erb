@@ -1,19 +1,30 @@
+
 			<% if  @curators %>
 				<div id= 'curators'>
-					These are all the network’s curators. Click on the curator’s Name to edit number and frequency of invitation codes they get
+					<div class="invites_user_desc">
+      						These are all the network's curators. Click on the curator's Name to edit number and frequency of invitation codes they get.
+    					</div>
 					<ul>
 					<%  @curators.each do |user| %>
-						<li>
-						<span id='user_primary_info_<%= user[:id] %>' >
-							<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
-							<p onclick="show_curator_detail(<%= user[:id] %>);"><%= user[:name] %><br>
-							<%= user[:open_codes] %> open codes</p>
-						</span>
+						<li class="media">
+						<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_curator_detail(<%= user[:id] %>);"">
+						  <div class="media-left media-middle">
+						    <img class="media-object search_user_img" src="<%= user[:profile_pic] %>"  alt="..." height="55px" width="55px">
+						  </div>
+						  <div class="media-body">
+						    <div class="media-heading user_name_S">
+						      <%= user[:name] %></br><span class="apercu-light"><%= user[:open_codes] %> open codes</span>
+						      	<img src="assets/next.png" class="pull-right" alt="select user">
+						    </div>
+						  </div>
+						</div>
+						
 						</li>	
 					<% end %>
 					<ul>
 				</div>
 			<% end %>
+
 
 <script type="text/javascript">
    
@@ -26,7 +37,8 @@
 		success:function (data) {
 		    {
 		    	$("#invite_col3").html(data);
-
+			$(".fourth_col").show();
+			show_next_step(".third_col",".fourth_col");
    		    }
 		}
 	    });

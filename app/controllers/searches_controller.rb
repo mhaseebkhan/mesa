@@ -74,16 +74,18 @@ class SearchesController < ApplicationController
   end
 
   def search_by_name
-        @searched_user = params[:search_key]
 	@users_array = Array.new
-	searched_users = Array.new
-	users = User.where("name LIKE ?", "%#{params[:search_key]}%").all
-	searched_users << users if users
-	unconcious_users = UnconciousUser.where("name LIKE ?", "%#{params[:search_key]}%").all
-        searched_users << unconcious_users if unconcious_users
-	unless searched_users.empty?
-			searched_users.flatten!.uniq!
-                	searched_users.collect {|user| @users_array << user.get_primary_info}
+	unless params[:search_key] == ""
+		@searched_user = params[:search_key]
+		searched_users = Array.new
+		users = User.where("name LIKE ?", "%#{params[:search_key]}%").all
+		searched_users << users if users
+		unconcious_users = UnconciousUser.where("name LIKE ?", "%#{params[:search_key]}%").all
+		searched_users << unconcious_users if unconcious_users
+		unless searched_users.empty?
+				searched_users.flatten!.uniq!
+		        	searched_users.collect {|user| @users_array << user.get_primary_info}
+		end
 	end
         render partial: '/searches/searched_editable_users' , layout: false 
   end

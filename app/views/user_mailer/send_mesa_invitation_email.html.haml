@@ -15,7 +15,7 @@
       Who's in?
       %br
       - @users.each do |user|
-        = render :partial => "/users/user_primary_details", :locals => { :user => user , :mesa_type => 'open' } 
+        = render :partial => "/users/user_primary_details", :locals => { :user => user , :mesa_type => 'open', :search_type => 'chair' } 
         %br
       Are you in?
       =link_to 'Yes',"http://localhost:3000.com/accept_mesa?mission_id=#{@mission_id}&user_id=#{@user_id}"

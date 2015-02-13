@@ -1,26 +1,20 @@
-<div id='user_primary_info_<%= user[:id] %>' >
-	<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
-	<p onclick="show_mesa_user_detail(<%= user[:id] %>);"><%= user[:name] %></p>
+<div class="media" style="float:left;width:75%">
+	<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_mesa_user_detail(<%= user[:id] %>);">
+						  <div class="media-left media-middle">
+						    <img class="media-object search_user_img" src="<%= user[:profile_pic] %>"  alt="..." height="55px" width="55px">
+						  </div>
+						  <div class="media-body">
+						    <div class="media-heading user_name">
+						      <span><%= user[:name] %></span>
+						      <% if search_type == 'chair' %> 
+							<img src="assets/next.png" class="pull-right expandable" alt="select user" style="display:none;"> 
+						       <% else %>
+							<img src="assets/next.png" class="pull-right" alt="select user" style="display:block;">
+						       <% end %>
+						    </div>
+						  </div>
+	</div>
 </div>
 <input type="hidden" name="mesa_type" id="hidden_mesa_type" value="<%= mesa_type %>">
-<script type="text/javascript">
-    function show_mesa_user_detail(user_id){
-     var mesa_type = $('#hidden_mesa_type').val();
-     var mesa_id = $('#hidden_mesa_id').val();
-     var url = '/get_user';
-	    $.ajax({
-		url:url,
-		type:'get',
-		data : {user_id: user_id,mesa_type: mesa_type, mesa_id: mesa_id },
-		success:function (data) {
-		    {
-			$("#mesa_detail").hide();
-		    	$("#user_detail").html(data).show();
-			
-		    }
-		}
-	    });
-   }
 
-</script>
 

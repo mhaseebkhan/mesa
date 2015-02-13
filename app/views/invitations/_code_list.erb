@@ -1,7 +1,9 @@
 <% if @code_list %>
+<% unless @code_list.empty? %>
+	<div class="invites_user_desc">	These are the open codes you can use to invite people. To avoid sending the  same code out to different people, add the name related to each one: </div>
 	<ul>
 	<% @code_list.each do |code|%>
-		<li><%= code.code_text %>
+		<li><div class="invitation_lbl"><%= code.code_text %></div>
 		<% if code.out_to.to_s == "" %>
 			<span><input id= "code_out_to_<%= code.id %>" type="text" value= "Enter name here" ><button onclick="save_code(<%= code.id %>);">Save</button></span>	
 		<% else %>	 
@@ -10,28 +12,14 @@
 		</li>
 	<% end%>
 	</ul>
+<% else %>
+	<div class="invites_user_desc"> You have no codes generated. Click on the button below to generate codes. </div>
 	
+<% end %>
 <% end %>
 
 <script type="text/javascript">
-    function show_connected_user_detail(user_id){
-     var url = '/get_user';
-	    $.ajax({
-		url:url,
-		type:'get',
-		data : {user_id: user_id },
-		success:function (data) {
-		    {
-		    	$("#invite_col3").html(data);
-
-   		    }
-		}
-	    });
-
-       
-   }
-
-      
+ 
     function save_code(code_id){
      var out_to = document.getElementById( "code_out_to_"+code_id ).value   
      var url = '/invitations/save_code?id='+code_id+'&out_to='+out_to;

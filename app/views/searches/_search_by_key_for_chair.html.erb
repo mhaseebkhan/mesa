@@ -1,8 +1,12 @@
-<p> Serach profiles by name, skill or tag </p>
+<div class="searched_user_des"> Search profile by name, skill and tag</div>
  <%= render partial: '/searches/search_box' %>
 <input type="hidden" name="mesa_id" id="hidden_mesa_value" value="<%= mesa_id %>">
-<button onclick="search_user_for_chair();">Search</button>
-		
+<div class="searched_user_clear">
+          <button type="button" class="btn btn-default btn_clear" onclick="$('.tagit-choice').remove();" class="hand_cursor">CLEAR</button>
+          <div class="user_search">
+            Search <img src="assets/next.png" class="hand_cursor" alt="back" onclick="search_user_for_chair();" />
+          </div>
+ </div>	
 
 <script type="text/javascript">
     function search_user_for_chair(){

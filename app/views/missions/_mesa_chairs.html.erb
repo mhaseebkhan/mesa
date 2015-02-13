@@ -2,38 +2,59 @@
 				<% if @mission_chairs %>
 					<% @mission_chairs.each do |chair|%>
 						<%if chair[:user_array] %>
-							<li class="chair_occupied" id="chair_<%= chair[:id] %>">
-									<div id="chair_title_div_<%= chair[:id] %>" >
-										<span id="chair_title_span_<%= chair[:id] %>"><%= chair[:title] %></span>
+							<li class="chair_occupied" id="chair_<%= chair[:id] %>" style="clear:both;">
+									<div id="chair_title_div_<%= chair[:id] %>" style="float:left;">
+										<span id="chair_title_span_<%= chair[:id] %>" class = "chair_title"><%= chair[:title] %></span>
 										
 									</div>
 									<div style="float:right;">
-										<img id="edit_chair<%= chair[:id] %>" onclick="edit_chair_title('<%= chair[:id] %>','<%= chair[:title] %>')" src="assets/icon-edit.png" >			</div>
-									<div id="chair_user_div_<%= chair[:id]%>" >
+										<img id="edit_chair<%= chair[:id] %>" onclick="edit_chair_title('<%= chair[:id] %>','<%= chair[:title] %>')" src="assets/icon-edit.png" class="hand_cursor">			</div>
+									<div id="chair_user_div_<%= chair[:id]%>" style="clear:both;padding:5px 0px;">
 										<% chair[:user_array].each do |user|%>
-											<div id="user_primary_info_<%= user[:id] %>"  style= "width: 50%;" >
-												<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
-												<label onclick="show_user_detail(<%= user[:id] %>);"><%= user[:name] %></label>
-											</div> 
-											<div id="empty_chair<%= chair[:id] %>_<%= user[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= user[:id] %>)" class = "user_chair_info" >Empty Chair</div>
+											<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_mesa_user_detail(<%= user[:id] %>);">
+												  <div class="media-left media-middle">
+												    <img class="media-object search_user_img" src="<%= user[:profile_pic] %>"  alt="..." height="55px" width="55px">
+												  </div>
+												  <div class="media-body">
+												    <div class="media-heading user_name">
+												      <span><%= user[:name] %></span> <img src="assets/next.png" class="pull-right" alt="select user">
+												    </div>
+												  </div>
+											</div>
+											
 										<% if invitation = pending_invitation(user[:id],chair[:mesa_id]) %>
-											<span> <%= invitation.invitation_status %></span>
-											<% if invitation.invitation_status == 'pending' %>
-												<span> <%= distance_of_time_in_words(invitation.invitation_time, Time.now.utc) %></span>
-											<% end %>
+											<div id="invitation_status<%= chair[:id] %>_<%= user[:id] %>">
+												<span class="invitation_lbl">Invitation Status:</span>
+												<% if invitation.invitation_status == 'pending' %>
+												<span class="invitation_lbl blue_text"> <%= invitation.invitation_status.humanize %></span>
+												<span> <%= distance_of_time_in_words(invitation.invitation_time, Time.now.utc) %></span>										
+												<% elsif invitation.invitation_status == 'accepted' %>
+												<span class="invitation_lbl green_text"> <%= invitation.invitation_status.humanize %></span>
+												<% elsif invitation.invitation_status == 'expired' %>
+												<span class="invitation_lbl red_text"> <%= invitation.invitation_status.humanize %></span>
+												<div id="empty_chair<%= chair[:id] %>_<%= user[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= user[:id] %>)" class = "user_chair_info empty_lbl" >Remove User</div>
+												<% elsif invitation.invitation_status == 'rejected' %>
+												<span class="invitation_lbl orange_text"> <%= invitation.invitation_status.humanize %></span>
+												<div id="empty_chair<%= chair[:id] %>_<%= user[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= user[:id] %>)" class = "user_chair_info empty_lbl" >Remove User</div>
+												
+												<% end %>
+											</div>
+										<% else %>
+											<div id="empty_chair<%= chair[:id] %>_<%= user[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= user[:id] %>)" class = "user_chair_info empty_lbl" >Remove User</div>	
 										<% end %>
 										<% end %>
 									</div>
 							
 						<% else %>
-							<li  class="chair_empty" id="chair_<%= chair[:id] %>">
-									<div id="chair_title_div_<%= chair[:id] %>">
-										<span id="chair_title_span_<%= chair[:id] %>"><%= chair[:title] %></span>
+							<li  class="chair_empty" id="chair_<%= chair[:id] %>" style="clear:both;">
+									<div id="chair_title_div_<%= chair[:id] %>" style="float:left;">
+										<span id="chair_title_span_<%= chair[:id] %>" class = "chair_title" ><%= chair[:title] %></span>
 										
 									</div>
 									<div style="float:right;">
-										<img id="edit_chair<%= chair[:id] %>" onclick="edit_chair_title('<%= chair[:id] %>','<%= chair[:title] %>')" src="assets/icon-edit.png" >			</div>
-									<div id="chair_user_div_<%= chair[:id]%>" >
+										<img id="edit_chair<%= chair[:id] %>" onclick="edit_chair_title('<%= chair[:id] %>','<%= chair[:title] %>')" src="assets/icon-edit.png" class="hand_cursor">		
+									</div>
+									<div id="chair_user_div_<%= chair[:id]%>" style="clear:both;padding: 5px 0px;" >
 									</div>
 									
 						<% end %>

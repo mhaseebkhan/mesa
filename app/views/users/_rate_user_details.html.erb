@@ -1,27 +1,41 @@
 <% if @user %>
 <input type="hidden" name="user_id" id="hidden_user_id" value="<%= @user[:profile][:id] %>">
-<div id='profile_title'>
-	<div id='profile_pic' ><img src="<%= @user[:profile][:profile_pic] %>" style="width:80px;height:80px" /> </div>
-</div>
-<br>
-<div id='profile_details'style="padding:10px;" >
-<p><%= @user[:profile][:name].humanize  %></p>
-<p>Rate only the skills he used during the Mesa. 1 for poor 5 for excellent. Unrated means the skill wasn’t used during the Mesa.</p>
+  <div style= "padding: 0px 103px">
+	    <img class="media-object search_user_img" src="<%= @user[:profile][:profile_pic] %>"  alt="..." height="80px" width="80px">
+	    <div class="media-heading user_name">
+		      <span><%=@user[:profile][:name].humanize %></span>
+	    </div>
+ </div>
+<div id='profile_details'>
+<div class="mesa_description">Rate only the skills he used during the Mesa. 1 for poor 5 for excellent. Unrated means the skill wasn’t used during the Mesa.</div>
 
-<% @user[:profile][:skills].each do |skill| %>
-	<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
-	<br>
-<% end %>
- <p>Add tags to:</p>
-<p><%= stringify_tags @user[:profile][:tags] %></p>
+ <div class="user_skills">
+	 <div class="skill_title">Skills:</div>
+		<% @user[:profile][:skills].each do |skill| %>
+			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+			<br>
+		<% end %>
+	</div>
+
+<div class="user_tags">
+    <div class="user_tags_heading">Add tags to:</div>
+	<% @user[:profile][:tags].each do |tag| %>
+		<div class="user_tags_item"><%= tag[:name]  %></div>
+	<% end %>
+</div>
+
+<div style="clear: both;"></div>
+
 <ul id="myTags">
 </ul>
 
-<div id='user_notes'>
-Notes:
-	<textarea rows="4" cols="5"></textarea>
+<div class="user_skills">
+	<div id='user_notes'>
+	 <div class="skill_title">Notes:</div>
+	 <textarea style="width: 308px; height: 125px;"></textarea>
+	</div>
 </div>
-<button onclick="rate_user_detail(<%= @user[:profile][:id] %>);">Submit</button>
+<button  class="btn btn-default btn_save_changes" onclick="rate_user_detail(<%= @user[:profile][:id] %>);" style="float:right;">Submit</button>
 <% end %>
 
 <script type="text/javascript">
@@ -54,12 +68,12 @@ Notes:
 	 var url = '/missions/rate_user_detail';
 	    $.ajax({
 		url:url,
-		type:'post',
+		type:'get',
 		data : {star_rating: star_values,new_tags: new_tags, notes: notes, mesa_id: mesa_id,user_id: user_id },
 		success:function (data) {
 		    {
 		    	//$("#mesa_user_search_results").html(data).show();
-			alert("Your rating hasbeen saved");
+			alert("Your rating has been saved");
    		    }
 		}
 	    });

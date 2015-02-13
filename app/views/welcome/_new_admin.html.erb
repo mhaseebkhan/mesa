@@ -1,14 +1,35 @@
-<p>
-This is your first login.
-Please change your
-password (min 8
-characters long):
-</p>
+<div class="user_password_block">
+        <div class="password_inputs">
+          <div class="new_login_msg">This is your first login.</div>
+          <div class="password_change">Please change your password:</div>
+          <div class="minimum_characters">(Min 8 characters long )</div>
+          <div class="">
+            <div class="input-group">
+              <input id="user_password" type="password" class="form-control pass_text" placeholder="Password" aria-describedby="basic-addon2">
+              <span class="input-group-addon pass_btn_ok" id="basic-addon2" onclick="change_password(<%= current_user.id %>);" >Ok</span>
+            </div>
+          </div>
+        </div>
+        <div class="invalid_pass">Invalid password. Please try another.</div>
+        <div class="success_pass">Password has been successfully changed.</div>
+</div>
 
-<input id= "user_password" type="text">
- <button onclick="change_password(<%= current_user.id %>);">OK</button>
+
+
 
 <script type="text/javascript">
+
+  $(document).ready(function () {
+
+	menu_btns = document.getElementsByClassName("btn-admin");
+        $(menu_btns).each(function(){
+	   $(this).removeClass("btn-selected");
+	   $(this).attr('disabled', 'disabled');
+	});
+	$(document.getElementById("log_out_btn")).removeAttr('disabled');
+    });
+
+
 function change_password(user_id){
      var password = document.getElementById( "user_password" ).value
      var url = '/users/change_password';
@@ -19,6 +40,10 @@ function change_password(user_id){
 		success:function (data) {
 		    {
 		    	alert("your password has been changed");
+			menu_btns = document.getElementsByClassName("btn-admin");
+			$(menu_btns).each(function(){
+			   $(this).removeAttr('disabled');
+			});
    		    }
 		}
 	    });

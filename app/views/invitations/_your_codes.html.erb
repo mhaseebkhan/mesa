@@ -1,20 +1,27 @@
-
-			These are the open codes you can use to invite people. To avoid sending the  same code out to different people, add or edit the name related to each one:
 			<div id= "code_list">
 				 <%= render partial: '/invitations/code_list' %>
 			</div>
-			<button onclick="generate_code();">Generate Code</button>
-			<% if @users_joined_by_you %>
+		       <button type="button" class="btn btn-default btn_save_changes " onclick="generate_code();">Generate Code</button>
+			<% unless @users_joined_by_you.empty? %>
 				<div id= 'users_joind_by_you'>
-					People that joined the network through your code:
+					<div class="invites_user_desc">People that joined the network through your code:</div>
 					<ul>
 					<% @users_joined_by_you.each do |user| %>
-						<li>
-						<span id='user_primary_info_<%= user[:id] %>' >
-							<img src="<%= user[:profile_pic] %>" style="width:20px;height:20px" /> 
-							<p onclick="show_connected_user_detail(<%= user[:id] %>);"><%= user[:name] %></p>
-						</span>
+						<li class="media">
+						<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_connected_user_detail(<%= user[:id] %>);">
+						  <div class="media-left media-middle">
+						    <img class="media-object search_user_img" src="<%= user[:profile_pic] %>"  alt="..." height="55px" width="55px">
+						  </div>
+						   <div class="media-body">
+						    <div class="media-heading user_name">
+						      <span><%= user[:name] %></span>
+						     	<img src="assets/next.png" class="pull-right" alt="select user" >
+						    </div>
+						  </div>
+						</div>
+						
 						</li>	
+						
 					<% end %>
 					<ul>
 				</div>
@@ -32,7 +39,8 @@
 		success:function (data) {
 		    {
 		    	$("#code_list").html(data);
-			//$("#col3").html(data);
+			//$(".fourth_col").show();
+			//show_next_step(".third_col",".fourth_col");
    		    }
 		}
 	    });
@@ -45,11 +53,12 @@
 	    $.ajax({
 		url:url,
 		type:'get',
-		data : {user_id: user_id },
+		data : {user_id: user_id, mesa_type: 'open' },
 		success:function (data) {
 		    {
 		    	$("#invite_col3").html(data);
-
+			$(".fourth_col").show();
+			show_next_step(".third_col",".fourth_col");
    		    }
 		}
 	    });

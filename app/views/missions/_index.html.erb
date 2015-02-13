@@ -1,35 +1,114 @@
-<h5> Your Open Mesas</h5>
-  		<ul>
-			<% @my_open_missions.each do |mission| %>
-				<li onclick="show_mesa_details('open_mesa','<%=mission.id%>');"><%= mission.title %></li>
-	   		<% end %>
-		</ul>
-                <h5> Your Closed Mesas</h5>
-  		<ul>
-			<% @my_closed_missions.each do |mission| %>
-				<li onclick="show_mesa_details('closed_mesa','<%=mission.id%>');"> <%= mission.title %></li>
-	   		<% end %>
-		</ul>
-		<% if can? :view_others_mesas, @missions %>
-		        <h5> Others Open Mesas</h5>
-	  		<ul>
-				<% @others_open_missions.each do |mission| %>
-					<li onclick="show_mesa_details('open_mesa','<%=mission.id%>');"><%= mission.title %> by <%=get_mission_owner(mission) %> </li>
-		   		<% end %>
-			</ul>
-		        <h5> Others Closed Mesas</h5>
-	  		<ul>
-				<% @others_closed_missions.each do |mission| %>
-					<li onclick="show_mesa_details('closed_mesa','<%=mission.id%>');"><%= mission.title %> by <%=get_mission_owner(mission) %></li>
-		   		<% end %>
-			</ul>
-		<% end %>
-                <% if can? :view_pending_mesas, @missions %>
-	        <h5> Pending Mesas</h5>
-  		<ul>
-			<% @pending_missions.each do |mission| %>
-				<li onclick="show_mesa_details('pending_mesa','<%=mission.id%>');"><%= mission.title %> </li>
-	   		<% end %>
-		</ul>
-                <% end %>
+    <div class="second_col_header">
+      <div class="title_heading">Admin Messa > List </div>
+      <div class="title_heading_sep"></div>
+    </div>
+    <div class="project_list">
+      <div class="proj_list_title">Your Open Mesas:</div>
+      <div class="project_item">
+	<ul>
+	<% @my_open_missions.each.with_index(1) do |mission,i| %>
+		<li >
+			<div class="project_item">
+				<div class="project_no"><%= i %></div>
+				<div class="project_name"><%= mission.title.truncate(25) %></div>
+				<div >
+					<img src="/assets/next.png" class="hand_cursor" alt="next" onclick="show_mesa_details('open_mesa','<%=mission.id%>');">
+				</div>
+			</div>
+		</li>
+	<% end %>
+	</ul>
+       </div>
+       <div class="proj_list_hr"></div>
+    </div>
+
+    <div class="project_list">
+      <div class="proj_list_title">Your Closed Mesas:</div>
+      <div class="project_item">
+	<ul>
+	<% @my_closed_missions.each.with_index(1) do |mission,i| %>
+		<li >
+			<div class="project_item">
+				<div class="project_no"><%= i %></div>
+				<div class="project_name"><%= mission.title.truncate(25) %></div>
+				<div >
+					<img src="/assets/next.png" class="hand_cursor" alt="next" onclick="show_mesa_details('closed_mesa','<%=mission.id%>');">
+				</div>
+			</div>
+		</li>
+	<% end %>
+	</ul>
+       </div>
+       <div class="proj_list_hr"></div>
+    </div>
+
+    <% if can? :view_others_mesas, @missions %>
+
+    <div class="project_list">
+      <div class="proj_list_title">Others Open Mesas:</div>
+      <div class="project_item">
+	<ul>
+	<%  @others_open_missions.each.with_index(1) do |mission,i| %>
+		<li>
+			<div class="project_item">
+				<div class="project_no"><%= i %></div>
+				<div class="project_name"><%= mission.title.truncate(25) %>  by <%=get_mission_owner(mission) %></div>
+				<div>
+					<img src="/assets/next.png" class="hand_cursor" alt="next" onclick="show_mesa_details('open_mesa','<%=mission.id%>');">
+				</div>
+			</div>
+		</li>
+	<% end %>
+	</ul>
+       </div>
+       <div class="proj_list_hr"></div>
+    </div>
+
+     <div class="project_list">
+      <div class="proj_list_title">Others Closed Mesas:</div>
+      <div class="project_item">
+	<ul>
+	<%  @others_closed_missions.each.with_index(1) do |mission,i| %>
+		<li >
+			<div class="project_item">
+				<div class="project_no"><%= i %></div>
+				<div class="project_name"><%= mission.title.truncate(25) %>  by <%=get_mission_owner(mission) %></div>
+				<div >
+					<img src="/assets/next.png" class="hand_cursor" alt="next" onclick="show_mesa_details('closed_mesa','<%=mission.id%>');">
+				</div>
+			</div>
+		</li>
+	<% end %>
+	</ul>
+       </div>
+       <div class="proj_list_hr"></div>
+    </div>
+
+    <% end %>
+
+    <% if can? :view_pending_mesas, @missions %>
+    <div class="project_list">
+      <div class="proj_list_title">Pending Mesas:</div>
+      <div class="project_item">
+	<ul>
+	<%  @pending_missions.each.with_index(1) do |mission,i| %>
+		<li >
+			<div class="project_item">
+				<div class="project_no"><%= i %></div>
+				<div class="project_name"><%= mission.title.truncate(25) %>  by <%=get_mission_owner(mission) %></div>
+				<div >
+					<img src="/assets/next.png" class="hand_cursor" alt="next" onclick="show_mesa_details('pending_mesa','<%=mission.id%>');">
+				</div>
+				
+			</div>
+		</li>
+	<% end %>
+	</ul>
+       </div>
+       <div class="proj_list_hr"></div>
+    </div>
+     <% end %>
+
+
+
 

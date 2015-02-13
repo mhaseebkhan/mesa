@@ -208,11 +208,11 @@ class UsersController < ApplicationController
     def get_recently_joined_users
        recently_joined_users_array = Array.new
 	# ROLE_COMMONFLAGGER is required as rest of the users might not have been aded to system via invitation code
-	users = User.eager_load(:roles).where( 'roles.id in (?)', [ROLE_COMMONFLAGGER, ROLE_CURATOR, ROLE_ADMIN]).limit(1)
+	users = User.eager_load(:roles).where( 'roles.id in (?)', [ROLE_COMMONFLAGGER, ROLE_CURATOR, ROLE_ADMIN]).limit(5)
 	users.order('users.id DESC').each do |user|
 		user_prof = user.get_primary_info
 		user_invitation = user.invitation
- 		user_prof[:invited_by] = User.find(user_invitation.invitation_code.user_id).name
+ 		user_prof[:invited_by] = User.find(user_invitation.invitation_code.user_id).name if user_invitation
 		recently_joined_users_array << user_prof
 	end
 	recently_joined_users_array

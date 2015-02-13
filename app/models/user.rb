@@ -170,8 +170,10 @@ class User < ActiveRecord::Base
 
   def get_curator_details
 	curator = self.get_primary_info 
+	curator[:no_of_codes] =0
+	curator[:code_frequency] = 0
 	if self.curator_code
-		curator[:no_of_codes] = self.curator_code.no_of_codes
+		curator[:no_of_codes] =  self.curator_code.no_of_codes
 		curator[:code_frequency] = self.curator_code.code_frequency
 	end
 	curator
@@ -184,7 +186,7 @@ class User < ActiveRecord::Base
   def generate_invitation_code
 	code = ''
         loop do
-	      code = generate_random_string
+	      code = [*('A'..'Z')].sample(8).join
 	      break code unless InvitationCode.where(code_text: code).first
     	end
 	InvitationCode.create(code_text: code, user_id: self.id, status: PENDING_INVITATION_STATUS)

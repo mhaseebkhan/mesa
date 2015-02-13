@@ -1,15 +1,31 @@
 <% if @user %>
 
-<div id='profile_title'>
-	<div id='profile_pic'style="float:left;width:40%" ><img src="<%= @user[:profile_pic] %>" style="width:40px;height:40px" /> </div>
-	
-</div>
-<div id='profile_details'style="padding:10px;" >
-	 <p><%= @user[:name].humanize  %> gets</p>
-	 <input id= "no_of_codes" type="text" value="<%= @user[:no_of_codes]%>" > new code(s) every<br>
-	 <input id= "code_frequency" type="text" value= '<%= @user[:code_frequency]%>' > months <br>
-	 <button onclick='save_details(<%= @user[:id]%>);'>Save</button>
-</div>
+    <div class="media ">
+      <div class="media-left media-middle">
+        <a href="#">
+          <img class="media-object search_user_img" src="img/rsz_1johnny_bravo_by_freevil.jpg" alt="..." height="55px" width="55px">
+        </a>
+      </div>
+      <div class="media-body">
+        <div class="media-heading user_name">
+          <span><%= @user[:name].humanize %> </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="invites_user_desc"><%= @user[:name].humanize %> gets:</div>
+
+    <div class="curators_item">
+         <div class="curators_text"> <input id= "no_of_codes" type="text" value="<%= @user[:no_of_codes]%>" style="width:30px;"> new codes(s) every</div>
+         <div class="curators_text"> <input id= "code_frequency" type="text" value= '<%= @user[:code_frequency]%>'style="width:30px;"> month(s).</div>
+    </div>
+
+
+    <div class="save_changes">
+       <button type="button" class="btn btn-default btn_save_changes " onclick='save_details(<%= @user[:id]%>);' >SAVE CHANGES</button>
+    </div>
+
+
 <% end %>
 
 
@@ -20,7 +36,7 @@ function save_details(id){
     url = '/users/update_curator_details'
        $.ajax({
 		url:url,
-		type:'post',
+		type:'get',
 		data : {no_of_codes: no_of_codes,code_frequency: code_frequency,user_id: id},
 		success:function (data) {
 		    {

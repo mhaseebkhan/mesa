@@ -51,16 +51,14 @@ class Session::RegistrationsController < Devise::RegistrationsController
 		respond_to do |format|
 			format.json {render :json=> {:user => @user, :status => true}}
 			format.html {if params[:mesa_type] == 'open'
-					render partial: '/users/user_details' , layout: false 
+					render partial: '/users/user_details', :locals => { :rate => false }  , layout: false 
 				     elsif params[:mesa_type] == 'closed'
-					render partial: '/users/rate_user_details', layout: false 
-				     elsif params[:mesa_type] == 'others_closed'
 					@user = user.get_mesa_rating(params[:mesa_id])
 					render partial: '/users/read_only_rate_user_details', layout: false 
 				     elsif params[:mesa_type] == 'underprogress'
-					render partial: '/users/user_details' , layout: false 
+					render partial: '/users/rate_user_details' , layout: false 
 				     else 
-					render partial: '/users/user_details' , layout: false 
+					render partial: '/users/user_details',:locals => { :rate => true }  , layout: false 
 				     end}
 		end
         else

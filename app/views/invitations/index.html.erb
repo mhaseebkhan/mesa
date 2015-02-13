@@ -1,18 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-</head>
-<body>
-<div style="width: 100%; display: table;">
-    <div style="display: table-row">
-        <div id="invite_col1" style="width: 30%; display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
-		<h5 onclick= get_recently_joined_users();> Recently joined </h5>
-		<h5 onclick= get_codes();> Your Codes</h5>
-		<h5  onclick= get_curators();> Curators </h5>
-		
-	</div>
-        <div id="invite_col2"  style="width: 30%;display: table-cell; border-right: solid;border-width: 1px;border-color: #000;">
-		<div id="your_codes" style="display:none;">
+<!-- Second Column start-->
+  <div  id="invite_col1" class="border col-xs-3 hrLineRightGrey second_col">
+    <div class="second_col_header">
+      <div class="title_heading">Admin Mesa > List </div>
+      <div class="title_heading_sep"></div>
+    </div>
+
+    <div class="project_list">
+      <div class="proj_list_title">
+        <span>Recently joined</span>
+        	<img src="/assets/next.png" class="pull-right hand_cursor" alt="" onclick= get_recently_joined_users();>
+      </div>
+      <div class="proj_list_hr"></div>
+    </div>
+
+    <div class="project_list">
+      <div class="proj_list_title">
+        <span>Your Codes</span>
+        <img src="/assets/next.png" class="pull-right hand_cursor" alt="" onclick= get_codes();>
+      </div>
+      <div class="proj_list_hr"></div>
+    </div>
+
+    <div class="project_list">
+      <div class="proj_list_title">
+        <span>Curators</span>
+        <img src="/assets/next.png" class="pull-right hand_cursor" alt=""  onclick= get_curators();>
+      </div>
+      <div class="proj_list_hr"></div>
+    </div>
+
+  </div>
+
+  <!-- end Second column-->
+
+  <!-- Third column start-->
+  <div  id="invite_col2" class="border col-xs-3 hrLineRightGrey third_col">
+    <div class="second_col_header">
+      <div class="title_heading">
+        <img src="/assets/back_butn.png" class="hand_cursor" alt="back"  onclick="enable_prev_step('.third_col','.second_col');"/> Back
+      </div>
+      <div class="title_heading_sep"></div>
+    </div>
+   		 <div id="your_codes" style="display:none;">
 			 <%= render partial: '/invitations/code_list' %>
  		</div>
 		<div id="recently_joined" style="display:none;">
@@ -21,16 +50,32 @@
     		<div id="network_curators" style="display:none;">
 			 <%= render partial: '/invitations/network_curators' %>
  		</div>	
-        </div>
-        <div id="invite_col3"  style="width: 30%;display: table-cell; border-right: solid;border-width: 1px;border-color: #000;">
-        </div>
-	
-    </div>
-</div>
+
+  </div>
+  <!--third column end-->
+
+  <!--fourth column start-->
+ <div  class="border col-xs-3 hrLineRightGrey fourth_col">
+	<div class="second_col_header">
+	      <div class="title_heading">
+		<img src="/assets/back_butn.png" class="hand_cursor" alt="back" onclick="enable_prev_step('.fourth_col','.third_col');" /> Back
+	      </div>
+	      <div class="title_heading_sep"></div>
+       </div>
+  	<div  id="invite_col3" >
+       </div>
+
+ </div>
+  <!--end four column-->
 
 
-</body>
-</html>
+
+
+
+
+
+
+
 <script type="text/javascript">
   
    function get_recently_joined_users(){
@@ -44,6 +89,7 @@
 		    	$("#recently_joined").html(data).show();
 			$("#your_codes").hide();
 			$("#network_curators").hide();
+			show_next_step(".second_col",".third_col");
    		    }
 		}
 	    });
@@ -62,7 +108,7 @@
 		    	$("#your_codes").html(data).show();
 			$("#recently_joined").hide();
 			$("#network_curators").hide();
-			//$("#col3").html(data);
+			show_next_step(".second_col",".third_col");
    		    }
 		}
 	    });
@@ -81,7 +127,7 @@
 		    	$("#network_curators").html(data).show();
 			$("#recently_joined").hide();
 			$("#your_codes").hide();
-			//$("#col3").html(data);
+			show_next_step(".second_col",".third_col");
    		    }
 		}
 	    });

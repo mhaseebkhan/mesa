@@ -1,33 +1,47 @@
-<div style="width: 100%; display: table;">
-	<div style="display: table-row">
-		<div id="col2_1"  style="display: table-cell;width: 30%;display: table-cell;border-right: solid;border-width: 1px;border-color: #000;"> 
-			<div id='mesa_primary_info' onclick='$("#mesa_detail").show();$("#user_detail").hide();$("#col2_2").hide();'>
-			<input type="hidden" name="mesa_id" id="hidden_mesa_id" value="<%=  @mission_details[:id] %>">
-				<p>Mesa:<%= @mission_details[:title] %></p>
-				<p>Leader:<%= @mission_leader.name%></p>
-			</div>
-			This Mesa is closed.
-			<br>
-			Click on participant to view leader’s opinion on his/her performance:
+<div id ="mesa_col2_1" class="border col-xs-3 hrLineRightGrey third_col">
+    <div class="second_col_header">
+       <div class="title_heading"><img src="/assets/back_butn.png" class="hand_cursor" alt="back" onclick="enable_prev_step('.third_col','.second_col');" /> Back </div>
+      <div class="title_heading_sep"></div>
+    </div>
+    <input type="hidden" name="mesa_id" id="hidden_mesa_id" value="<%=  @mission_details[:id] %>">
+    <div class="mesa_details" >
+		<div id='mesa_primary_info' >
+		      <div class="mesa_item">
+			<div class="mesa_title">Mesa:</div>
+			<div class="mesa_name"><%= @mission_details[:title] %></div>
+		      </div>
+		      <div class="mesa_leader" style="float:left;width:80%">
+			<div class="leader_title">Leader: </div>
+			<div class="leader_name"><%= @mission_leader.name%></div>
+		      </div>
+		      <div style="float:right;width:7%">
+			<img src="/assets/next.png" class="hand_cursor" alt="next" onclick="show_last_col('#mesa_detail');">
+		      </div>
+		</div>
+
+		<div class="mesa_description" style="margin: 45px 0px;">This Mesa is closed.<br>Click on participant to view leader’s opinion on his/her performance: </div>
 			<% unless @mission_users.empty? %>
 				<ul>
 				<% @mission_users.each do |user|%>
-					<%= render :partial => "/users/user_primary_details", :locals => { :user => user, :mesa_type => 'others_closed' } %>
+					<%= render :partial => "/users/user_primary_details", :locals => { :user => user, :mesa_type => 'closed', :search_type => 'default' } %>
 				<% end %>
 				</ul>
 			<% end %>
-		</div>
-		<div id="col2_2"  style="display: table-cell;width: 30%; display:none;"> 
-			
-		</div>
-		<div id="col2_3"  style="display: table-cell;width: 30%;"> 
-					<div id='mesa_detail' style="display:none;"> 
-						<%= render :partial => "mission_details", :locals => { :mission_details => @mission_details } %>
-					</div>
-					<div id='user_detail' style="display:none;"> 
-					</div>
-		</div>
+     </div>
+</div>
+
+<div id ="mesa_col2_2" class="border col-xs-3 fourth_col" style="display:none;">
+       	<div class="second_col_header">
+      		 <div class="title_heading"><img src="/assets/back_butn.png" class="hand_cursor" alt="back" onclick="enable_prev_step('.fourth_col','.third_col');" /> Back </div>
+      		<div class="title_heading_sep"></div>
+         </div>
+
+	<div id='mesa_detail' style="display:none;">
+		<%= render :partial => "mission_details", :locals => { :mission_details => @mission_details } %>
 	</div>
+	<div id='user_detail' style="display:none;"> 
+	</div>
+		
 </div>
 </div>	
 

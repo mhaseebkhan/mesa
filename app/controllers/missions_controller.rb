@@ -271,17 +271,22 @@ class MissionsController < ApplicationController
 	mesa_id = params[:mesa_id]
 	owner_id = Mission.where(id: params[:mesa_id]).take.owner_id
         user_info = User.find(owner_id)
-	search_keys = params[:search_keys].join(",")
-	#UserMailer.get_help_email(search_keys,user_info.name,user_info.email).deliver
-	render :text => search_keys
+	if params[:search_keys]
+		search_keys = params[:search_keys].join(",") 
+		#UserMailer.get_help_email(search_keys,user_info.name,user_info.email).deliver
+		render :text => search_keys
+	else 
+		render :text => "empty string"
+	end
+
   end
 
   def send_mesa_invites
-	if params[:user_list]
-		mission = Mission.exists? params[:mesa_id]
-		@mission_id = params[:mesa_id]
+	
+	mission = Mission.exists? params[:mesa_id]
+	@mission_id = params[:mesa_id]
+       if params[:user_list]
 		mission.set_all_invites_out
-		mission_details(mission)
 		# global vars for email
 		@challenge = mission.shared_motivation
 	     	@when = mission.mesa_when	
@@ -295,14 +300,14 @@ class MissionsController < ApplicationController
 			if chair_array.include?(chair_id)
 				UserMission.create(user_id:  user_id, mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: WAITING_MESA_INVITATION )
 			else
-			 send_invite
+			 	send_invite
 			end
                         chair_array << chair_id
 		end
 		
 	end
-	
-	render partial: '/missions/your_open_mesa' , layout: false 
+	mission_details(mission)
+	render partial: '/missions/open_mesa' , layout: false 
   end
 
   def rate_user_detail
@@ -333,7 +338,7 @@ class MissionsController < ApplicationController
 	mission = Mission.exists? params[:mesa_id]
      	mission.set_status(MESA_IS_STARTED)
 	mission_details(mission)
-	render partial: '/missions/your_underprogress_mesa' , layout: false 
+	render partial: '/missions/underprogress_mesa' , layout: false 
   end
  
    def close_mesa
