@@ -33,3 +33,9 @@ $(hide_col).addClass('disabled_step');
 $(show_col).show();
 $(show_col).removeClass('disabled_step');
 }
+
+$(window).load(function(){
+    $(".scrollbar").mCustomScrollbar({
+        theme:"minimal-dark"
+    });
+});
