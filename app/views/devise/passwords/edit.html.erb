@@ -1,22 +1,43 @@
-<h2>Change your password</h2>
+<div class="container login_sec">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="login_heading">Reset password</div>
+      <div class="reset_pas_desc"><p>Enter your new password</p></div>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class:'form-horizontal' }) do |f| %>
+        <%= devise_error_messages! %>
+        <%= f.hidden_field :reset_password_token %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
+        <div class="form-group">
+          <label class="control-label col-sm-2 login_reset_label" for="pwd">New Password:</label>
+          <div class="col-sm-10">
+            <!--<input type="password" class="form-control login_input" id="pwd" placeholder="Enter password">-->
+            <%= f.password_field :password, autofocus: true, autocomplete: "off", class: 'form-control login_input', placeholder: 'Enter password' %>
+          </div>
+        </div>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
+        <div class="form-group margin-top25">
+          <label class="control-label col-sm-2 login_reset_label" for="pwd"> Confirm Password:</label>
+          <div class="col-sm-10">
+            <!--<input type="password" class="form-control login_input" id="pwd" placeholder="Enter password">-->
+            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control login_input' %>
+          </div>
+        </div>
+        <div class="form-group margin-top25">
+          <div class="col-sm-offset-2 col-sm-10">
+            <!--<button type="submit" class="btn btn-default btn_login pull-right">Reset</button>-->
+            <%= f.submit 'Reset', class: 'btn btn-default btn_login pull-right' %>
+          </div>
+        </div>
+
+        <div class="form-group margin-top25">
+          <label class="pull-right login_forget" for="pwd">
+            <!--<a href="forgot_password.html">I forget my password</a>-->
+            <%= link_to 'Login', new_password_path(resource_name) %>
+          </label>
+        </div>
+
+      <% end %>
+
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

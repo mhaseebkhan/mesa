@@ -1,6 +1,6 @@
  <!--start first column-->
     <div class="border col-xs-3 first_col">
-      <div class="first_column_header">
+      <div class="first_column_header" id="mesa_n_cadeira">
         <div class="logo"></div><div class="logo_text">Mesa & Cadeira </div>
       </div>
       <div class="user_box">
@@ -8,35 +8,58 @@
           <span>Kiko Shteinhoff</span>
         </div>
         <div class="user_image">
-          <img src="data:image/jpeg;base64,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" class="user_avatar_img" alt="user" />
+          <% user_img = get_user_img %>
+          <%= image_tag src= user_img, class: 'user_avatar_img', alt: 'user'  %>
           <div class="change_image">
-            <a href="#">Change picture</a>
+            <% if params['controller'] == 'welcome'%>
+              <a href="#" id="change_pro_pic">Change picture</a>
+              <%= form_tag '/change_profile_pic', method: :post, remote: true, multipart: true, id: 'post_pic', onsubmit: false do %>
+                <%= hidden_field_tag 'user_id', @current_user.id %>
+                <%= hidden_field_tag 'admin_pic', true %>
+                <%= file_field_tag 'profile_pic', id: 'profile_pic1', style: 'display:none' %>
+              <% end %>
+            <% end -%>
+
           </div>
         </div>
       </div>
       <div class="user_ctrl_buttons">
         <ul>
           <li>
-            <a href="/searches"><button type="button" class="btn btn-default btn-admin btn-selected">Search</button></a>
+            <%= link_to 'Search', searches_path, :class => "btn btn-default btn-admin #{get_selected('/searches')}"%>
           </li>
           <li>
-            <a href="/users"><button type="button" class="btn btn-default btn-admin">Add & Admin Users</button></a>
+            <%= link_to 'Add & Admin Users', users_path, :class => "btn btn-default btn-admin #{get_selected('/users')}"%>
           </li>
           <li>
-            <a href="/missions/create_mission"><button type="button" class="btn btn-default btn-admin">Create Mission</button></a>
+            <%= link_to 'Create Mission', '/missions/create_mission', :class => "btn btn-default btn-admin #{get_selected('/missions/create_mission')}"%>
           </li>
           <li>
-            <a href="/missions"><button type="button" class="btn btn-default btn-admin">Admin Messa</button></a>
+            <%= link_to 'Admin Messa', missions_path, :class => "btn btn-default btn-admin #{get_selected('/missions')}"%>
           </li>
           <li>
-            <a href="/invitations"><button type="button" class="btn btn-default btn-admin">Invites</button></a>
+            <%= link_to 'Invites', invitations_path, :class => "btn btn-default btn-admin #{get_selected('/invitations')}"%>
           </li>
           <li>
-	    <button id="log_out_btn" type="button" class="btn btn-default btn-admin"> <%= link_to "Log out", destroy_user_session_path, :method => :delete %></button>
+            <%= button_to 'Logout', destroy_user_session_path, :class => 'btn btn-default btn-admin ', :method => :delete%>
+
           </li>
         </ul>
       </div>
     <!-- first Column end -->
 
+<script>
+  $('#change_pro_pic').click(function(){
+    console.log('click change_pro_pic');
+    $('#profile_pic1').trigger('click');
+  });
 
+  $('#profile_pic1').change(function(){
+    console.log($('#profile_pic1').val());
+    $('#post_pic').submit();
+  });
+  $('#mesa_n_cadeira').click(function(){
+    window.location.href = '/';
+  });
+</script>
 

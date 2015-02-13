@@ -7,6 +7,7 @@ Rails.application.routes.draw do
  
   get '/verify_email', to: 'users#verify_email'
   post '/upload_profile_pic', to: 'users#upload_profile_pic'
+  post '/change_profile_pic', to: 'users#change_profile_pic'
   get '/profile_pic', to: 'users#get_profile_pic'
   get '/accept_mesa', to: 'missions#accept_mesa_invite'
   get '/reject_mesa', to: 'missions#reject_mesa_invite'

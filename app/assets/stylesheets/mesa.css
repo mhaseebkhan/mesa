@@ -124,6 +124,7 @@ display:none;
 	height: 60px;
 	background-color: black;
 	width: 285px;
+    cursor: pointer;
 }
 
 .user_avatar_img{
@@ -610,6 +611,18 @@ input.mesa_input_txt {
 .mesa_send_btn {
 	margin-top: 100px;
 }
+
+select#date_hour {
+    background-color: #E6E6E6;
+    height: 30px;
+    width: 172px;
+    outline: none;
+    border: none;
+    -webkit-appearance: none; /*Removes default chrome and safari style*/
+    -moz-appearance: none;
+}
+
+
 /*******************invites *******************/
 
 .invites_user_desc {
@@ -680,6 +693,7 @@ cursor:pointer;
 }
 
 .disabled_step { pointer-events: none; }
+
 .chair_title{
 	font-family: Apercu-Medium;
 	font-size: 15px;
@@ -722,3 +736,87 @@ color:orange;
 {
 color:red;
 }
+
+.enabled_step { pointer-events: auto; }
+
+
+.send-invite-btn {
+    margin-top: 50px;
+    float: left;
+}
+
+
+
+/************************* Start login sections     *******************/
+
+.login_sec {
+    margin-top: 15%;
+    max-width: 710px;
+}
+
+.login_heading {
+    font-family: Apercu-Regular;
+    font-size: 22px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-weight: normal;
+}
+
+.login_label {
+    font-family: Apercu-Regular;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.login_input {
+    font-family: Apercu-Regular;
+    font-size: 15px;
+    border-radius: 0px;
+    height: 45px;
+    font-weight: normal;
+}
+
+.btn_login {
+    background-color: #000000;
+    color: #FFFFFF;
+    border-radius: 0px;
+    border: black;
+}
+
+.btn_login:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+    border-radius: 0px;
+    border: black;
+}
+
+.login_forget a {
+    font-family: Apercu-Regular;
+    font-size: 18px;
+    color: #000000;
+    margin-right: 20px;
+    font-weight: normal;
+}
+
+.login_forget a:hover {
+    text-decoration: none;
+}
+
+
+.login_reset_label {
+    font-family: Apercu-Regular;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 20px;
+    margin-top: -8px;
+}
+
+.reset_pas_desc {
+    font-family: Apercu-Light;
+    font-size: 15px;
+    margin-bottom: 39px;
+}
+
+/************************* End login sections       *******************/
+
+
