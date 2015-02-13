@@ -12,7 +12,6 @@ end
 
 	def get_user_img
 		current_user.profile_pic.present? ? current_user.profile_pic : 'user.png'
-
 	end
 
 end
