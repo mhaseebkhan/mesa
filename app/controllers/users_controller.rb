@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user!, :except => [:upload_profile_pic, :get_profile_pic, :verify_email]
+  before_filter :authenticate_user!, :except => [:upload_profile_pic, :change_profile_pic, :get_profile_pic, :verify_email]
   load_and_authorize_resource 
   # skip_authorize_resource fro API calls 
-  skip_authorize_resource :only => [:upload_profile_pic, :get_profile_pic, :verify_email]
+  skip_authorize_resource :only => [:upload_profile_pic, :change_profile_pic, :get_profile_pic, :verify_email]
   
   # GET /users
   # GET /users.json
@@ -197,6 +197,13 @@ class UsersController < ApplicationController
 	@user = user.get_user_rating
 	render partial: '/users/user_rating' , layout: false 
  end
+
+  # POST /change_profile_pic.json
+  def change_profile_pic
+    user = User.exists? params[:user_id]
+    user.update_attribute(:profile_pic, params[:profile_pic]) if user
+    redirect_to root_path
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
