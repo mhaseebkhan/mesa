@@ -1,6 +1,6 @@
 <% unless @users_array.empty? %>
 
-<div id="chair_list_div" class="chair_list_div" style="display:none;">
+<div id="chair_list_div" class="chair_list_div" style="display:block;">
 </div>
 <div class="searched_user_title"> Search User:</div>
 <% @users_array.each do |user|%>
@@ -8,8 +8,8 @@
 		<%  chair = user_is_already_assigned_chair(user[:id], @mesa_id ) %>
 		<% if chair %>
 			<div style="float:right;padding-top:30px;">	
-				<span id="chair_user_<%= user[:id] %>" onclick="add_to_chair(<%= user[:id] %>,<%= @mesa_id %>);" > <img src="assets/next.png" > </span>
-				<span id="chair_list_user_<%= user[:id] %>" onclick="show_chair_list(<%= @mesa_id %>,<%= user[:id] %>);"> <img src="assets/next.png" > </span>
+				<span id="chair_user_<%= user[:id] %>" onclick="add_to_chair(<%= user[:id] %>,<%= @mesa_id %>);"  class ="hand_cursor" title="add to chair"> <img src="assets/add.png" > </span>
+				<span id="chair_list_user_<%= user[:id] %>" onclick="show_chair_list(<%= @mesa_id %>,<%= user[:id] %>);" class ="hand_cursor" title="add to chair list"> <img src="assets/add-list.png" > </span>
 			</div>
 		<% end %>
 <% end %>

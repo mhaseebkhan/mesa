@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
     <!-- Second Column start-->
-    <div class="border col-xs-3 hrLineRightGrey second_col">
+    <div class="border col-xs-3 hrLineRightGrey second_col scrollbar">
 	      <div class="second_col_header">
 		<div class="title_heading">Home </div>
 		<div class="title_heading_sep"></div>
@@ -8,7 +8,7 @@
 	      <!--Search user blocked -->
 	      <div class="searched_user">
 		      	<%= render partial: '/searches/search_by_key' %>
-			<div id='search_results'>
+			<div id='search_results'  class = "scrollbar">
 		       </div> 
 	      </div>
 	      <!--end search user-->
@@ -17,12 +17,12 @@
     <!-- end Second column-->
 
     <!-- Third column start-->
-    <div class="border col-xs-3 hrLineRightGrey third_col">
+    <div class="border col-xs-3 hrLineRightGrey third_col scrollbar">
     </div>
     <!--third column end-->
 
     <!--fourth column start-->
-    <div class="border col-xs-3 fourth_col">
+    <div class="border col-xs-3 fourth_col scrollbar">
     </div>
     <!--end four column-->
 

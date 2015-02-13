@@ -4,7 +4,7 @@
 	<% @mission_chairs.each do |chair|%>
 		<input id="radio_<%=chair[:id] %>" type="radio" name="chair" value="<%= chair[:id] %>" > <%= chair[:title] %> <br>
 	<% end %>
-	<button id = "add_to_chair_btn" onclick="add_to_chair_list();" class="btn btn-default" disabled='disabled'>Add to chair</button>
+	<button id = "add_to_chair_btn" onclick="add_to_chair_list();" class="btn btn-default" style="margin_top:10px;" disabled='disabled'>Add to chair</button>
 <%end%>
 
 <script type="text/javascript">

@@ -104,7 +104,7 @@ ul
 }
 
 .chair_list_div {
-background: red;
+background: #FFF;
 /* position: relative; */
 z-index: 10;
 padding: 20px;
@@ -113,7 +113,4 @@ border: 2px solid #2E2E2D;
 box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 overflow-y: auto;
 position: fixed;
-height: 100px;
-left: 69%;
-width: 200px;
 }

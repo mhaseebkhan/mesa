@@ -33,16 +33,17 @@ class MissionsController < ApplicationController
   # POST /missions
   # POST /missions.json
   def create
-    mission_owner =  User.exists? mission_params[:owner_id] 
+   # mission_owner =  User.exists? mission_params[:owner_id] 
    # respond_to do |format|
-		unless  mission_owner.nil?  
-			owner_role = mission_owner.roles.first.id unless mission_owner.roles.first.nil? 
-		end
+		#unless  mission_owner.nil?  
+		#	owner_role = mission_owner.roles.first.id unless mission_owner.roles.first.nil? 
+		#end
 	   #   if VALID_ADMIN_USERS.include?(owner_role)
+		mission_params[:owner_id] = "CCC"
 		@mission = Mission.new(mission_params)
 		@mission.save
                 @mission.set_status(MESA_IS_AUTHORIZED)
-                UserMission.create(user_id: mission_params[:owner_id], mission_id: @mission.id,invitation_time: Time.now.utc, invitation_status: ACCEPTED_MESA_INVITATION)
+                #UserMission.create(user_id: current_user.id, mission_id: @mission.id,invitation_time: Time.now.utc, invitation_status: ACCEPTED_MESA_INVITATION)
                 mission_owner = @mission.get_mission_owner 
                 #UserMailer.validate_brief_email(mission_owner[:name]).deliver
 		#format.json { render :json=> {:mesa_id => @mission.id, :status => true} }
@@ -198,7 +199,8 @@ class MissionsController < ApplicationController
    params[:owner_id] = current_user.id
    if can_create_new_mesa(params[:owner_id])
    	create
-	render :text => "<p>Great.<br> Now we need to validate your brief.We'll reply as soon as possible</p>"
+	render :text => "Great.<br> You can manage your mesa in Admin Mesa section.</p>" 
+	#"<p>Great.<br> Now we need to validate your brief.We'll reply as soon as possible</p>"
    else
      	 render :text => "Your Mesa cannot be created.You have reached maximum limit of 3 mesas per year"
    end

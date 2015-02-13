@@ -34,7 +34,6 @@ $(show_col).show();
 $(show_col).removeClass('disabled_step');
 }
 
-
   function show_last_col(show_col)
   {
 	
@@ -80,3 +79,10 @@ function show_user_detail(user_id){
 
        
    }
+
+$(window).load(function(){
+    $(".scrollbar").mCustomScrollbar({
+        theme:"minimal-dark"
+    });
+});
+

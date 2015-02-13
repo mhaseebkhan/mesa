@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
    <!-- Second Column start-->
-  <div id="user_col1" class="border col-xs-3 second_col hrLineRightGrey">
+  <div id="user_col1" class="border col-xs-3 second_col hrLineRightGrey scrollbar">
     <div class="second_col_header">
       <div class="title_heading">Add & Admin Users </div>
       <div class="title_heading_sep"></div>
@@ -48,7 +48,7 @@
   <!-- end Second column-->
 
     <!-- Third column start-->
-    <div id="user_col2" class="border col-xs-3 hrLineRightGrey third_col">
+    <div id="user_col2" class="border col-xs-3 hrLineRightGrey third_col scrollbar">
 	        <div id="unconcious_user" style="display:none;">
 			 <%= render partial: '/users/unconcious_user_form' %>
  		</div>
@@ -62,7 +62,7 @@
     <!--third column end-->
 
     <!--fourth column start-->
-    <div id="user_col3" class="border col-xs-3 fourth_col">
+    <div id="user_col3" class="border col-xs-3 fourth_col scrollbar">
     </div>
     <!--end four column-->
 
