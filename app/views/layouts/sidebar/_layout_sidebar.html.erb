@@ -11,10 +11,10 @@
           <% user_img = get_user_img %>
           <%= image_tag src= user_img, class: 'user_avatar_img', alt: 'user'  %>
           <div class="change_image">
-            <% if params['controller'] == 'welcome'%>
+            <% if current_user.present? %>
               <a href="#" id="change_pro_pic">Change picture</a>
               <%= form_tag '/change_profile_pic', method: :post, remote: true, multipart: true, id: 'post_pic', onsubmit: false do %>
-                <%= hidden_field_tag 'user_id', @current_user.id %>
+                <%= hidden_field_tag 'user_id', current_user.id %>
                 <%= hidden_field_tag 'admin_pic', true %>
                 <%= file_field_tag 'profile_pic', id: 'profile_pic1', style: 'display:none' %>
               <% end %>
