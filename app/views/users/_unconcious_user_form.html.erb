@@ -9,24 +9,20 @@
 
 	  <div class="media">
 	      <div class="media-middle">
-		  <img class="media-object search_user_img" src="/assets/rsz_1johnny_bravo_by_freevil.jpg" alt="..." height="55px" width="55px">
-		      <div class="media-body">
-			<div class="media-heading user_name_s">
-			  Add Image
-			</div>
-		      </div>
+		  <img class="media-object search_user_img" src="/assets/user.png" alt="..." height="55px" width="55px">
+		   <a href="#"> Add Image </a>  
 	       </div>
 	 </div>
 
 	  <div class="user_separator"></div>
       <div class="input-group col-lg-12 margin-top15">
-      	<label class="col-lg-12 no-padding">Enter Name
-        	<%= f.text_field :name, :value => "Name", :class => "form-control pass_text" %> 
+      	<label class="col-lg-12 no-padding">Enter Name*
+        	<%= f.text_field :name, :class => "form-control pass_text", :required => true %> 
         </label>
       </div>
       <div class="input-group col-lg-12 margin-top15">
       	<label class="col-lg-12 no-padding">Working at
-        	<%= f.text_field :working_at, :value => "Working at", :class => "form-control pass_text" %> 
+        	<%= f.text_field :working_at,  :class => "form-control pass_text" %> 
         </label>
       </div>
       <div class="input-group col-lg-12 margin-top15">
@@ -69,7 +65,6 @@ $("#create_user").submit(function() {
            data: $("#create_user").serialize(), // serializes the form's elements.
            success: function(data)
            {
-             alert("VVV");
                		$(".fourth_col").show();
 		    	$("#user_col3").html(data);
 			show_next_step(".third_col",".fourth_col");

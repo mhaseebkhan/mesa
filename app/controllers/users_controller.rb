@@ -180,7 +180,8 @@ class UsersController < ApplicationController
 		@user = UserRole.where(user_id: params[:user_id] ).take.update_attribute(:role_id, params[:user_role]) 
 		if params[:user_role] == ROLE_LEADER.to_s && prev_role != ROLE_LEADER.to_s
 			password = generate_random_string
-			UserMailer.admin_email(user,password).deliver 
+			email = user.email
+			UserMailer.admin_email(user,password,email).deliver 
 			user.update_attributes(password: password, is_new_admin: true)
 		end
 	end
@@ -219,7 +220,7 @@ class UsersController < ApplicationController
     def get_recently_joined_users
        recently_joined_users_array = Array.new
 	# ROLE_COMMONFLAGGER is required as rest of the users might not have been aded to system via invitation code
-	users = User.eager_load(:roles).where( 'roles.id in (?)', [ROLE_COMMONFLAGGER, ROLE_CURATOR, ROLE_ADMIN]).limit(5)
+	users = User.eager_load(:roles).where( 'roles.id in (?)', [ROLE_COMMONFLAGGER, ROLE_CURATOR,ROLE_LEADER, ROLE_ADMIN]).limit(5)
 	users.order('users.id DESC').each do |user|
 		user_prof = user.get_primary_info
 		user_invitation = user.invitation

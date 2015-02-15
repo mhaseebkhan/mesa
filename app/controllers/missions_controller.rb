@@ -8,7 +8,7 @@ class MissionsController < ApplicationController
   # GET /missions
   # GET /missions.json
   def index
-    @missions = Mission.all
+    @missions = Mission.all.order("id ASC")
     @my_open_missions = @missions.find_all{|mission| mission.owner_id == current_user.id && mission.is_authorized == true}
     @my_closed_missions = @missions.find_all{|mission| mission.owner_id ==  current_user.id && mission.get_status == MESA_IS_COMPLETED }
     @others_open_missions = @missions.find_all{|mission| mission.owner_id !=  current_user.id  && mission.is_authorized == true}
@@ -141,12 +141,14 @@ class MissionsController < ApplicationController
 		#if check_if_all_invitations_are_accepted
 		 # UserMailer.all_invitations_accepted_email(mesa_owner_email).deliver
 		#end
-		#UserMailer.accept_mesa_invitation_email(user_name,mesa_title,mesa_owner_email).deliver
+		UserMailer.accept_mesa_invitation_email(user_name,mesa_title,mesa_owner_email).deliver
 		respond_to do |format|
 		      format.json {render :json=> {:status => true} }
+		      format.html {render :text => 'Your Mesa Acceptance notification has been sent.'}
 		end
         else
 	      respond_to do |format|
+			 format.html {render :text => 'Invitation expired or No user with this mission id has pending invitation'}
 		      format.json {render :json=> {:error=>'Invitation expired or No user with this mission id has pending invitation' , :status => false} }
 	      end
 	end
@@ -166,9 +168,11 @@ class MissionsController < ApplicationController
 		UserMailer.reject_mesa_invitation_email(user_name,mesa_title,mesa_owner_email).deliver
 		respond_to do |format|
 		      format.json {render :json=> {:status => true} }
+		      format.html {render :text => 'Your Mesa Rejection notification has been sent.'}
 		end
         else
 	      respond_to do |format|
+		       format.html {render :text => 'Invitation expired or No user with this mission id has pending invitation'}
 		      format.json {render :json=> {:error=>'Invitation expired or No user with this mission id has pending invitation' , :status => false} }
 	      end
 	end
@@ -275,7 +279,7 @@ class MissionsController < ApplicationController
         user_info = User.find(owner_id)
 	if params[:search_keys]
 		search_keys = params[:search_keys].join(",") 
-		#UserMailer.get_help_email(search_keys,user_info.name,user_info.email).deliver
+		UserMailer.get_help_email(search_keys,user_info.name,user_info.email).deliver
 		render :text => search_keys
 	else 
 		render :text => "empty string"
@@ -291,7 +295,8 @@ class MissionsController < ApplicationController
 		mission.set_all_invites_out
 		# global vars for email
 		@challenge = mission.shared_motivation
-	     	@when = mission.mesa_when	
+	     	@when = mission.mesa_when
+                mission_details(mission)	
 		users_info = params[:user_list]
 		chair_array = Array.new
 		users_info.each do |user|
@@ -299,6 +304,8 @@ class MissionsController < ApplicationController
 			user_id = user.split("_")[1]
 			params[:user_id] = user_id
 			@user_id = user_id
+			@email = User.find(user_id).email
+			@invites_out = @mission_details[:invites_out]
 			if chair_array.include?(chair_id)
 				UserMission.create(user_id:  user_id, mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: WAITING_MESA_INVITATION )
 			else
@@ -392,7 +399,7 @@ class MissionsController < ApplicationController
    end
 	
    def send_invite
-	 #UserMailer.send_mesa_invitation_email(@challenge,@when,@leader[:name],@users,@mission_id,@user_id).deliver
+	 UserMailer.send_mesa_invitation_email(@challenge,@when,@mission_owner[:name],@mission_users,@mission_id,@user_id,@invites_out,@email).deliver
 	 @mission_invitation = UserMission.create(user_id: params[:user_id], mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: PENDING_MESA_INVITATION )
 	
    end

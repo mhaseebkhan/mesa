@@ -47,7 +47,7 @@
 		data : {user_id: user_id, user_role: type },
 		success:function (data) {
 		    {
-		    	$(".edit_user_notification").html(" <div class='proj_list_hr'></div><br>The changes to user "+user_name+" were saved.").show();
+		    	alert("The changes to user "+user_name+" were saved.");
 			if (type == 4)
 			{
 				$(".curator_notification").show();

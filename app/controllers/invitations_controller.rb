@@ -1,6 +1,6 @@
 class InvitationsController < ApplicationController
   before_action :set_invitation, only: [:verify_code]
-  before_filter :authenticate_user!, :except => :verify_code
+  before_filter :authenticate_user!, :except =>  [:verify_code,:get_curator_codes]
  # load_and_authorize_resource 
   # skip_authorize_resource fro API calls 
  # skip_authorize_resource :only => [:verify_code]
@@ -111,8 +111,18 @@ class InvitationsController < ApplicationController
 	render partial: '/invitations/code_list' , layout: false 
   end
 
-
-
+  def get_curator_codes
+	user = User.exists? params[:user_id]
+	if user
+		open_codes = user.open_codes
+		taken_codes = user.taken_codes
+		 respond_to do |format|
+			format.json { render :json => { :open_codes => open_codes , :taken_codes => taken_codes, :status => true } }
+		end
+	end
+	
+  end
+  
  
  private
     # Use callbacks to share common setup or constraints between actions.

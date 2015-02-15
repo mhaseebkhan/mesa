@@ -3,9 +3,10 @@
 	<div class= "mesa_details" >
 		<div class= "mesa_title" >Challenge</div><br>
 		<div class="mesa_description">	<%= mission_details[:shared_motivation] %> </div><br>
-	
-		<div class= "mesa_title" >When</div><br>
-		<div class="mesa_description"><%= mission_details[:from_date] %> to <%= mission_details[:to_date] %> </div>
-		<div class="mesa_description"><%= mission_details[:time] %></div>
+		<% if mission_details[:from_date] ||  mission_details[:to_date] %> 
+			<div class= "mesa_title" >When</div><br>
+			<div class="mesa_description"><%= mission_details[:from_date] %> to <%= mission_details[:to_date] %> </div>
+			<div class="mesa_description"><%= mission_details[:time] %> Hrs</div>
+		<% end %>
 	</div>
 <% end %>
