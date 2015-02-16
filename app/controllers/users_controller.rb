@@ -202,7 +202,7 @@ class UsersController < ApplicationController
   def change_profile_pic
     user = User.exists? params[:user_id]
     user.update_attribute(:profile_pic, params[:profile_pic]) if user
-    redirect_to root_path
+    render :text => user.profile_pic_url
   end
 
   private
