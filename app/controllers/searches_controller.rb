@@ -90,7 +90,9 @@ puts  searched_users.inspect
 				searched_users.flatten!.uniq!
 puts "wwwwwwwwwwww"
 puts  searched_users.inspect
-		        	searched_users.collect {|user| @users_array << user.get_primary_info}
+		        	searched_users.collect {|user| puts "NNNNNNNNN"
+								puts user.inspect
+								 @users_array << user.get_primary_info}
 		end
 	end
         render partial: '/searches/searched_editable_users' , layout: false 
