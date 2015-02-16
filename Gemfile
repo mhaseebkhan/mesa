@@ -27,6 +27,7 @@ group :production do
   gem 'foreman'
   gem 'puma'
   gem 'newrelic_rpm'
+  gem 'rails_12factor'
 end
 
 # gem 'bcrypt', '~> 3.1.7' # Use ActiveModel has_secure_password
