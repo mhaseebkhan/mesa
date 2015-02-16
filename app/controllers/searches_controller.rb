@@ -80,19 +80,11 @@ class SearchesController < ApplicationController
 		searched_users = Array.new
 		users = User.where("name LIKE ?", "%#{params[:search_key]}%").all
 		searched_users << users if users
-puts "CCCCCCCCCCCCCC"
-puts  searched_users.inspect
 		unconcious_users = UnconciousUser.where("name LIKE ?", "%#{params[:search_key]}%").all
 		searched_users << unconcious_users if unconcious_users
-puts "ssssssss"
-puts  searched_users.inspect
 		unless searched_users.empty?
 				searched_users.flatten!.uniq!
-puts "wwwwwwwwwwww"
-puts  searched_users.inspect
-		        	searched_users.collect {|user| puts "NNNNNNNNN"
-								puts user.inspect
-								 @users_array << user.get_primary_info}
+		        	searched_users.collect {|user| @users_array << user.get_primary_info}
 		end
 	end
         render partial: '/searches/searched_editable_users' , layout: false 
