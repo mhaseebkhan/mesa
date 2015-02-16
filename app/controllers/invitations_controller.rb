@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  before_action :set_invitation, only: [:verify_code]
+#  before_action :set_invitation, only: [:verify_code]
   before_filter :authenticate_user!, :except =>  [:verify_code,:get_curator_codes]
  # load_and_authorize_resource 
   # skip_authorize_resource fro API calls 
