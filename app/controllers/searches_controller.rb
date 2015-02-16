@@ -78,9 +78,9 @@ class SearchesController < ApplicationController
 	unless params[:search_key] == ""
 		@searched_user = params[:search_key]
 		searched_users = Array.new
-		users = User.where("name LIKE ?", "%#{params[:search_key]}%").all
+		users = User.where("lower(name) LIKE ?", "%#{params[:search_key].downcase}%").all
 		searched_users << users if users
-		unconcious_users = UnconciousUser.where("name LIKE ?", "%#{params[:search_key]}%").all
+		unconcious_users = UnconciousUser.where("lower(name) LIKE ?", "%#{params[:search_key].downcase}%").all
 		searched_users << unconcious_users if unconcious_users
 		unless searched_users.empty?
 				searched_users.flatten!.uniq!
@@ -127,18 +127,18 @@ class SearchesController < ApplicationController
 		search_keys.each do |key|
 			# search in tags
 				if user_tags
-					tags = Tag.where("name LIKE ?","%#{key}%")
+					tags = Tag.where("lower(name) LIKE ?","%#{key.downcase}%")
 					tags.collect{|tag| searched_users << tag.users} unless tags.empty?
 				end
 			# search  in skills
 				if user_skills
-					skills = Skill.where("name LIKE ?","%#{key}%")
+					skills = Skill.where("lower(name) LIKE ?","%#{key.downcase}%")
 					skills.collect{|skill| searched_users << skill.users} unless skills.empty?
 				end
 			# search in name
 				if user_name
 					searched_users.flatten!
-					users = User.where("name LIKE ?","%#{key}%").load
+					users = User.where("lower(name) LIKE ?","%#{key.downcase}%").load
 					searched_users << users unless users.empty?
 					searched_users.flatten!
 				end
