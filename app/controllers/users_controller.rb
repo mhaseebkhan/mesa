@@ -9,16 +9,16 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
      @unconcious_user = UnconciousUser.new
-     users = Array.new
+     #users = Array.new
      #@users = User.all
-     @users.each do |user|
-        user_role = user.roles.first.name.to_s unless user.roles.first.nil?
-	users <<  user.get_primary_info
-     end
+     #@users.each do |user|
+      #  user_role = user.roles.first.name.to_s unless user.roles.first.nil?
+#	users <<  user.get_primary_info
+ #    end
 
      respond_to do |format|
        format.html { render :index }
-       format.json { render :json=> {:users => users, :status => true} }
+  #     format.json { render :json=> {:users => users, :status => true} }
     end
   end
 
