@@ -15,10 +15,8 @@
 //= require foundation
 //= require turbolinks
 //= require tag-it
-//= require tag-it.min
 //= require_tree .
-//= require jquery.mCustomScrollbar
-//= bootstrap
+//= bootstarp
 
 function enable_prev_step(hide_col,show_col)
 {
