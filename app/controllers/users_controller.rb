@@ -156,9 +156,8 @@ class UsersController < ApplicationController
  end
 
  def create_unconcious_user
-	user_params = params["unconcious_user"]
-	@user_name = user_params[:name]
-	user = UnconciousUser.create(name: user_params[:name],working_at: user_params[:working_at], skills: user_params[:skills],tags: user_params[:tags],passions: user_params[:passions],languages: user_params[:languages] )
+	@user_name = unconcious_user_params[:name]
+	user = UnconciousUser.create(unconcious_user_params)
         render partial: '/users/user_sucessful_msg' , layout: false 
  end
 
@@ -240,6 +239,9 @@ class UsersController < ApplicationController
 		curators << user_prof
 	end
 	curators
+  end
+  def unconcious_user_params
+    params.require(:unconcious_user).permit(:name, :working_at, :working_at, :skills, :tags , :passions, :languages, :profile_pic)
   end
 
 end

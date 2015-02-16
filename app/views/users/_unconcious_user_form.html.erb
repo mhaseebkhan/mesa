@@ -1,4 +1,4 @@
-<%= form_for @unconcious_user,:url => "/users/create_unconcious_user", :html => {id: "create_user"} do |f| %>
+<%= form_for @unconcious_user,:url => "/users/create_unconcious_user", :html => {id: "create_user", multipart: true} do |f| %>
 	<div class="second_col_header">
 	      <div class="title_heading">
 		<a href="#"><img src="/assets/back_butn.png" class="" alt="back"  onclick="enable_prev_step('.third_col','.second_col');"/></a> Add & admin users
@@ -8,10 +8,11 @@
 	<div class="show_result">Create a new user by filling the below form</div>
 
 	  <div class="media">
-	      <div class="media-middle">
-		  <img class="media-object search_user_img" src="/assets/user.png" alt="..." height="55px" width="55px">
-		   <a href="#"> Add Image </a>  
-	       </div>
+        <div class="media-middle">
+          <img class="media-object search_user_img" src="/assets/user.png" alt="..." id='new_user_img' height="55px" width="55px">
+		  <a href="#" id="add_pro_pic"> Add Image </a>
+        </div>
+        <%= f.file_field 'profile_pic', id: 'user_pic', style: 'display:none' %>
 	 </div>
 
 	  <div class="user_separator"></div>
@@ -54,25 +55,33 @@
 <% end %>
   
 <script>
+  $('#add_pro_pic').click(function(){
+    console.log('click change_pro_pic');
+    $('#user_pic').trigger('click');
+  });
 
-$("#create_user").submit(function() {
+  $('#user_pic').change(function(){
+    read_image_src(this);
+  });
 
-    var url = "/users/create_unconcious_user"; // the script where you handle the form input.
+  function read_image_src(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#new_user_img').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 
-    $.ajax({
-           type: "POST",
-           url: url,
-           data: $("#create_user").serialize(), // serializes the form's elements.
-           success: function(data)
-           {
-               		$(".fourth_col").show();
-		    	$("#user_col3").html(data);
-			show_next_step(".third_col",".fourth_col");
-           }
-         });
-
-    return false; // avoid to execute the actual submit of the form.
-});
-
- 
+  $('#create_user').ajaxForm({
+    success: function() {
+      console.log('user image successfully uploaded')
+    },
+    complete: function(xhr) {
+      $(".fourth_col").show();
+      $("#user_col3").html(xhr.responseText);
+      show_next_step(".third_col",".fourth_col");
+    }
+  });
 </script>
