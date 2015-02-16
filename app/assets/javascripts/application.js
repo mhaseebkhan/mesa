@@ -18,6 +18,7 @@
 //= require_tree .
 //= bootstarp
 
+
 function enable_prev_step(hide_col,show_col)
 {
 $(hide_col).hide();
