@@ -64,9 +64,10 @@ class User < ActiveRecord::Base
                 # this code assumes that skill once added wiill never be deleted in update
 		if (profile[:skills])
 			profile[:skills].each do |skill|
-				skill_found = Skill.find_or_create_by(name: skill[:name])
-				user_skill = UserSkill.find_or_create_by(user_id: self.id, skill_id: skill_found.id)		
-				user_skill.update_attributes( work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded])
+				new_skill = Skill.find_or_create_by(name: skill[:new_name])
+				old_skill = Skill.find_by(name: skill[:name])
+				user_skill = UserSkill.find_or_create_by(user_id: self.id, skill_id: old_skill.id)		
+				user_skill.update_attributes( work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded],skill_id: new_skill.id )
 			end
 			
 		end
