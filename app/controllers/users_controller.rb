@@ -146,7 +146,7 @@ class UsersController < ApplicationController
 	if user
 		curator = user.get_curator_details
 		if (curator[:no_of_codes].nil? || curator[:no_of_codes].to_i == 0) && params[:no_of_codes].to_i > 0
-			no_of_codes.times do user.generate_curator_code end
+			params[:no_of_codes].to_i.times do user.generate_curator_code end
 		end
 		@user = user.update_curator_details(params[:no_of_codes],params[:code_frequency])
 		respond_to do |format|
