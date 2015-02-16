@@ -12,6 +12,14 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap
+ *= require bootstrap-theme
+ *= require foundation_and_overrides
+ *= require jquery.mCustomScrollbar
+ *= require jquery.tagit
+ *= require missions
+ *= require tagit.ui-zendesk
+ *= require welcome
  */
 
 .alert-box.warning {
