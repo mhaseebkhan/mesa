@@ -19,15 +19,25 @@ Rails.application.configure do
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
-  # Disable Rails's static asset server (Apache or nginx will already do this).
+ # Disable Rails's static asset server (Apache or nginx will already do this).
   config.serve_static_assets = true
+
+  #config.serve_static_assets = false # default
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true
+  #config.assets.compile = false # default
+  config.assets.enabled = false
+
+  # Generate digests for assets URLs.
+  config.assets.digest = true
+
+  # Version of your assets, change this if you want to expire all your assets.
+  config.assets.version = '1.0'
 
   # Generate digests for assets URLs.
   config.assets.digest = true
@@ -77,8 +87,6 @@ Rails.application.configure do
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
-  config.assets.compress = false
-  config.assets.debug = true
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 
