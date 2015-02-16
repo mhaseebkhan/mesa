@@ -23,7 +23,7 @@
         <div class="skill_title">Skills:</div>
 	<% @user[:profile][:skills].each do |skill| %>
 		<div class="skill_desc">
-			<div class="skill_title"><%= skill[:name].humanize  %></div><br>
+			<div class="skill_title"><%= skill[:name] %></div><br>
 			<%= skill[:time_spent] %> of experience<br> 
 			<%= skill[:company]  %><br>
 			<%= skill[:founded]  %><br>
