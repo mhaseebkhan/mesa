@@ -8,7 +8,7 @@ class MissionsController < ApplicationController
   # GET /missions
   # GET /missions.json
   def index
-    @missions = Mission.all.order("id ASC")
+    @missions = Mission.all.order("id ASC")se
     @my_open_missions = @missions.find_all{|mission| mission.owner_id == current_user.id && mission.is_authorized == true}
     @my_closed_missions = @missions.find_all{|mission| mission.owner_id ==  current_user.id && mission.get_status == MESA_IS_COMPLETED }
     @others_open_missions = @missions.find_all{|mission| mission.owner_id !=  current_user.id  && mission.is_authorized == true}
@@ -39,7 +39,7 @@ class MissionsController < ApplicationController
 		#	owner_role = mission_owner.roles.first.id unless mission_owner.roles.first.nil? 
 		#end
 	   #   if VALID_ADMIN_USERS.include?(owner_role)
-		mission_params[:owner_id] = "CCC"
+puts mission_params.inspect
 		@mission = Mission.new(mission_params)
 		@mission.save
                 @mission.set_status(MESA_IS_AUTHORIZED)
