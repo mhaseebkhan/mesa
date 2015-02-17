@@ -10,7 +10,7 @@
             </div>
           </div>
         </div>
-        <div class="invalid_pass">Invalid password. Please try another.</div>
+        <div class="invalid_pass">Invalid password. Password must be equal to 8 characters or more then 8 characters.</div>
         <div class="success_pass">Password has been successfully changed.</div>
 </div>
 
@@ -31,22 +31,29 @@
 
 
 function change_password(user_id){
-     var password = document.getElementById( "user_password" ).value
-     var url = '/users/change_password';
-	    $.ajax({
-		url:url,
-		type:'get',
-		data : {password: password,user_id: user_id},
-		success:function (data) {
-		    {
-		    	alert("your password has been changed");
-			menu_btns = document.getElementsByClassName("btn-admin");
-			$(menu_btns).each(function(){
-			   $(this).removeAttr('disabled');
-			});
-   		    }
-		}
-	    });
-   }
+  var password = $('#user_password').val();
+  console.log(password)
+  if (password.length > 7) {
+    var url = '/users/change_password';
+    $.ajax({
+      url: url,
+      type: 'get',
+      data: {password: password, user_id: user_id},
+      success: function (data) {
+        {
+          $('.invalid_pass').hide();
+          $('.success_pass').show();
+          menu_btns = document.getElementsByClassName("btn-admin");
+          $(menu_btns).each(function () {
+            $(this).removeAttr('disabled');
+          });
+        }
+      }
+    });
+  } else {
+    $('.success_pass').hide();
+    $('.invalid_pass').show();
+  }
+}
  
 </script>
