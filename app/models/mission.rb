@@ -17,7 +17,7 @@ class Mission < ActiveRecord::Base
  def get_mission_users 
 	users=Array.new
  	mission_users = self.users.where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION})
-	mission_users.to_a.delete_if{|user| user.id == self.owner_id}
+	#mission_users.to_a.delete_if{|user| user.id == self.owner_id}
 	mission_users.each do |user|
 		users<< user.get_primary_info 
 	end
