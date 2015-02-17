@@ -16,8 +16,8 @@
     <div class="invites_user_desc"><%= @user[:name].humanize %> gets:</div>
 
     <div class="curators_item">
-         <div class="curators_text"> <input id= "no_of_codes" type="text" value="<%= @user[:no_of_codes]%>" style="width:30px;"> new codes(s) every</div>
-         <div class="curators_text"> <input id= "code_frequency" type="text" value= '<%= @user[:code_frequency]%>'style="width:30px;"> month(s).</div>
+         <div class="curators_text"> <input id= "no_of_codes" type="text" value="<%= @user[:no_of_codes]%>" maxlength="2" style="width:30px;"> new codes(s) every</div>
+         <div class="curators_text"> <input id= "code_frequency" type="text" value= '<%= @user[:code_frequency]%>' maxlength="2" style="width:30px;"> month(s).</div>
     </div>
 
 
