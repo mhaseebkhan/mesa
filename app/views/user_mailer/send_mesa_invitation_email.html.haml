@@ -11,7 +11,7 @@
           %div{style: 'padding-top:20px'}
             %p
               %font{color: '#fff', face: 'Verdana, Geneva, sans-serif', size: '+1'}
-                #{@invitation_time}
+                #{@invitation_time.utc}
         %td{valign: 'top', width: '300px'}
           %blockquote{style: 'border-left:3px solid #ccc;padding: 1.5em 10px;padding: 0.5em 10px 0.5em 30px;'}
             %font{color: '#000', face: 'Verdana, Geneva, sans-serif', size: '+2', style: 'font-weight:bold'}
@@ -32,9 +32,6 @@
             %font{color: '#000', face: 'Verdana, Geneva, sans-serif', size: '+1'}
               #{@leader}
           %div{style: 'padding:20px 20px 0px 60px; float:left'}
-            %p
-              %font{color: '#000', face: 'Verdana, Geneva, sans-serif', size: '+1'}
-                #{@invitation_time}
           %div{style: 'float:right'}
             -#%a{:href => 'javascript:void(0)'}
             -#  %img{alt: 'next', src: '/assets/next.png'}/
@@ -49,7 +46,7 @@
                   You
                 %span{style: 'vertical-align:-webkit-baseline-middle;vertical-align:baseline-middle'}
                 %span{style: 'width: 173px;background: #000000;color: white;border-radius: 20px;height: 103px;padding: 6px 18px;margin-left: 20px;'}
-                  =link_to "I'M IN","http://mesacadeira.herokuapp.com/accept_mesa?mission_id=#{@mission_id}&user_id=#{@user_id}",:remote => true
+                  =link_to "I'M IN","http://mesacadeira.herokuapp.com/accept_mesa?mission_id=#{@mission_id}&user_id=#{@user_id}",:remote => true , :style => "color:#FFF"
           %blockquote{style: 'border-left:3px solid #ccc;padding: 1.5em 10px;padding: 0.5em 10px 0.5em 30px;'}
             %font{color: '#000', face: 'Verdana, Geneva, sans-serif', size: '+2', style: 'font-weight:bold'}
               Who is in?
@@ -59,18 +56,15 @@
             - @users.each do |user|
               %font{color: '#000', face: 'Verdana, Geneva, sans-serif', size: '+1'}
                 %span
-                  %img{alt: 'next', :height => '60', src: '/assets/rsz_1johnny_bravo_by_freevil.jpg'}/
+                  %img{alt: 'user_image', :height => '60', src: '#{user[:profile_pic]}'}/
                 %span{style: 'vertical-align: super;'} #{user[:name]}.
               %br/
 
           %div{style: 'padding:20px 20px 0px 60px; float:left'}
-            %p
-              %font{color: '#000', face: 'Verdana, Geneva, sans-serif', size: '+1'}
-                #{@invitation_time}
           %div{style:'float:right; padding:36px 0px 0px 60px;'}
             %a{href: 'javascript:void(0)', style: 'color:#000'}
               %font{color: '#000', face: 'Verdana, Geneva, sans-serif', size: '-1'}
-                =link_to 'No Thanks!',"http://mesacadeira.herokuapp.com/reject_mesa?mission_id=#{@mission_id}&user_id=#{@user_id}",:remote => true
+                =link_to 'No Thanks!',"http://mesacadeira.herokuapp.com/reject_mesa?mission_id=#{@mission_id}&user_id=#{@user_id}",:remote => true 
 
 
 

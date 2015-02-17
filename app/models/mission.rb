@@ -36,6 +36,8 @@ class Mission < ActiveRecord::Base
 	owner = Hash.new
 	mission_owner = User.where(id: self.owner_id).take
 	owner = mission_owner.get_primary_info 
+	owner[:email] = mission_owner.email
+        owner
  end
 
  def get_chairs

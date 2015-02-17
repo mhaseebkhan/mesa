@@ -25,7 +25,7 @@ class UserMailer < ActionMailer::Base
      @search_keys = search_keys
      @user_name = user_name
      @user_email = user_email
-     email = DEFAULT_EMAIL
+     email = 'munteha18@gmail.com'
      mail(to: email, subject: 'Help Mesa - Mesa & Cadeira')
   end
 
@@ -52,7 +52,8 @@ class UserMailer < ActionMailer::Base
      mail(to: email, subject: 'Rejected Mesa Invitation - Mesa & Cadeira')
   end
 
- def all_invitations_accepted_email(email)
+ def all_invitations_accepted_email(email,name)
+     @name = name
      mail(to: email, subject: 'All Invitations Accepted - Mesa & Cadeira')
   end
 

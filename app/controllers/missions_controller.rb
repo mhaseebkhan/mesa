@@ -136,9 +136,10 @@ class MissionsController < ApplicationController
 		mesa = Mission.find(params[:mission_id])
 		mesa_title = mesa.title
 		mesa_owner_email = mesa.get_mission_owner[:email]
+                mesa_owner_name = mesa.get_mission_owner[:name]
 		# How to precisely check all invitations are accepteed?
 		#if check_if_all_invitations_are_accepted
-		 # UserMailer.all_invitations_accepted_email(mesa_owner_email).deliver
+		 # UserMailer.all_invitations_accepted_email(mesa_owner_email,mesa_owner_name ).deliver
 		#end
 		UserMailer.accept_mesa_invitation_email(user_name,mesa_title,mesa_owner_email).deliver
 		respond_to do |format|
