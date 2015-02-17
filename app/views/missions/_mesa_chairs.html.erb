@@ -33,7 +33,10 @@
 												<% elsif invitation.invitation_status == 'expired' %>
 												<span class="invitation_lbl red_text"> <%= invitation.invitation_status.humanize %></span>
 												<% elsif invitation.invitation_status == 'rejected' %>
-												<span class="invitation_lbl orange_text"> <%= invitation.invitation_status.humanize %></span>
+												<span class="invitation_lbl orange_text"> <%= invitation.invitation_status.humanize %></span>							
+												<% elsif invitation.invitation_status == 'waiting' %>
+												<span class="invitation_lbl blue_text"> <%= invitation.invitation_status.humanize %></span>
+												<span> <%= distance_of_time_in_words(invitation.invitation_time, Time.now.utc) %></span>										
 												<% end %>
 											</div>
 										<% else %>

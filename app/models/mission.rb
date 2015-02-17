@@ -33,7 +33,9 @@ class Mission < ActiveRecord::Base
  end
  
  def get_mission_owner 
-	mission_owner = User.select('id','name','profile_pic','email').where(id: self.owner_id).take
+	owner = Hash.new
+	mission_owner = User.where(id: self.owner_id).take
+	owner = mission_owner.get_primary_info 
  end
 
  def get_chairs
