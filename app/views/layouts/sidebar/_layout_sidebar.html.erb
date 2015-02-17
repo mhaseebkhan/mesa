@@ -48,16 +48,31 @@
 <% end %>
 <script>
   $('#change_pro_pic').click(function(){
-    console.log('click change_pro_pic');
     $('#profile_pic1').trigger('click');
   });
 
   $('#profile_pic1').change(function(){
-    console.log($('#profile_pic1').val());
+    var input = $('#profile_pic1')[0];
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('.user_avatar_img').attr('src',  e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
     $('#post_pic').submit();
   });
   $('#mesa_n_cadeira').click(function(){
     window.location.href = '/';
+  });
+
+  $('#post_pic').ajaxForm({
+    success: function() {
+      console.log('user image successfully uploaded')
+    },
+    complete: function(xhr) {
+      $('.user_avatar_img').attr('src', xhr.responseText)
+    }
   });
 </script>
 

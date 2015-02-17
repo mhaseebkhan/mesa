@@ -111,7 +111,7 @@ y-axis
 		position: relative;
 		width: 4px;
 		height: 100%;
-		margin: 0 auto;
+		margin: 0 0 0 10px;
 		-webkit-border-radius: 16px; -moz-border-radius: 16px; border-radius: 16px;
 		text-align: center;
 	}
