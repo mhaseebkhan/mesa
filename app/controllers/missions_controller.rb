@@ -39,8 +39,6 @@ class MissionsController < ApplicationController
 		#	owner_role = mission_owner.roles.first.id unless mission_owner.roles.first.nil? 
 		#end
 	   #   if VALID_ADMIN_USERS.include?(owner_role)
-puts "VVVVVVVVVVVV"
-puts mission_params.inspect
 		@mission = Mission.new(mission_params)
 		@mission.save
                 @mission.set_status(MESA_IS_AUTHORIZED)

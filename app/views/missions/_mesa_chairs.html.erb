@@ -32,11 +32,8 @@
 												<span class="invitation_lbl green_text"> <%= invitation.invitation_status.humanize %></span>
 												<% elsif invitation.invitation_status == 'expired' %>
 												<span class="invitation_lbl red_text"> <%= invitation.invitation_status.humanize %></span>
-												<div id="empty_chair<%= chair[:id] %>_<%= user[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= user[:id] %>)" class = "user_chair_info empty_lbl" >Remove User</div>
 												<% elsif invitation.invitation_status == 'rejected' %>
 												<span class="invitation_lbl orange_text"> <%= invitation.invitation_status.humanize %></span>
-												<div id="empty_chair<%= chair[:id] %>_<%= user[:id] %>" onclick="empty_chair(<%= chair[:id] %>,<%= user[:id] %>)" class = "user_chair_info empty_lbl" >Remove User</div>
-												
 												<% end %>
 											</div>
 										<% else %>

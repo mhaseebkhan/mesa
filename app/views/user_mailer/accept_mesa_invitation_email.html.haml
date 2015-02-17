@@ -1,10 +1,22 @@
-%html
+!!!
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-  %body
-    %p
-      Great news!
-      %br
-      #{@user_name} just accepted the invitation to join #{@mesa_title} Mesa.
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
+    %title Untitled Document
+  %body{:style => "margin: 0; padding: 0;"}
+    %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :height => "100%", :width => "500px"}
+      %tr
+        %td{:height => "80", :valign => "top"}
+          %img{:alt => "Logo Mesa", :height => "80", :src => "http://mesacadeira.herokuapp.com/assets/mesa-head.png", :style => "display: block;", :width => "500"}/
+      %tr
+        %td{:align => "left", :bgcolor => "#1a1a1a", :style => "padding: 40px;", :valign => "top"}
+          %h5{:style => "padding-bottom:40px"}
+            %font{:color => "#ffffff", :face => "Verdana, Geneva, sans-serif", :size => "+3"} Great news!
+          %blockquote{:style => "border-left:1px solid #ccc;padding: 1.5em 10px;padding: 0.5em 10px 0.5em 30px;"}
+            %font{:color => "#ffffff", :face => "Verdana, Geneva, sans-serif", :size => "+2"}
+              #{@user_name} just accepted the invitation to join #{@mesa_title} Mesa.
+          %a{:href => "javascript:void(0)", :style => "text-align:center"}
+            %img{:alt => "go to website", :src => "http://mesacadeira.herokuapp.com/assets/goto_website.PNG", :style => "padding: 150px 65px 65px 65px;"}/
+
       
 
