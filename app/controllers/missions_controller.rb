@@ -377,6 +377,8 @@ class MissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
+      params['to_date'] = Date.strptime(params['to_date'],'%m/%d/%Y')
+      params['from_date'] = Date.strptime(params['from_date'],'%m/%d/%Y')
       params.require(:mission).permit(:title, :brief, :shared_motivation, :build_intent, :from_date, :to_date, :time, :place, :status, :is_authorized, :owner_id)
     end
    

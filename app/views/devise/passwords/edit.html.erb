@@ -1,7 +1,7 @@
 <div class="container login_sec">
-  <div class="panel panel-default">
+  <div class="panel panel-default login_sec_box">
+    <div class="login_heading">Reset password</div>
     <div class="panel-body">
-      <div class="login_heading">Reset password</div>
       <div class="reset_pas_desc"><p>Enter your new password</p></div>
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class:'form-horizontal' }) do |f| %>
         <%= devise_error_messages! %>

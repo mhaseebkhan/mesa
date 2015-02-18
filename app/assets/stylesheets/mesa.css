@@ -767,11 +767,14 @@ color:red;
 }
 
 .login_heading {
-    font-family: Apercu-Regular;
+    font-family: Apercu-Light;
     font-size: 22px;
-    margin-top: 20px;
-    margin-bottom: 30px;
     font-weight: normal;
+    padding: 10px;
+    margin: -1px;
+    background: black;
+    color: #ffffff;
+    height: 60px;
 }
 
 .login_label {
@@ -829,6 +832,9 @@ color:red;
     margin-bottom: 39px;
 }
 
+.login_sec_box {
+    box-shadow: 0 0 10px 0 #000;
+}
 /************************* End login sections       *******************/
 
 
