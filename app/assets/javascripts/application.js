@@ -79,10 +79,4 @@ function show_user_detail(user_id){
        
    }
 
-$(window).load(function(){
-    $(".scrollbar").mCustomScrollbar({
-        theme:"minimal-dark"
-    });
-});
-
 

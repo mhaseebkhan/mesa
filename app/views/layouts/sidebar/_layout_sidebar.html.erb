@@ -74,5 +74,14 @@
       $('.user_avatar_img').attr('src', xhr.responseText)
     }
   });
+
+  $(document).ready(function(){
+    console.log('loading scrollbars');
+    $(".scrollbar").mCustomScrollbar({
+      theme:"minimal-dark"
+    });
+  });
+
 </script>
+
 
