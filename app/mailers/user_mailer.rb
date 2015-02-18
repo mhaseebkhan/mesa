@@ -25,7 +25,7 @@ class UserMailer < ActionMailer::Base
      @search_keys = search_keys
      @user_name = user_name
      @user_email = user_email
-     email = 'munteha18@gmail.com'
+     email = DEFAULT_EMAIL.to_s
      mail(to: email, subject: 'Help Mesa - Mesa & Cadeira')
   end
 
