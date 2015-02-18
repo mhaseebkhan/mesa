@@ -22,6 +22,9 @@
 			    <%= link_to 'x', '#', class: 'close', onclick: '$(".alert-box").hide();' %>
 		      </div>
 		     <% end %>
+		     <div class="loader_img">
+			<div class="loader_text">Sending Mesa Invitations</div>
+		     </div>
 		     <% if user_signed_in? %>
 			 <%= render partial: '/layouts/sidebar/layout_sidebar' %>
 		     <% end %>

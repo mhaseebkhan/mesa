@@ -46,14 +46,10 @@
       <div id="mesa_all_chairs" style="clear:both;">
         <%= render :partial => "mesa_chairs" %>
       </div>
-	<% if  check_all_invites_out(@mission_details[:id]) %>
-		<span> All invites are out, you will be able to send invites again when none of your invitation is in pending state </span>
-	<% else %>
-		<div class="send-invite-btn " style="clear: both; padding: 20px 0px;">
+
+		<div class="send-invite-btn " style="clear: both; padding: 5px 0px;">
 			<button type="button" class="btn btn-default btn_save_changes " onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
 		</div>
-	<% end %>
-
     </div>
 </div>
  <!--fourth column start-->
@@ -168,6 +164,7 @@
     	$(li).find('.user_chair_info').each(function(){
 		user_array.push($(this).attr('id').split("empty_chair")[1]);
 	});
+       $('.loader_img').show();
       var url = '/missions/send_mesa_invites';
 	    $.ajax({
 		url:url,
@@ -176,6 +173,7 @@
 		success:function (data) {
 		    { 	
 			//$("#mesa_all_chairs").html(data);
+			 $('.loader_img').hide();
 			$("#mesa_col2").html(data);
 			$(".third_col").show();
    		    }

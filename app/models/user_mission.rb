@@ -15,11 +15,12 @@ class UserMission < ActiveRecord::Base
 	if self.invitation_time
 
 		if  self.invitation_time.to_date == Time.now.utc.to_date - 1
-			Time.now.utc.hour - self.invitation_time.hour >= 6 ?  false : true
+			Time.now.utc.hour - self.invitation_time.hour >= 6 ?  true : false
 		elsif  self.invitation_time.to_date < Time.now.utc.to_date - 1
 			false
 		else
-			true
+			#check if 18 hrs have passed in same day			
+			Time.now.utc.hour - self.invitation_time.hour >= 18 ?  false : true
 		end
 
 	end

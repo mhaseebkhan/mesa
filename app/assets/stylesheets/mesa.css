@@ -753,8 +753,7 @@ color:red;
 
 
 .send-invite-btn {
-    margin-top: 50px;
-    float: left;
+     float: left;
 }
 
 
@@ -837,4 +836,34 @@ color:red;
 }
 /************************* End login sections       *******************/
 
+.loader_img {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #000000;
+    background-origin: padding-box;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: 40px 40px !important;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    color: #FFFFFF;
+    display: none;
+    float: left;
+    font-size: 22px;
+    height: 85px;
+    left: 44%;
+    opacity: 0.7;
+    position: fixed;
+    text-align: center;
+    top: 25%;
+    width: 274px;
+    z-index: 10000;
+    box-shadow: 10px 10px 5px #888888;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
 
+.loader_text {
+    padding: 10px;
+}
