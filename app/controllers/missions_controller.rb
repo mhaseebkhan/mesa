@@ -142,14 +142,16 @@ class MissionsController < ApplicationController
 		 # UserMailer.all_invitations_accepted_email(mesa_owner_email,mesa_owner_name ).deliver
 		#end
 		UserMailer.accept_mesa_invitation_email(user_name,mesa_title,mesa_owner_email).deliver
+		@message = 'Your Mesa Acceptance notification has been sent.'
 		respond_to do |format|
 		      format.json {render :json=> {:status => true} }
-		      format.html {render :text => 'Your Mesa Acceptance notification has been sent.'}
+		      format.html {render partial: 'layouts/mesa_modal_box.html.erb', layout: false}
 		end
         else
 	      respond_to do |format|
-			 format.html {render :text => 'Invitation expired or No user with this mission id has pending invitation'}
-		      format.json {render :json=> {:error=>'Invitation expired or No user with this mission id has pending invitation' , :status => false} }
+					@message = 'Invitation expired or No user with this mission id has pending invitation'
+			 format.html {render partial: 'layouts/mesa_modal_box.html.erb', layout: false}
+		      format.json {render :json=> {:error=> @message , :status => false} }
 	      end
 	end
   end
@@ -166,14 +168,16 @@ class MissionsController < ApplicationController
 		mesa_title = mesa.title
 		mesa_owner_email = mesa.get_mission_owner[:email]
 		UserMailer.reject_mesa_invitation_email(user_name,mesa_title,mesa_owner_email).deliver
+		@message = 'Your Mesa Rejection notification has been sent.'
 		respond_to do |format|
 		      format.json {render :json=> {:status => true} }
-		      format.html {render :text => 'Your Mesa Rejection notification has been sent.'}
+		      format.html {render partial: 'layouts/mesa_modal_box.html.erb', layout: false }
 		end
-        else
+			else
+				@message = 'Invitation expired or No user with this mission id has pending invitation'
 	      respond_to do |format|
-		       format.html {render :text => 'Invitation expired or No user with this mission id has pending invitation'}
-		      format.json {render :json=> {:error=>'Invitation expired or No user with this mission id has pending invitation' , :status => false} }
+		       format.html {render partial: 'layouts/mesa_modal_box.html.erb', layout: false}
+		      format.json {render :json=> {:error=> @message , :status => false} }
 	      end
 	end
   end
