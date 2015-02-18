@@ -35,7 +35,7 @@
         <div class="user_separator"></div>
       <% end %>
 
-     <% unless @user[:notes] %>
+     <% unless @user[:notes].empty? %>
       <div class="user_skills">
         <div class="skill_title">Notes:</div>
 	<% @user[:notes].each do |note| %>

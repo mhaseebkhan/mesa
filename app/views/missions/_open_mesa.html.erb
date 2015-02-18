@@ -81,6 +81,11 @@
 
 
 <script type="text/javascript">
+   $(document).ready(function(){
+    $(".scrollbar").mCustomScrollbar({
+      theme:"minimal-dark"
+    });
+  });
 
     function create_new_chair(mesa_id){
      var url = '/missions/create_new_chair';
