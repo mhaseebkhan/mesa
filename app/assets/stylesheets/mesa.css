@@ -851,8 +851,10 @@ color:red;
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
+    
 }
 
 .loader_text {
     padding: 10px;
+     display:none;
 }

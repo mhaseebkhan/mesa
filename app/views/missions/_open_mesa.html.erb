@@ -165,6 +165,7 @@
 		user_array.push($(this).attr('id').split("empty_chair")[1]);
 	});
        $('.loader_img').show();
+       $('.loader_text').show();
       var url = '/missions/send_mesa_invites';
 	    $.ajax({
 		url:url,
@@ -174,6 +175,7 @@
 		    { 	
 			//$("#mesa_all_chairs").html(data);
 			 $('.loader_img').hide();
+			$('.loader_text').hide();
 			$("#mesa_col2").html(data);
 			$(".third_col").show();
    		    }
