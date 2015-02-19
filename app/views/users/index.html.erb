@@ -7,28 +7,28 @@
     </div>
 
     <div class="project_list">
-      <div class="proj_list_title">Add new user</div>
-      <div class="pull-right">
-         <a href="#"><img src="/assets/next.png" class="" alt="next" onclick="add_unconcious_user();" /></a>
-      </div>
-      <div class="proj_list_hr"></div>
+      <div class="proj_list_title btn btn-default btn-admin add_new_user hand_cursor" onclick="add_unconcious_user();">
+		<span style = " float: left;padding-left: 2px;" >Add new user</span>
+		<img  style = "float: right;margin-right: 5px;margin-top: -3px;"src="/assets/right-arrow.png" class="" />
+	</div>
+     <div class="proj_list_hr"></div>
     </div>
 
 
     <div class="project_list">
-      <div class="proj_list_title">Edit specific user:</div>
-	<div class="input-group col-lg-12">
+      <div class="proj_list_title">Or,edit specific user:</div>
+	<div class="input-group col-lg-12" style="padding:10px 0px;">
         <input  id= "search_user" type="text" class="form-control pass_text" placeholder="Enter Name" aria-describedby="basic-addon2">
       </div>
       <div class="pull-right">
-        Search <a href="#"><img src="/assets/next.png" class="" alt="next" onclick="search_user_by_name();" /></a>
+        <b>Search </b> <img src="/assets/next.png" class="" alt="next" onclick="search_user_by_name();" />
       </div>
       <div class="proj_list_hr"></div>
     </div>
 
     <div class="project_list">
       <div class="proj_list_title">Or, filter users by type:</div>
-      <select id="user_roles">
+      <select id="user_roles" class="role_selection">
 		  <option value="<%= ROLE_ADMIN %>">Admins</option>
 		  <option value="<%= ROLE_LEADER %>">Leaders</option>
 		  <option value="<%= ROLE_CURATOR %>">Curators</option>
@@ -36,10 +36,9 @@
 		  <option value="<%= ROLE_UNCONCIOUS %>">Unconcious</option>
 		  <option value="<%= ROLE_HARDINPUT %>">Hard Input</option>
 		  <option value="<%= ROLE_FAVORITED %>">Favorited</option>
-		  <option value="<%= ROLE_COMMON %>">Common</option>
 	</select>
-      <div class="pull-right margin-top25">
-        List <a href="#"><img src="/assets/next.png" class="" alt="next" onclick="filter_users();" /></a>
+      <div class="pull-right">
+        <b> List </b><img src="/assets/next.png" class="" alt="next" onclick="filter_users();" />
       </div>
     </div>
 

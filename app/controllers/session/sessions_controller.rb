@@ -35,10 +35,17 @@ class Session::SessionsController < Devise::SessionsController
       end
   end
 
+ def new
+	if user_signed_in?
+		sign_out(resource_name)
+	end
+	super
+	
+ end
 
  def after_sign_in_path_for(resource)
      if VALID_ADMIN_USERS.include?(resource.role?) 
-	redirect_to welcome_index_path, notice: 'Signed in sucessfully!' 	
+	redirect_to welcome_index_path, notice: 'Signed in successfully!' 	
      else 
 	redirect_to '/invalid_user_sign_out' 
      end

@@ -5,7 +5,7 @@
 	<% @code_list.each do |code|%>
 		<li><div class="invitation_lbl"><%= code.code_text %></div>
 		<% if code.out_to.to_s == "" %>
-			<span><input id= "code_out_to_<%= code.id %>" type="text" value= "Enter name here" ><button onclick="save_code(<%= code.id %>);">Save</button></span>	
+			<span id ="out_to"><input id= "code_out_to_<%= code.id %>" type="text" placeholder= "Enter name here" ><button class="btn btn_clear"onclick="save_code(<%= code.id %>);">OK</button></span>	
 		<% else %>	 
 			<span>out to: <%= code.out_to %> </span>
 		<% end %>

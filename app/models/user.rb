@@ -118,6 +118,7 @@ class User < ActiveRecord::Base
 		if (params[:new_tags])
 			params[:new_tags].each do |tag|
 				tag_found = Tag.find_by_name(tag)
+				AddedTag.where(user_id: self.id).delete_all
 				if tag_found
 					AddedTag.find_or_create_by( mission_id: params[:mesa_id],user_id: params[:user_id],tag_id: tag_found.id)
 				else
@@ -206,7 +207,7 @@ class User < ActiveRecord::Base
 	notes = Array.new
         self.user_missions.collect{|user_mission| notes << {:note => user_mission.notes, :by => Mission.where(id: user_mission.mission_id).take.get_mission_owner } if user_mission.notes}
 	
-	 {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
+	 {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s, :working_at => self.working_at}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
   end
 
 

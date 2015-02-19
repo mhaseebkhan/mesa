@@ -1,10 +1,14 @@
 <% if @user %>
-       <div style= "padding: 0px 103px">
-	    <img class="media-object search_user_img" src="<%= @user[:profile][:profile_pic] %>"  alt="..." height="80px" width="80px">
-	    <div class="media-heading user_name">
-		      <span><%=@user[:profile][:name].humanize %></span>
-	    </div>
- 	</div>
+       <div class="media" style = "padding-top:15px;">
+         <div class="media-left media-middle">
+	    <img class="media-object search_user_img" src="<%=  @user[:profile][:profile_pic] %>"  alt="..." height="55px" width="55px">
+	 </div>
+        <div class="media-body">
+          <div class="media-heading user_name_s">
+            <%= @user[:profile][:name].humanize  %></br> Working at  <%= @user[:profile][:working_at]  %>
+            
+          </div>
+        </div>
         <div class="user_separator"></div>
       </div>
 
@@ -23,8 +27,17 @@
 	 <div class="user_separator"></div>
      <% end %>
 
-     
-     
+     <% unless @user[:notes].empty? %>
+      <div class="user_skills" style="word-wrap: break-word;">
+        <div class="skill_title">Notes:</div>
+	<% @user[:notes].each do |note| %>
+		<div class="skill_desc"><%= note[:note] %> <%if note[:by] %>  by <%= note[:by][:name] %>  <% end %> </div> <br>
+	<% end %>
+      </div>
+	 <div class="user_separator"></div>
+     <% end %>
+
+      
      <% unless @user[:added_tags].empty? %>
         <div class="user_tags">
 		<div class="user_tags_heading">Added Tags:</div>
@@ -35,14 +48,8 @@
         <div class="user_separator"></div>
       <% end %>
 
-     <% unless @user[:notes].empty? %>
-      <div class="user_skills">
-        <div class="skill_title">Notes:</div>
-	<% @user[:notes].each do |note| %>
-		<div class="skill_desc"><%= note[:note] %> <%if note[:by] %>  by <%= note[:by][:name] %>  <% end %> </div> <br>
-	<% end %>
-      </div>
-     <% end %>
+
+    
 
 <% end %>
 

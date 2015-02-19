@@ -1,5 +1,5 @@
 <% if @user %>
-          <div class="media">
+          <div class="media" id = "user_info" style= "opacity:1;padding-top:15px;">
          <div class="media-left media-middle">
 	    <img class="media-object search_user_img" src="<%=  @user[:profile][:profile_pic] %>"  alt="..." height="55px" width="55px">
 	 </div>
@@ -61,8 +61,10 @@
 		data : {user_id: user_id },
 		success:function (data) {
 		    {
-		    	$(".fourth_col").html(data).show();
-			
+		    	$(".user_rate_col").html(data).show();
+			show_next_step(".third_col",".fourth_col");
+			document.getElementById("user_info").style.opacity = 1;
+		
 		    }
 		}
 	    });

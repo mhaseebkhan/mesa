@@ -1,10 +1,10 @@
 <% if @mission_chairs %>
-	<p> Select chair for <%= @chair_user[:name] %> <p>
+	<p> Select chair for <b><%= @chair_user[:name] %><b> <p>
 	<input type="hidden" name="chair_user_id" id="hidden_chair_user_id" value="<%= @chair_user[:id] %>" >
 	<% @mission_chairs.each do |chair|%>
 		<input id="radio_<%=chair[:id] %>" type="radio" name="chair" value="<%= chair[:id] %>" > <%= chair[:title] %> <br>
 	<% end %>
-	<button id = "add_to_chair_btn" onclick="add_to_chair_list();" class="btn btn-default" style="margin_top:10px;" disabled='disabled'>Add to chair</button>
+	<button id = "add_to_chair_btn" onclick="add_to_chair_list();" class="btn btn-default" style="margin-top:10px;" disabled='disabled'>Add to chair</button>
 <%end%>
 
 <script type="text/javascript">

@@ -33,13 +33,13 @@
             <%= link_to 'Create Mission', '/missions/create_mission', :class => "btn btn-default btn-admin #{get_selected('/missions/create_mission')}"%>
           </li>
           <li>
-            <%= link_to 'Admin Messa', missions_path, :class => "btn btn-default btn-admin #{get_selected('/missions')}"%>
+            <%= link_to 'Admin Mesas', missions_path, :class => "btn btn-default btn-admin #{get_selected('/missions')}"%>
           </li>
           <li>
             <%= link_to 'Invites', invitations_path, :class => "btn btn-default btn-admin #{get_selected('/invitations')}"%>
           </li>
           <li>
-            <%= button_to 'Logout', destroy_user_session_path, :class => 'btn btn-default btn-admin ', :method => :delete%>
+            <%= button_to 'Log out', destroy_user_session_path, :class => 'btn btn-default btn-admin ', :method => :delete%>
 
           </li>
         </ul>

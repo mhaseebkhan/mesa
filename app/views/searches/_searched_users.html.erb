@@ -1,5 +1,5 @@
 <% unless @users_array.empty? %>
-	<div class="searched_user_title"> Search User:</div>
+	<div class="searched_user_title"> Search Results:</div>
 	<% @users_array.each do |user|%>
 		<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_searched_user_detail(<%= user[:id] %>);">
 					  <div class="media-left media-middle">
@@ -25,8 +25,8 @@
 		data : {user_id: user_id },
 		success:function (data) {
 		    {
-		    	$(".third_col").html(data).show();
-
+		    	$(".user_details_col").html(data).show();
+			show_next_step(".second_col",".third_col");
    		    }
 		}
 	    });

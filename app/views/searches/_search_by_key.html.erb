@@ -1,9 +1,9 @@
-<div class="searched_user_des"> Search profile by name, skill and tag</div>
+<div class="searched_user_des"> Search profiles by name, skill or tags.</div>
  <%= render partial: '/searches/search_box' %>
  <div class="searched_user_clear">
-          <button type="button" class="btn btn-default btn_clear" onclick="$('.tagit-choice').remove();" >CLEAR</button>
+          <button type="button" class="btn btn-default btn_clear" onclick="$('.tagit-choice').remove();$('#search_results').hide();" >CLEAR</button>
           <div class="user_search">
-            Search <img src="assets/next.png" class="hand_cursor" alt="back" onclick="search_user();" />
+            <b> Search </b> <img src="assets/next.png" class="hand_cursor" alt="back" onclick="search_user();" />
           </div>
  </div>		
 
@@ -22,7 +22,7 @@
 		data : {search_keys: search_strings },
 		success:function (data) {
 		    {
-		    	$("#search_results").html(data);
+		    	$("#search_results").html(data).show();
    		    }
 		}
 	    });

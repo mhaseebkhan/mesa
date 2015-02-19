@@ -56,6 +56,7 @@ class Session::RegistrationsController < Devise::RegistrationsController
 					@user = user.get_mesa_rating(params[:mesa_id])
 					render partial: '/users/read_only_rate_user_details', layout: false 
 				     elsif params[:mesa_type] == 'underprogress'
+					@user_rating = user.get_mesa_rating(params[:mesa_id])
 					render partial: '/users/rate_user_details' , layout: false 
 				     else 
 					render partial: '/users/user_details',:locals => { :rate => true }  , layout: false 

@@ -1,10 +1,10 @@
 class MissionsController < ApplicationController
   before_action :set_mission, only: [:show, :edit, :update, :destroy]
   #skip_before_filter :verify_authenticity_token
-   before_filter :authenticate_user!, :except => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite, :create, :invite_to_mesa]
-  #load_and_authorize_resource 
+   before_filter :authenticate_user!, :except => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite]
+  load_and_authorize_resource 
   # skip_authorize_resource fro API calls 
-#  skip_authorize_resource :only => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite, :create, :invite_to_mesa]
+  skip_authorize_resource :only => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite]
   # GET /missions
   # GET /missions.json
   def index
@@ -271,6 +271,9 @@ class MissionsController < ApplicationController
 
   def edit_chair
 	 mesa_chair = MesaChair.where(id: params[:chair_id]).take
+	if params[:chair_title] == ""
+	 params[:chair_title] = "Chair #{mesa_chair.order}" 
+	end
 	 mesa_chair.update_attribute(:title, params[:chair_title])
 	 mission = Mission.exists? mesa_chair.mission_id
 	 @mission_chairs = mission.get_chairs

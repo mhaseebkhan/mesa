@@ -1,6 +1,6 @@
 <% if @user %>
 <input type="hidden" name="user_id" id="hidden_user_id" value="<%= @user[:profile][:id] %>">
-  <div style= "padding: 0px 103px">
+  <div style= "padding: 15px 103px">
 	    <img class="media-object search_user_img" src="<%= @user[:profile][:profile_pic] %>"  alt="..." height="80px" width="80px">
 	    <div class="media-heading user_name">
 		      <span><%=@user[:profile][:name].humanize %></span>
@@ -10,12 +10,29 @@
 <div class="mesa_description">Rate only the skills he used during the Mesa. 1 for poor 5 for excellent. Unrated means the skill wasn’t used during the Mesa.</div>
 
  <div class="user_skills">
+	<% unless @user_rating[:skills].empty? %>
+	 <div class="user_skills">
+     		 <div class="user_rating_title">Skills:</div>
+		<input type="hidden" id="hidden_skills_count" value="<%= @user_rating[:skills].count %>">
+		<% @user_rating[:skills].each_with_index do |skill,i|  %>
+	   		<input type="hidden" id="skills[<%= i %>]" value="<%= skill[:rating] %>_<%= skill[:id] %>">
+		<% end %>
+		<% @user_rating[:skills].each do |skill| %>
+			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+			<br>
+		<% end %>
+	</div>
+	<% else %>
 	 <div class="skill_title">Skills:</div>
 		<% @user[:profile][:skills].each do |skill| %>
 			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
 			<br>
 		<% end %>
 	</div>
+      <% end %>
+       <div class="user_separator"></div>
+
+	
 
 <div class="user_tags">
     <div class="user_tags_heading">Add tags to:</div>
@@ -27,12 +44,24 @@
 <div style="clear: both;"></div>
 
 <ul id="myTags">
+<% unless @user_rating[:added_tags].empty? %>
+ <% @user_rating[:added_tags].each do |tag| %>
+	<li><%= tag[:name]  %></li>
+ <% end %>
+<% end %>
 </ul>
+
 
 <div class="user_skills">
 	<div id='user_notes'>
 	 <div class="skill_title">Notes:</div>
-	 <textarea style="width: 308px; height: 125px;"></textarea>
+	 <textarea style="width: 308px; height: 125px; padding-left:0px;">
+		<% unless  @user_rating[:notes].empty? %>
+			<%  @user_rating[:notes].each do |note| %>
+				<%= note[:note] %> 
+			<% end %>
+		<% end %>
+	  </textarea>
 	</div>
 </div>
 <button  class="btn btn-default btn_save_changes" onclick="rate_user_detail(<%= @user[:profile][:id] %>);" style="float:right;">Submit</button>
