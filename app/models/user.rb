@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
        tags = self.tags
        tag_array = Tag.get_tag_set(tags,self.id) if tags
 	
-	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array,:tags => tag_array,:passions => self.passions,:role =>  self.roles.first.id}}
+	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array, :tags => tag_array,:passions => self.passions,:role =>  self.roles.first.id, favorite: self.favorite }}
   end
 
   def self.email_exists? email

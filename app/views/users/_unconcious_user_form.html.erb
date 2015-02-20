@@ -1,4 +1,4 @@
-<%= form_for @unconcious_user,:url => "/users/create_unconcious_user", :html => {id: "create_user", multipart: true} do |f| %>
+<%= form_for @user,:url => "/users/create_unconcious_user", :html => {id: "create_user", multipart: true} do |f| %>
 	<div class="second_col_header">
 	      <div class="title_heading">
 		<a href="#"><img src="/assets/back_butn.png" class="" alt="back"  onclick="enable_prev_step('.third_col','.second_col');"/></a> Add & admin users
@@ -26,16 +26,14 @@
         	<%= f.text_field :working_at,  :class => "form-control pass_text" %> 
         </label>
       </div>
+
       <div class="input-group col-lg-12 margin-top15">
-      	<label class="col-lg-12 no-padding">Skills
-        	<%= f.text_field :skills, :class => "form-control pass_text col-lg-12" %> 
-        </label>
-      </div>
- 
-      <div class="input-group col-lg-12 margin-top15">
-      	<label class="col-lg-12 no-padding">Tags
-        	<%= f.text_field :tags, :class => "form-control pass_text col-lg-12" %> 
-        </label>
+        <label class="col-lg-12 no-padding">Tags</label>
+        <%= fields_for :tags do |tag_fields| %>
+          <div class="input-group col-lg-12 margin-top15">
+            <%= tag_fields.text_field :name, class: 'form-control pass_text col-lg-12', placeholder: '' %>
+          </div>
+        <% end %>
       </div>
       <div class="input-group col-lg-12 margin-top15">
       	<label class="col-lg-12 no-padding">Passions
@@ -47,7 +45,23 @@
         	<%= f.text_field :languages, :class => "form-control pass_text col-lg-12" %> 
         </label>
       </div>
-	
+      <div class="input-group col-lg-12 margin-top15">
+        <label class="col-lg-12 no-padding">Skills</label>
+        <%= fields_for :skills do |skill_fields| %>
+          <div class="input-group col-lg-12 margin-top15">
+            <%= skill_fields.text_field :name, class: 'form-control pass_text col-lg-12', placeholder: 'Skill name' %>
+          </div>
+          <div class="input-group col-lg-12 margin-top15">
+            <%= skill_fields.text_field :work_ref, class: 'form-control pass_text col-lg-12', placeholder: 'Time spent' %>
+          </div>
+          <div class="input-group col-lg-12 margin-top15">
+            <%= skill_fields.text_field :company, class: 'form-control pass_text col-lg-12', placeholder: 'Company' %>
+          </div>
+          <div class="input-group col-lg-12 margin-top15">
+            <%= skill_fields.text_field :time_spent, class: 'form-control pass_text col-lg-12', placeholder: 'Founded'%>
+          </div>
+        <% end %>
+      </div>
       <div class=" margin-top25">
       	<%= f.submit "Create User", :class => 'btn btn-default btn_clear', :id => "submit_btn", :name => "create_user_btn"%>
       </div>

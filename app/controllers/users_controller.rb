@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-     @unconcious_user = UnconciousUser.new
+     @user = User.new
      #users = Array.new
      #@users = User.all
      #@users.each do |user|
@@ -156,9 +156,22 @@ class UsersController < ApplicationController
  end
 
  def create_unconcious_user
-	@user_name = unconcious_user_params[:name]
-	user = UnconciousUser.create(unconcious_user_params)
-        render partial: '/users/user_sucessful_msg' , layout: false 
+   user = User.create(user_params)
+   if user.save
+     if params[:skills]
+       skill = params[:skills]
+       skill_found = Skill.find_or_create_by(name: skill[:name])
+       UserSkill.create( user_id: user.id, skill_id: skill_found.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
+     end
+     if params[:tags]
+       tag = params[:tags]
+       tag_found = Tag.find_or_create_by(name: tag[:name])
+       UserTag.create( user_id: user.id, tag_id: tag_found.id)
+     end
+     render partial: '/users/user_sucessful_msg' , layout: false
+   else
+     render partial: '/users/user_sucessful_msg' , layout: false
+   end
  end
 
  def get_editable_users
@@ -205,6 +218,14 @@ class UsersController < ApplicationController
     render :text => user.profile_pic_url
   end
 
+  # POST /change_profile_pic.json
+  def toggle_favorite
+    user  = User.find(params[:user_id])
+    user.update_attribute('favorite', (user.favorite ? false : true))
+    render json: user.favorite.to_s
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -241,7 +262,7 @@ class UsersController < ApplicationController
 	curators
   end
   def unconcious_user_params
-    params.require(:unconcious_user).permit(:name, :working_at, :working_at, :skills, :tags , :passions, :languages, :profile_pic)
+    params.require(:user).permit(:email, :password, :name, :city, :working_at , :passions, :languages, :profile_pic, {:skills=> [:name, :work_ref, :company, :time_spent]}, {:tags=> [:name]})
   end
 
 end
