@@ -225,6 +225,19 @@ display:none;
     text-shadow: none;
 }
 
+.btn_clear:focus {
+    border-radius: 0px;
+    font-family: Apercu-Medium;
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #000000;
+    height: 30px;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+}
+
 .btn_clear:hover {
 	border-radius: 0px;
 	font-family: Apercu-Medium;
