@@ -77,6 +77,7 @@ Rails.application.routes.draw do
       get 'get_curator_detail'
       get 'update_curator_details'
       post 'create_unconcious_user'
+      get 'toggle_favorite'
       get 'get_unconcious_user'
       get 'get_editable_users'
       get 'edit_user_type'

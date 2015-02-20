@@ -7,15 +7,21 @@
           <div class="media-heading user_name_s">
             <%= @user[:profile][:name].humanize  %></br> Working at  <%= @user[:profile][:working_at]  %>
             <div class="pull-right">
-	      <%if rate %>
-             	 <div id='profile_rate' onclick="show_user_rating(<%= @user[:profile][:id] %>);">
-			<span><img class="user_star hand_cursor" src="assets/next.png" alt="star"  ></span>
-		</div>
-	      <% end %>
+              <div id='toggle_favorite' onclick="toggle_favorite(<%= @user[:profile][:id] %>);">
+                <% src = @user[:profile][:favorite] ? 'favorite.png' : 'non_favorite.png' %>
+                <img class="user_star hand_cursor" src="assets/<%=src%>" alt="non_favorite.png", height="40px" >
+              </div>
             </div>
           </div>
         </div>
         <div class="user_separator"></div>
+        <div class="margin-top15 pull-right">
+          <%if rate %>
+            <div id='profile_rate' onclick="show_user_rating(<%= @user[:profile][:id] %>);">
+              <span><img class="user_star hand_cursor" src="assets/next.png" alt="star"  ></span>
+            </div>
+          <% end %>
+        </div>
       </div>
 
       <div class="user_skills">
@@ -69,6 +75,21 @@
 		}
 	    });
    }
+  function toggle_favorite(user_id){
+    var url = '/users/toggle_favorite';
+    $.ajax({
+      url:url, type:'get',
+      data : {user_id: user_id },
+      success:function(data){
+        console.log(data)
+        if(data == true) {
+          $('#toggle_favorite img').attr('src', "assets/favorite.png")
+        } else {
+          $('#toggle_favorite img').attr('src', "assets/non_favorite.png")
+        }
+      }
+    });
+  }
 
 </script>
 
