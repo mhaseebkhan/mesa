@@ -42,7 +42,7 @@
         <div class="user_tags">
 		<div class="user_tags_heading">Added Tags:</div>
 	       <% @user[:added_tags].each do |tag| %>
-			<div class="user_tags_item"><%= tag[:name]  %></div>
+			<div class="user_tags_item"><%= tag[:name].truncate(25)  %></div>
 		<% end %>
         </div>
         <div class="user_separator"></div>

@@ -21,6 +21,11 @@
 			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
 			<br>
 		<% end %>
+		<% remaining_skills = get_un_rated_skills(@user_rating[:skills], @user[:profile][:skills]) %>
+		<% remaining_skills.each do |skill| %>
+			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+			<br>
+		<% end %>
 	</div>
 	<% else %>
 	 <div class="skill_title">Skills:</div>
@@ -37,7 +42,7 @@
 <div class="user_tags">
     <div class="user_tags_heading">Add tags to:</div>
 	<% @user[:profile][:tags].each do |tag| %>
-		<div class="user_tags_item"><%= tag[:name]  %></div>
+		<div class="user_tags_item"><%= tag[:name].truncate(25) %></div>
 	<% end %>
 </div>
 
@@ -55,14 +60,15 @@
 <div class="user_skills">
 	<div id='user_notes'>
 	 <div class="skill_title">Notes:</div>
-	 <textarea style="width: 308px; height: 125px; padding-left:0px;">
-		<% unless  @user_rating[:notes].empty? %>
+	 <% unless  @user_rating[:notes].empty? %>
 			<%  @user_rating[:notes].each do |note| %>
-				<%= note[:note] %> 
+				<% note = note[:note] %> 
+				<textarea style="width: 308px; height: 125px;"><%= note %></textarea>
 			<% end %>
-		<% end %>
-	  </textarea>
-	</div>
+	<% else %>
+		<textarea style="width: 308px; height: 125px;"></textarea>	
+	<% end %>
+       </div>
 </div>
 <button  class="btn btn-default btn_save_changes" onclick="rate_user_detail(<%= @user[:profile][:id] %>);" style="float:right;">Submit</button>
 <% end %>
@@ -103,6 +109,7 @@
 		    {
 		    	//$("#mesa_user_search_results").html(data).show();
 			alert("Your rating has been saved");
+			enable_prev_step('.fourth_col','.third_col');
    		    }
 		}
 	    });

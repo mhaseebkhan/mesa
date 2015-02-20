@@ -1,4 +1,4 @@
-<%= skill[:name].humanize  %> 
+<%= skill[:name].humanize.truncate(20) %> 
 <% if skill[:rating] %>
 <div class="starRating" id="starRating">
   <div>

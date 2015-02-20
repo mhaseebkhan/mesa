@@ -248,7 +248,7 @@ class MissionsController < ApplicationController
 	else
 		recent_chair = existing_mesa_chairs.order('id DESC').take
 		order = recent_chair ? recent_chair.order + 1 : 1 
-		mesa_chair = MesaChair.create(mission_id: params[:mesa_id], order: order)
+		mesa_chair = MesaChair.create(mission_id: params[:mesa_id], order: order, title: "Chair #{order}")
 		render :text => mesa_chair.id.to_s+"|"+ mesa_chair.order.to_s
 	end
   end

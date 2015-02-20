@@ -155,11 +155,11 @@ class User < ActiveRecord::Base
        added_tags = self.added_tags.where(mission_id: mesa_id)
        tag_array = AddedTag.get_tag_set added_tags if added_tags
        user_mission = self.user_missions.where(mission_id: mesa_id).take
-       if user_mission 
-	       notes = Array.new
+       notes = Array.new
+       if user_mission.notes 
 	       notes << {:note => user_mission.notes}
        end
-       {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
+       {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s, :working_at => self.working_at}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
   end
 
   def open_codes

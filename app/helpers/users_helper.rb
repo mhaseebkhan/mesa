@@ -10,8 +10,15 @@ def stringify_tags tags
 	end
 end
 
-	def get_user_img
-		current_user.profile_pic.present? ? current_user.profile_pic : 'user.png'
+def get_user_img
+	current_user.profile_pic.present? ? current_user.profile_pic : 'user.png'
+end
+
+def get_un_rated_skills(rated_skills, all_skills)
+	rated_skills.each do |rated_skill|
+		all_skills.delete_if{|skill| skill[:id] == rated_skill[:id]}
 	end
+	all_skills	
+end
 
 end
