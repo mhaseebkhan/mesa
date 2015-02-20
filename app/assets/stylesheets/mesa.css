@@ -209,6 +209,8 @@ display:none;
 	background-color: #000000;
 	height: 30px;
 	border: none;
+    box-shadow: none;
+    text-shadow: none;
 }
 
 .btn_clear:hover {
@@ -219,6 +221,8 @@ display:none;
 	background-color: #000000;
 	height: 30px;
 	border: none;
+    box-shadow: none;
+    text-shadow: none;
 }
 
 .btn_clear:hover {
@@ -795,6 +799,7 @@ color:red;
     color: #FFFFFF;
     border-radius: 0px;
     border: black;
+    text-shadow: none;
 }
 
 .btn_login:hover {
@@ -802,6 +807,7 @@ color:red;
     color: #FFFFFF;
     border-radius: 0px;
     border: black;
+    text-shadow: none;
 }
 
 .login_forget a {
