@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:upload_profile_pic, :change_profile_pic, :get_profile_pic, :verify_email]
-  load_and_authorize_resource 
+  authorize_resource :class => false
   # skip_authorize_resource fro API calls 
   skip_authorize_resource :only => [:upload_profile_pic, :change_profile_pic, :get_profile_pic, :verify_email]
   
@@ -156,32 +156,31 @@ class UsersController < ApplicationController
  end
 
  def create_unconcious_user
-   user = User.create(user_params)
-   if user.save
-     if params[:skills]
-       skill = params[:skills]
-       skill_found = Skill.find_or_create_by(name: skill[:name])
-       UserSkill.create( user_id: user.id, skill_id: skill_found.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
-     end
-     if params[:tags]
-       tag = params[:tags]
-       tag_found = Tag.find_or_create_by(name: tag[:name])
-       UserTag.create( user_id: user.id, tag_id: tag_found.id)
-     end
-     render partial: '/users/user_sucessful_msg' , layout: false
-   else
-     render partial: '/users/user_sucessful_msg' , layout: false
-   end
+   #Forming skills
+    skills= Array.new
+    skills << params[:skills1] if  params[:skills1]
+    skills << params[:skills2] if  params[:skills2]
+    skills << params[:skills3] if  params[:skills3]
+   #Forming Tags
+    tags_array =Array.new
+    tags= Array.new
+    tags_array = params[:tags][:name].split(",")
+     tags_array.each do |tag|
+         tags << {:name => tag}
+      end
+   #Forming User Profile
+    user = User.create(email: "#{params[:user][:name]}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
+    profile =  {:name => params[:user][:name],:city => params[:user][:working_at],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags }
+   #Build Profile
+    user.build_profile(profile,ROLE_UNCONCIOUS)
+     
+    @user_name = params[:user][:name]
+    render partial: '/users/user_sucessful_msg' , layout: false
  end
 
  def get_editable_users
-	if params[:user_role] == ROLE_UNCONCIOUS.to_s
-		user = UnconciousUser.exists? params[:user_id]
-		@user = user.get_profile if user
-	else
-		user = User.exists? params[:user_id]
-		@user = user.get_profile if user
-	end
+	user = User.exists? params[:user_id]
+	@user = user.get_profile if user
 	render partial: '/users/edit_user_details' , layout: false 
  end
 
@@ -234,7 +233,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :experience, :skill, :tag, :languages, :authentication_token, :profile_pic)
+      params.require(:user).permit(:name, :email, :password, :experience, :skill, :tag, :languages, :authentication_token, :profile_pic, :working_at, :passions)
     end
 
     def get_recently_joined_users

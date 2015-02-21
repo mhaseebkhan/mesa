@@ -80,8 +80,6 @@ class SearchesController < ApplicationController
 		searched_users = Array.new
 		users = User.where("lower(name) LIKE ?", "%#{params[:search_key].downcase}%").all
 		searched_users << users if users
-		unconcious_users = UnconciousUser.where("lower(name) LIKE ?", "%#{params[:search_key].downcase}%").all
-		searched_users << unconcious_users if unconcious_users
 		unless searched_users.empty?
 				searched_users.flatten!.uniq!
 		        	searched_users.collect {|user| @users_array << user.get_primary_info}
@@ -94,9 +92,9 @@ class SearchesController < ApplicationController
 	@searched_user = params[:search_string]
 	@users_array = Array.new
 	searched_users = Array.new
-	if params[:user_role] == ROLE_UNCONCIOUS.to_s
-		unconcious_users = UnconciousUser.all
-        	searched_users << unconcious_users if unconcious_users
+	if params[:user_role] == ROLE_FAVORITED.to_s
+		users = User.where(favorite: true)
+		searched_users << users if users
 	else
 		users = User.eager_load(:roles).where( 'roles.id = ?', params[:user_role])
 		searched_users << users if users

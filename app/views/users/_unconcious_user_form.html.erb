@@ -46,21 +46,70 @@
         </label>
       </div>
       <div class="input-group col-lg-12 margin-top15">
-        <label class="col-lg-12 no-padding">Skills</label>
-        <%= fields_for :skills do |skill_fields| %>
-          <div class="input-group col-lg-12 margin-top15">
-            <%= skill_fields.text_field :name, class: 'form-control pass_text col-lg-12', placeholder: 'Skill name' %>
-          </div>
-          <div class="input-group col-lg-12 margin-top15">
-            <%= skill_fields.text_field :work_ref, class: 'form-control pass_text col-lg-12', placeholder: 'Time spent' %>
-          </div>
-          <div class="input-group col-lg-12 margin-top15">
-            <%= skill_fields.text_field :company, class: 'form-control pass_text col-lg-12', placeholder: 'Company' %>
-          </div>
-          <div class="input-group col-lg-12 margin-top15">
-            <%= skill_fields.text_field :time_spent, class: 'form-control pass_text col-lg-12', placeholder: 'Founded'%>
-          </div>
-        <% end %>
+        <label id="skill_lbl_1" class="col-lg-12 no-padding hand_cursor" onclick = show_skill_set(1);>Skill set 1</label>	
+		<div id="skill_1" class="skill_set">
+			<%= fields_for :skills1 do |skill_fields| %>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :name, class: 'form-control pass_text col-lg-12', placeholder: 'Skill name' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :time_spent, class: 'form-control pass_text col-lg-12', placeholder: 'Time spent' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :company, class: 'form-control pass_text col-lg-12', placeholder: 'Company' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :founded, class: 'form-control pass_text col-lg-12', placeholder: 'Founded'%>
+			  </div>
+			   <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :work_ref, class: 'form-control pass_text col-lg-12', placeholder: 'Work ref'%>
+			  </div>
+			<% end %>
+		</div>
+      </div>
+      <div class="input-group col-lg-12 margin-top15" >
+        <label id="skill_lbl_2" class="col-lg-12 no-padding hand_cursor" onclick = show_skill_set(2);>Skill set 2</label>
+        <div id="skill_2" class="skill_set" style= "display:none;">
+			<%= fields_for :skills2 do |skill_fields| %>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :name, class: 'form-control pass_text col-lg-12', placeholder: 'Skill name' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :time_spent, class: 'form-control pass_text col-lg-12', placeholder: 'Time spent' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :company, class: 'form-control pass_text col-lg-12', placeholder: 'Company' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :founded, class: 'form-control pass_text col-lg-12', placeholder: 'Founded'%>
+			  </div>
+			   <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :work_ref, class: 'form-control pass_text col-lg-12', placeholder: 'Work ref'%>
+			  </div>
+			<% end %>
+		</div>
+      </div>
+     <div class="input-group col-lg-12 margin-top15" >
+        <label id="skill_lbl_3" class="col-lg-12 no-padding hand_cursor" onclick = show_skill_set(3);>Skill set 3</label>
+        <div id="skill_3" class="skill_set" style= "display:none;">
+			<%= fields_for :skills3 do |skill_fields| %>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :name, class: 'form-control pass_text col-lg-12', placeholder: 'Skill name' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :time_spent, class: 'form-control pass_text col-lg-12', placeholder: 'Time spent' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :company, class: 'form-control pass_text col-lg-12', placeholder: 'Company' %>
+			  </div>
+			  <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :founded, class: 'form-control pass_text col-lg-12', placeholder: 'Founded'%>
+			  </div>
+			   <div class="input-group col-lg-12 margin-top15">
+			    <%= skill_fields.text_field :work_ref, class: 'form-control pass_text col-lg-12', placeholder: 'Work ref'%>
+			  </div>
+			<% end %>
+	</div>
       </div>
       <div class=" margin-top25">
       	<%= f.submit "CREATE", :class => 'btn btn-default btn_clear', :id => "submit_btn", :name => "create_user_btn"%>
@@ -96,7 +145,13 @@
       $(".fourth_col").show();
       $("#user_col3").html(xhr.responseText);
       show_next_step(".third_col",".fourth_col");
-      $('#create_user').trigger("reset");
+     // $('#create_user').trigger("reset");
     }
   });
+
+ function show_skill_set(id) {
+  $(".skill_set").hide();
+  $("#skill_"+id).show();
+  
+ }
 </script>

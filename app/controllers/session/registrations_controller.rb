@@ -10,7 +10,7 @@ class Session::RegistrationsController < Devise::RegistrationsController
 		        respond_to do |format|
                                 UserMailer.welcome_email(resource).deliver
                                	format.html { respond_with resource, :location => after_sign_up_path_for(resource) }
-			 	format.json { resource.build_profile(params[:profile])
+			 	format.json { resource.build_profile(params[:profile],ROLE_COMMONFLAGGER)
 					      render :json=> {:authentication_token=>resource.authentication_token, :email=>resource.email, :user_id=> resource.id, :status => true}}
 			end
 		      else

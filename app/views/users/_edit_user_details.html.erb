@@ -6,7 +6,7 @@
 </div>
 <div class="skill_title" style="padding-top:15px;"> Edit User: </div>
 <% if @user[:profile][:role]  == ROLE_UNCONCIOUS%>
-<%= render partial: '/users/unconcious_user_details' %>
+<%=  render partial: '/users/user_details', :locals => { :rate => false } %>
 <% else %>
 <%= render partial: '/users/user_details', :locals => { :rate => false }   %>
 <div  class=" margin-top25">

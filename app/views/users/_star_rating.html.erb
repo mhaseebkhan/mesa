@@ -5,19 +5,19 @@
     <div>
       <div>
         <div>
-          <input id="rating1_<%=skill[:id]%>" type="radio" name="rating1_<%=skill[:id]%>" value="1_<%=skill[:id]%>">
+          <input  class = "star_<%=skill[:id]%>" id="rating1_<%=skill[:id]%>" type="radio" name="rating1_<%=skill[:id]%>" value="1_<%=skill[:id]%>">
           <label for="rating1_<%=skill[:id]%>"><span>1</span></label>
         </div>
-        <input id="rating2_<%=skill[:id]%>" type="radio" name="rating2_<%=skill[:id]%>" value="2_<%=skill[:id]%>">
+        <input  class = "star_<%=skill[:id]%>" id="rating2_<%=skill[:id]%>" type="radio" name="rating2_<%=skill[:id]%>" value="2_<%=skill[:id]%>">
         <label for="rating2_<%=skill[:id]%>"><span>2</span></label>
       </div>
-      <input id="rating3_<%=skill[:id]%>" type="radio" name="rating3_<%=skill[:id]%>" value="3_<%=skill[:id]%>">
+      <input class = "star_<%=skill[:id]%>"  id="rating3_<%=skill[:id]%>" type="radio" name="rating3_<%=skill[:id]%>" value="3_<%=skill[:id]%>">
       <label for="rating3_<%=skill[:id]%>"><span>3</span></label>
     </div>
-    <input id="rating4_<%=skill[:id]%>" type="radio" name="rating4_<%=skill[:id]%>" value="4_<%=skill[:id]%>">
+    <input  class = "star_<%=skill[:id]%>" id="rating4_<%=skill[:id]%>" type="radio" name="rating4_<%=skill[:id]%>" value="4_<%=skill[:id]%>">
     <label for="rating4_<%=skill[:id]%>"><span>4</span></label>
   </div>
-  <input id="rating5_<%=skill[:id]%>" type="radio" name="rating5_<%=skill[:id]%>" value="5_<%=skill[:id]%>">
+  <input class = "star_<%=skill[:id]%>"  id="rating5_<%=skill[:id]%>" type="radio" name="rating5_<%=skill[:id]%>" value="5_<%=skill[:id]%>">
   <label for="rating5_<%=skill[:id]%>"><span>5</span></label>
 </div>
 
@@ -27,25 +27,27 @@
     <div>
       <div>
         <div>
-          <input id="rating1" type="radio" name="rating1_<%=skill[:id]%>" value="1_<%=skill[:id]%>">
+          <input  class = "aa"  id="rating1" type="radio" name="rating1_<%=skill[:id]%>" value="1_<%=skill[:id]%>">
           <label for="rating1"><span>1</span></label>
         </div>
-        <input id="rating2" type="radio" name="rating2_<%=skill[:id]%>" value="2_<%=skill[:id]%>">
+        <input  class = "aa"  id="rating2" type="radio" name="rating2_<%=skill[:id]%>" value="2_<%=skill[:id]%>">
         <label for="rating2"><span>2</span></label>
       </div>
-      <input id="rating3" type="radio" name="rating3_<%=skill[:id]%>" value="3_<%=skill[:id]%>">
+      <input  class = "aa"  id="rating3" type="radio" name="rating3_<%=skill[:id]%>" value="3_<%=skill[:id]%>">
       <label for="rating3"><span>3</span></label>
     </div>
-    <input id="rating4" type="radio" name="rating4_<%=skill[:id]%>" value="4_<%=skill[:id]%>">
+    <input  class = "aa"  id="rating4" type="radio" name="rating4_<%=skill[:id]%>" value="4_<%=skill[:id]%>">
     <label for="rating4"><span>4</span></label>
   </div>
-  <input id="rating5" type="radio" name="rating5_<%=skill[:id]%>" value="5_<%=skill[:id]%>">
+  <input  class = "aa"  id="rating5" type="radio" name="rating5_<%=skill[:id]%>" value="5_<%=skill[:id]%>">
   <label for="rating5"><span>5</span></label>
 </div>
 <% end %>
 
 
 <script type="text/javascript">
+
+
     $(document).ready(function() {
 
 	//set start rating values
@@ -60,9 +62,12 @@
 	     $("#rating"+skill_rate+"_"+skill_id).prop('checked', true);
 	}
 
-
-	//alert("rating"+skill_rate+"_"+skill_id);
-	
-	       
+$('input:radio').change(function() {
+        $(".star_"+$(this).val().split("_")[1]).prop('checked', false);
+        $("#rating"+$(this).val()).prop('checked', true);
     });
+  
+  });
+
+  
 </script>

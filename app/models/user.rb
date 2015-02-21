@@ -30,20 +30,24 @@ class User < ActiveRecord::Base
     self.save!
   end
  
-  def build_profile(profile)
+  def build_profile(profile,role)
 	   if profile
           #Set user attributes
 	  self.update_attributes(name: profile[:name], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
 		if (profile[:skills])
 			profile[:skills].each do |skill|
-				skill_found = Skill.find_or_create_by(name: skill[:name])
-				UserSkill.create( user_id: self.id, skill_id: skill_found.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
+				unless skill[:name] == ""
+					skill_found = Skill.find_or_create_by(name: skill[:name])
+					UserSkill.create( user_id: self.id, skill_id: skill_found.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
+				end
 			end
 		end
 		if (profile[:tags])
 			profile[:tags].each do |tag|
-				tag_found = Tag.find_or_create_by(name: tag[:name])
-				UserTag.create( user_id: self.id, tag_id: tag_found.id)
+				unless tag[:name] == ""
+					tag_found = Tag.find_or_create_by(name: tag[:name])
+					UserTag.create( user_id: self.id, tag_id: tag_found.id)
+				end
 			end
 		end
 		#Occupy code
@@ -54,7 +58,7 @@ class User < ActiveRecord::Base
 		end
              end
                 #Set user role
-		UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
+		UserRole.create(user_id: self.id, role_id: role)
                 
            
   end
@@ -159,7 +163,7 @@ class User < ActiveRecord::Base
        if user_mission.notes 
 	       notes << {:note => user_mission.notes}
        end
-       {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s, :working_at => self.working_at}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
+       {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s, :working_at => self.working_at, favorite: self.favorite}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
   end
 
   def open_codes
@@ -207,7 +211,7 @@ class User < ActiveRecord::Base
 	notes = Array.new
         self.user_missions.collect{|user_mission| notes << {:note => user_mission.notes, :by => Mission.where(id: user_mission.mission_id).take.get_mission_owner } if user_mission.notes}
 	
-	 {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s, :working_at => self.working_at}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
+	 {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s, :working_at => self.working_at, favorite: self.favorite}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
   end
 
 
