@@ -28,19 +28,19 @@
 	   		<input type="hidden" id="skills[<%= i %>]" value="<%= skill[:rating] %>_<%= skill[:id] %>">
 		<% end %>
 		<% @user_rating[:skills].each do |skill| %>
-			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+			<%= render :partial => "/users/star_rating", :locals => { :skill => skill, :rate => true  } %>
 			<br>
 		<% end %>
 		<% remaining_skills = get_un_rated_skills(@user_rating[:skills], @user[:profile][:skills]) %>
 		<% remaining_skills.each do |skill| %>
-			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+			<%= render :partial => "/users/star_rating", :locals => { :skill => skill, :rate => true  } %>
 			<br>
 		<% end %>
 	</div>
 	<% else %>
 	 <div class="skill_title">Skills:</div>
 		<% @user[:profile][:skills].each do |skill| %>
-			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+			<%= render :partial => "/users/star_rating", :locals => { :skill => skill, :rate => true  } %>
 			<br>
 		<% end %>
 	</div>

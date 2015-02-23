@@ -63,6 +63,10 @@ GEM
     equalizer (0.0.9)
     erubis (2.7.0)
     execjs (2.2.2)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
     foreman (0.66.0)
       dotenv (~> 0.7.0)
       thor (~> 0.19.1)
@@ -103,8 +107,12 @@ GEM
     minitest (5.4.3)
     multi_json (1.10.1)
     multi_xml (0.5.5)
+    multipart-post (2.0.0)
     newrelic_rpm (3.8.0.218)
     orm_adapter (0.5.0)
+    parse-ruby-client (0.3.0)
+      faraday
+      faraday_middleware
     pg (0.17.1)
     puma (2.8.2)
       rack (>= 1.1, < 2.0)
@@ -195,6 +203,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   newrelic_rpm
+  parse-ruby-client
   pg
   puma
   rails (= 4.1.8)

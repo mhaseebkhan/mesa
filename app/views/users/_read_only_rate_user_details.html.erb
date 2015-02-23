@@ -23,7 +23,7 @@
 	   		<input type="hidden" id="skills[<%= i %>]" value="<%= skill[:rating] %>_<%= skill[:id] %>">
 		<% end %>
 		<% @user[:skills].each do |skill| %>
-			<%= render :partial => "/users/star_rating", :locals => { :skill => skill } %>
+			<%= render :partial => "/users/star_rating", :locals => { :skill => skill, :rate => false } %>
 			<br>
 		<% end %>
 	</div>

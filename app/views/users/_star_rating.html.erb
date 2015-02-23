@@ -1,5 +1,5 @@
 <%= skill[:name].humanize.truncate(20) %> 
-<% if skill[:rating] %>
+
 <div class="starRating" id="starRating">
   <div>
     <div>
@@ -20,30 +20,11 @@
   <input class = "star_<%=skill[:id]%>"  id="rating5_<%=skill[:id]%>" type="radio" name="rating5_<%=skill[:id]%>" value="5_<%=skill[:id]%>">
   <label for="rating5_<%=skill[:id]%>"><span>5</span></label>
 </div>
-
-<% else %> 
-<div class="starRating">
-  <div>
-    <div>
-      <div>
-        <div>
-          <input  class = "aa"  id="rating1" type="radio" name="rating1_<%=skill[:id]%>" value="1_<%=skill[:id]%>">
-          <label for="rating1"><span>1</span></label>
-        </div>
-        <input  class = "aa"  id="rating2" type="radio" name="rating2_<%=skill[:id]%>" value="2_<%=skill[:id]%>">
-        <label for="rating2"><span>2</span></label>
-      </div>
-      <input  class = "aa"  id="rating3" type="radio" name="rating3_<%=skill[:id]%>" value="3_<%=skill[:id]%>">
-      <label for="rating3"><span>3</span></label>
-    </div>
-    <input  class = "aa"  id="rating4" type="radio" name="rating4_<%=skill[:id]%>" value="4_<%=skill[:id]%>">
-    <label for="rating4"><span>4</span></label>
-  </div>
-  <input  class = "aa"  id="rating5" type="radio" name="rating5_<%=skill[:id]%>" value="5_<%=skill[:id]%>">
-  <label for="rating5"><span>5</span></label>
-</div>
+<% if rate %>
+<span id = "un_rate">
+	<a href="#" onclick="unrate(<%=skill[:id]%>)">Un Rate </a>
+</span>
 <% end %>
-
 
 <script type="text/javascript">
 
@@ -62,12 +43,18 @@
 	     $("#rating"+skill_rate+"_"+skill_id).prop('checked', true);
 	}
 
-$('input:radio').change(function() {
-        $(".star_"+$(this).val().split("_")[1]).prop('checked', false);
-        $("#rating"+$(this).val()).prop('checked', true);
+    $('input:radio').click(function(e) {
+
+		$(".star_"+$(this).val().split("_")[1]).prop('checked', false);
+       		$("#rating"+$(this).val()).prop('checked', true);
+	
     });
   
   });
+
+ function unrate(skill_id){
+ 	$(".star_"+skill_id).prop('checked', false);
+ }
 
   
 </script>

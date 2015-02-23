@@ -57,7 +57,7 @@ border-bottom-right-radius: 6px;}
 }
 
 .btn-selected {
-	background-color: #999999;
+    background-color: #999999;
     border: none;
     box-shadow: none;
     outline: none;
@@ -203,39 +203,23 @@ display:none;
 
 .btn_clear {
 	border-radius: 0px;
-	font-family: Apercu-Medium;
-	font-size: 14px;
 	color: #FFFFFF;
 	background-color: #000000;
 	height: 30px;
 	border: none;
-    box-shadow: none;
-    text-shadow: none;
-}
-
-.btn_clear:hover {
-	border-radius: 0px;
 	font-family: Apercu-Medium;
-	font-size: 14px;
-	color: #FFFFFF;
-	background-color: #000000;
-	height: 30px;
-	border: none;
-    box-shadow: none;
-    text-shadow: none;
+	font-size: 16px;
 }
 
 .btn_clear:focus {
     border-radius: 0px;
-    font-family: Apercu-Medium;
-    font-size: 14px;
     color: #FFFFFF;
     background-color: #000000;
     height: 30px;
     border: none;
-    box-shadow: none;
-    text-shadow: none;
-    outline: none;
+    font-family: Apercu-Medium;
+    font-size: 16px;
+   
 }
 
 .btn_clear:hover {
@@ -630,9 +614,15 @@ input.mesa_input_txt {
 }
 
 .mesa_send_btn {
-	margin-top: 100px;
+	margin-top: 20px;
+	
 }
 
+.btn-mission
+{
+	color: #FFFFFF;
+	background-color: #000000;
+}
 select#date_hour {
     background-color: #E6E6E6;
     height: 30px;
@@ -686,6 +676,7 @@ select#date_hour {
 	border: none;
 	background-color: #000000;
 	color: #FFFFFF;
+	font-size: 16px;
 }
 /*******************end invites *******************/
 

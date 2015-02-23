@@ -132,12 +132,15 @@ class User < ActiveRecord::Base
 			end
 		end
 		# Add skill rating for mesa
+		user_skill_ids = UserSkill.where(user_id: params[:user_id]).pluck(:id)
+		existing_user_ratings = UserRating.where(user_skill_id: user_skill_ids, mission_id: params[:mesa_id] )
 		if (params[:star_rating])
 			params[:star_rating].each do |skill|
 				skill_rate = skill.split("_")[0]
 				skill_id = skill.split("_")[1]
 				skill_found = UserSkill.where(user_id: params[:user_id], skill_id: skill_id).take.id
 				rating_found = UserRating.where(user_skill_id: skill_found, mission_id: params[:mesa_id] )
+				existing_user_ratings.to_a.delete_if{|existing_user_rating| rating_found == existing_user_rating.user_skill_id }
 				unless rating_found.empty?
 					rating_found.take.update_attribute(:rating, skill_rate)
 				else
@@ -146,6 +149,10 @@ class User < ActiveRecord::Base
 				
 			end
 		end
+                existing_user_ratings.each do |rate|
+			 rate.update_attribute(:rating, 0)
+		end
+               
 		# Add notes
                 if (params[:notes])
 			UserMission.where(user_id: params[:user_id], mission_id: params[:mesa_id]).take.update_attribute(:notes, params[:notes])

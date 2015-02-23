@@ -169,7 +169,8 @@ class UsersController < ApplicationController
          tags << {:name => tag}
       end
    #Forming User Profile
-    user = User.create(email: "#{params[:user][:name]}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
+    emai_name =  params[:user][:name].gsub(" ","_")
+    user = User.create(email: "#{emai_name}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
     profile =  {:name => params[:user][:name],:city => params[:user][:working_at],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags }
    #Build Profile
     user.build_profile(profile,ROLE_UNCONCIOUS)
