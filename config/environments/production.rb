@@ -43,7 +43,7 @@ Rails.application.configure do
   # Generate digests for assets URLs.
   config.assets.digest = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { :host => "mesacadeira.herokuapp.com" }
+  config.action_mailer.default_url_options = { :host => "ec2-54-173-245-226.compute-1.amazonaws.com" }
   config.action_mailer.default_options = { from: "'Mesa&Cadeira' <no-reply@test.com>" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
