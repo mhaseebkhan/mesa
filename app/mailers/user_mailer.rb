@@ -29,14 +29,9 @@ class UserMailer < ActionMailer::Base
      mail(to: email, subject: 'Help Mesa - Mesa & Cadeira')
   end
 
-  def send_mesa_invitation_email(challenge,mesa_when,leader,users,mission_id,user_id,invites_out,email)
-     @challenge = challenge
-     @when = mesa_when
-     @leader =  leader
-     @users = users
-     @mission_id = mission_id
-     @user_id = user_id
-     @invitation_time = invites_out
+  def send_mesa_invitation_email(mesa_owner,mesa_title,email)
+     @mesa_owner = mesa_owner
+     @mesa_title = mesa_title
      mail(to: email, subject: 'Mesa Invitation - Mesa & Cadeira')
   end
 

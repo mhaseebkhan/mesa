@@ -1,4 +1,5 @@
 class MissionsController < ApplicationController
+  require 'parse-ruby-client'
   before_action :set_mission, only: [:show, :edit, :update, :destroy]
   #skip_before_filter :verify_authenticity_token
    before_filter :authenticate_user!, :except => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite]
@@ -8,7 +9,7 @@ class MissionsController < ApplicationController
   # GET /missions
   # GET /missions.json
   def index
-    @missions = Mission.all.order("id ASC")
+   # @missions = Mission.all.order("id ASC")
     @my_open_missions = @missions.find_all{|mission| mission.owner_id == current_user.id && mission.is_authorized == true}
     @my_closed_missions = @missions.find_all{|mission| mission.owner_id ==  current_user.id && mission.get_status == MESA_IS_COMPLETED }
     @others_open_missions = @missions.find_all{|mission| mission.owner_id !=  current_user.id  && mission.is_authorized == true}
@@ -298,12 +299,11 @@ class MissionsController < ApplicationController
 	
 	mission = Mission.exists? params[:mesa_id]
 	@mission_id = params[:mesa_id]
+        @mission_title = mission.title
+	@mesa_owner = mission.get_mission_owner 
        if params[:user_list]
 		mission.set_all_invites_out
 		# global vars for email
-		@challenge = mission.shared_motivation
-	     	@when = mission.mesa_when
-                mission_details(mission)	
 		users_info = params[:user_list]
 		chair_array = Array.new
 		users_info.each do |user|
@@ -312,7 +312,6 @@ class MissionsController < ApplicationController
 			params[:user_id] = user_id
 			@user_id = user_id
 			@email = User.find(user_id).email
-			@invites_out = @mission_details[:invites_out]
 			if chair_array.include?(chair_id)
 				UserMission.create(user_id:  user_id, mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: WAITING_MESA_INVITATION )
 			else
@@ -408,8 +407,9 @@ class MissionsController < ApplicationController
    end
 	
    def send_invite
-	 UserMailer.send_mesa_invitation_email(@challenge,@when,@mission_owner[:name],@mission_users,@mission_id,@user_id,@invites_out,@email).deliver
-	 @mission_invitation = UserMission.create(user_id: params[:user_id], mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: PENDING_MESA_INVITATION )
+	UserMailer.send_mesa_invitation_email(@mesa_owner[:name],@mission_title,@email).deliver
+	send_push_notification
+	@mission_invitation = UserMission.create(user_id: params[:user_id], mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: PENDING_MESA_INVITATION )
 	
    end
 
@@ -432,5 +432,13 @@ class MissionsController < ApplicationController
 	mission_created_this_year = mesa_creation_dates.find_all{|creation_date| creation_date.to_date.year == Time.now.utc.year}.length
 	mission_created_this_year <= 2 ? true : false
    end
+
+  def send_push_notification
+	data = { :alert => "You have received a Mesa Invitation", :userId => @user_id, :mesaId => @mission_id}
+	push = Parse::Push.new(data)
+	query = Parse::Query.new(Parse::Protocol::CLASS_INSTALLATION).eq('userId', @user_id.to_i)
+	push.where = query.where
+	push.save
+  end
 
 end
