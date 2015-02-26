@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get '/reject_mesa', to: 'missions#reject_mesa_invite'
   get '/invite_to_mesa', to: 'missions#invite_to_mesa'
   get '/get_curator_codes', to: 'invitations#get_curator_codes'
+  get '/send_push_notification', to: 'missions#send_notification'
  
 #  get '/search_keys_for_chair', to: 'searches#search_keys_for_chair'
   devise_scope :user do

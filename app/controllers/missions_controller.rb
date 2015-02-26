@@ -370,6 +370,20 @@ class MissionsController < ApplicationController
 	mission_details(mission)
 	render partial: '/missions/rate_users' , layout: false 
   end
+
+  def send_notification
+	data = { :alert => "You have received a Mesa Invitation", :userId => params[:user_id], :mesaId => params[:mesa_id]}
+	push = Parse::Push.new(data)
+	query = Parse::Query.new(Parse::Protocol::CLASS_INSTALLATION).eq('userId', params[:user_id].to_i)
+	push.where = query.where
+       respond_to do |format|
+	      if push.save
+		    format.json { render :json=> {:status => true} }
+	      else
+		   format.json { render :json=> {:status => false} }
+	      end
+    	end
+  end
  
   private
     # Use callbacks to share common setup or constraints between actions.
