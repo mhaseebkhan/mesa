@@ -31,15 +31,15 @@ class UserMission < ActiveRecord::Base
 	if next_user_in_chair_list
 		next_user_in_chair_list.update_attributes(invitation_time: Time.now.utc, invitation_status: PENDING_MESA_INVITATION )
 		#send email to next user
-			mission = Mission.exists? self.mission_id
+			mission = Mission.exists? next_user_in_chair_list.mission_id
 			mission_title = mission.title
 			mesa_owner = mission.get_mission_owner 
-                        email = User.find(self.user_id).email
+                        email = User.find(next_user_in_chair_list.user_id).email
 			UserMailer.send_mesa_invitation_email(mesa_owner[:name],mission_title,email).deliver
 		#send push notification
-			data = { :alert => "You have received a Mesa Invitation", :userId =>self.user_id, :mesaId => self.mission_id, :sound => "cheering.caf"}
+			data = { :alert => "You have received a Mesa Invitation", :userId =>next_user_in_chair_list.user_id, :mesaId => next_user_in_chair_list.mission_id, :sound => "cheering.caf"}
 			push = Parse::Push.new(data)
-			query = Parse::Query.new(Parse::Protocol::CLASS_INSTALLATION).eq('userId', self.user_id.to_i)
+			query = Parse::Query.new(Parse::Protocol::CLASS_INSTALLATION).eq('userId', next_user_in_chair_list.user_id.to_i)
 			push.where = query.where
 			push.save
 	end
