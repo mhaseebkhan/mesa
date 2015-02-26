@@ -1,6 +1,7 @@
 namespace :invitation do
   require 'chronic'
   require 'date'
+   require 'parse-ruby-client'
   desc "Sharing queued posts"
   task check_invitation_expiry: :environment do
     puts "----Cron Job :: Checking Epired Invitations Start----"
@@ -10,6 +11,8 @@ namespace :invitation do
 		unless mission.mesa_invitation_not_expired
 			mission.update_attribute(:invitation_status, EXPIRED_MESA_INVITATION)
 			mission.allocate_time_slot_to_next_user	
+			puts "<<<<<<<<<<<<<<<<<<<Expired invitaion>>>>>>>>>>>>>>>>>>>>>"
+			puts mission.id
 		end
 	end
     puts "----Cron Job :: Checking Epired Invitations Ends----"
