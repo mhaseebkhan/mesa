@@ -372,7 +372,7 @@ class MissionsController < ApplicationController
   end
 
   def send_notification
-	data = { :alert => "You have received a Mesa Invitation", :userId => params[:user_id], :mesaId => params[:mesa_id]}
+	data = { :alert => "You have received a Mesa Invitation", :userId => params[:user_id], :mesaId => params[:mesa_id], :sound => "cheering.caf"}
 	push = Parse::Push.new(data)
 	query = Parse::Query.new(Parse::Protocol::CLASS_INSTALLATION).eq('userId', params[:user_id].to_i)
 	push.where = query.where
@@ -448,7 +448,7 @@ class MissionsController < ApplicationController
    end
 
   def send_push_notification
-	data = { :alert => "You have received a Mesa Invitation", :userId => @user_id, :mesaId => @mission_id}
+	data = { :alert => "You have received a Mesa Invitation", :userId => @user_id, :mesaId => @mission_id, :sound => "cheering.caf"}
 	push = Parse::Push.new(data)
 	query = Parse::Query.new(Parse::Protocol::CLASS_INSTALLATION).eq('userId', @user_id.to_i)
 	push.where = query.where

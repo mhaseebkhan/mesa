@@ -37,7 +37,7 @@ class UserMission < ActiveRecord::Base
                         email = User.find(self.user_id).email
 			UserMailer.send_mesa_invitation_email(mesa_owner[:name],mission_title,email).deliver
 		#send push notification
-			data = { :alert => "You have received a Mesa Invitation", :userId =>self.user_id, :mesaId => self.mission_id}
+			data = { :alert => "You have received a Mesa Invitation", :userId =>self.user_id, :mesaId => self.mission_id, :sound => "cheering.caf"}
 			push = Parse::Push.new(data)
 			query = Parse::Query.new(Parse::Protocol::CLASS_INSTALLATION).eq('userId', self.user_id.to_i)
 			push.where = query.where
