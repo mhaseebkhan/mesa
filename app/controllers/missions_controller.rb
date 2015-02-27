@@ -2,10 +2,10 @@ class MissionsController < ApplicationController
   require 'parse-ruby-client'
   before_action :set_mission, only: [:show, :edit, :update, :destroy]
   #skip_before_filter :verify_authenticity_token
-   before_filter :authenticate_user!, :except => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite]
+   before_filter :authenticate_user!, :except => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite, :send_notification]
   load_and_authorize_resource 
   # skip_authorize_resource fro API calls 
-  skip_authorize_resource :only => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite]
+  skip_authorize_resource :only => [:get_mission_details, :get_mission_invites, :get_working_missions, :accept_mesa_invite, :reject_mesa_invite, :send_notification]
   # GET /missions
   # GET /missions.json
   def index
