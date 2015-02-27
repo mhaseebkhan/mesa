@@ -100,7 +100,7 @@ class MissionsController < ApplicationController
    	#get all missions of user with invitaion_status = pending and mission status = true
         user = User.exists?(params[:user_id])
 	if user
-		missions = user.missions.references(:user_missions).select('missions.id, missions.title').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION}, missions: {status: true})
+		missions = user.missions.references(:user_missions).select('missions.id, missions.title').where( user_missions:{ invitation_status: ACCEPTED_MESA_INVITATION})#, missions: {status: true})
 		respond_to do |format|
 		      format.json {render :json=> {:working_mesa=> missions, :status => true} }
 		end
