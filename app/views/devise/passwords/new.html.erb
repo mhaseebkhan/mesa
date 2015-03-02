@@ -1,6 +1,6 @@
 <div class="container login_sec">
   <div class="panel panel-default login_sec_box">
-    <div class="login_heading">Forget Password</div>
+    <div class="login_heading">Forgot Password</div>
     <div class="panel-body">
       <div class="reset_pas_desc"><p>Enter your email address</p></div>
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form-horizontal' }) do |f| %>
@@ -19,7 +19,7 @@
         </div>
         <div class="form-group margin-top25">
           <label class="pull-right login_forget" for="pwd">
-            <!--<a href="forgot_password.html">I forget my password</a>-->
+            <!--<a href="forgot_password.html">I forgot my password</a>-->
             <%= link_to 'Log in', new_session_path(resource_name) %>
           </label>
         </div>

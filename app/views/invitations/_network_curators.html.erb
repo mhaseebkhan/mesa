@@ -1,5 +1,6 @@
 
-			<% if  @curators %>
+			<% if  @curators%>
+				<% unless @curators.empty? %>
 				<div id= 'curators'>
 					<div class="invites_user_desc">
       						These are all the network's curators. Click on the curator's Name to edit number and frequency of invitation codes they get.
@@ -23,6 +24,12 @@
 					<% end %>
 					<ul>
 				</div>
+				<% else %>
+					<div class="invites_user_desc">
+	      						These are no curators in network yet!
+	    				</div>
+
+				<% end %>
 			<% end %>
 
 

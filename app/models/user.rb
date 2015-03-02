@@ -120,10 +120,10 @@ class User < ActiveRecord::Base
   def rate_profile(params)
 		#Add new tags
 		if (params[:new_tags])
+			AddedTag.where(user_id: self.id).delete_all
 			params[:new_tags].each do |tag|
-				tag_found = Tag.find_by_name(tag)
-				AddedTag.where(user_id: self.id).delete_all
-				if tag_found
+			tag_found = Tag.find_by_name(tag)
+			if tag_found
 					AddedTag.find_or_create_by( mission_id: params[:mesa_id],user_id: params[:user_id],tag_id: tag_found.id)
 				else
 					new_tag = Tag.create(name: tag)
