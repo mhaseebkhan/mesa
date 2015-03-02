@@ -5,7 +5,11 @@
 	 </div>
         <div class="media-body">
           <div class="media-heading user_name_s">
-            <%= @user[:profile][:name].humanize  %></br> Working at  </br> <span title= <%= @user[:profile][:working_at]%>><%= @user[:profile][:working_at].truncate(22)  %></span>
+            <%= @user[:profile][:name].humanize  %></br>
+		<% if @user[:profile][:working_at] %>
+			Working at  </br> <span title= <%= @user[:profile][:working_at]%>>
+			<%= @user[:profile][:working_at].truncate(22)  %></span>
+		<% end %>
             <div class="pull-right">
               <div id='toggle_favorite' onclick="toggle_favorite(<%= @user[:profile][:id] %>);">
                 <% src = @user[:profile][:favorite] ? 'favorite.png' : 'non_favorite.png' %>
