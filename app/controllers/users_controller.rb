@@ -156,26 +156,43 @@ class UsersController < ApplicationController
  end
 
  def create_unconcious_user
-   #Forming skills
+    #Forming skills
     skills= Array.new
-    skills << params[:skills1] if  params[:skills1]
-    skills << params[:skills2] if  params[:skills2]
-    skills << params[:skills3] if  params[:skills3]
-   #Forming Tags
-    tags_array =Array.new
-    tags= Array.new
-    tags_array = params[:tags][:name].split(",")
-     tags_array.each do |tag|
-         tags << {:name => tag}
-      end
-   #Forming User Profile
-    emai_name =  params[:user][:name].gsub(" ","_")
-    user = User.create(email: "#{emai_name}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
-    profile =  {:name => params[:user][:name],:city => params[:user][:working_at],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags }
-   #Build Profile
-    user.build_profile(profile,ROLE_UNCONCIOUS)
-     
-    @user_name = params[:user][:name]
+    skills_names= Array.new
+    duplicate_names = Array.new
+    if  params[:skills1]
+    	skills_names << params[:skills1][:name].to_s.downcase 
+	skills << params[:skills1]
+    end
+    if  params[:skills2]
+    	skills_names << params[:skills2][:name].to_s.downcase 
+	skills << params[:skills2]
+    end
+    if  params[:skills3]
+    	skills_names << params[:skills3][:name].to_s.downcase 
+	skills << params[:skills3]
+    end
+
+    duplicate_names =  skills_names.detect{ |e| skills_names.count(e) > 1 }
+    if duplicate_names.nil? || duplicate_names == ""
+	    #Forming Tags
+	    tags_array =Array.new
+	    tags= Array.new
+	    tags_array = params[:tags][:name].split(",")
+	     tags_array.each do |tag|
+		 tags << {:name => tag}
+	      end
+	   #Forming User Profile
+	    emai_name =  params[:user][:name].gsub(" ","_")
+	    user = User.create(email: "#{emai_name}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
+	    profile =  {:name => params[:user][:name],:city => params[:user][:working_at],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags }
+	   #Build Profile
+	    user.build_profile(profile,ROLE_UNCONCIOUS)
+	     
+	    @msg = "The user #{params[:user][:name]} is successfully created."
+    else
+	   @msg = "Error! Enter unique skill names"
+    end
     render partial: '/users/user_sucessful_msg' , layout: false
  end
 
