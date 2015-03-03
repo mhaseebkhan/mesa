@@ -1,6 +1,10 @@
-<%= skill[:name].humanize.truncate(20) %> 
+<div style = "width:80px;float:left"><%= skill[:name].humanize.truncate(20) %> </div>
 
+<% if rate %>
 <div class="starRating" id="starRating">
+<% else %>
+<div class="starRating disabled_step" id="starRating">
+<% end %>
   <div>
     <div>
       <div>
@@ -20,6 +24,7 @@
   <input class = "star_<%=skill[:id]%>"  id="rating5_<%=skill[:id]%>" type="radio" name="rating5_<%=skill[:id]%>" value="5_<%=skill[:id]%>">
   <label for="rating5_<%=skill[:id]%>"><span>5</span></label>
 </div>
+
 <% if rate %>
 <span id = "un_rate">
 	<a href="#" onclick="unrate(<%=skill[:id]%>)">Un Rate </a>
