@@ -37,7 +37,11 @@ class User < ActiveRecord::Base
 		if (profile[:skills])
 			profile[:skills].each do |skill|
 				unless skill[:name] == ""
-					skill_found = Skill.find_or_create_by(name: skill[:name])
+					#skill_found = Skill.find_or_create_by(name: skill[:name])
+					skill_found = Skill.where("lower(name) = ?", "#{skill[:name].downcase}").take
+					unless skill_found
+						skill_found = Skill.create(name: skill[:name])
+					end
 					UserSkill.create( user_id: self.id, skill_id: skill_found.id, work_ref: skill[:work_ref], company: skill[:company], time_spent: skill[:time_spent], founded: skill[:founded] )
 				end
 			end
@@ -45,7 +49,11 @@ class User < ActiveRecord::Base
 		if (profile[:tags])
 			profile[:tags].each do |tag|
 				unless tag[:name] == ""
-					tag_found = Tag.find_or_create_by(name: tag[:name])
+					#tag_found = Tag.find_or_create_by(name: tag[:name])
+					tag_found = Tag.where("lower(name) = ?", "#{tag[:name].downcase}").take
+					unless tag_found
+						tag_found = Tag.create(name: tag[:name])
+					end
 					UserTag.create( user_id: self.id, tag_id: tag_found.id)
 				end
 			end
