@@ -1,4 +1,4 @@
-<div style = "width:80px;float:left"><%= skill[:name].humanize.truncate(20) %> </div>
+<div style = "width:80px;float:left"><%= skill[:name].truncate(20) %> </div>
 
 <% if rate %>
 <div class="starRating" id="starRating">
@@ -27,7 +27,7 @@
 
 <% if rate %>
 <span id = "un_rate">
-	<a href="#" onclick="unrate(<%=skill[:id]%>)">Un Rate </a>
+	<a href="#" onclick="unrate(<%=skill[:id]%>)" style="color:#999; ">Un-Rate </a>
 </span>
 <% end %>
 

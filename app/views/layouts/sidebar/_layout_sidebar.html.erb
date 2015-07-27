@@ -6,7 +6,7 @@
       </div>
       <div class="user_box">
         <div class="user_title">
-          <span><%= current_user.name.humanize %></span>
+          <span><%= current_user.name.to_s.titleize %></span>
         </div>
         <div class="user_image">
           <% user_img = get_user_img %>

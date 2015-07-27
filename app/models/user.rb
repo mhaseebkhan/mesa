@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
        tags = self.tags
        tag_array = Tag.get_tag_set(tags,self.id) if tags
 	
-	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array, :tags => tag_array,:passions => self.passions,:role =>  self.roles.first.id, favorite: self.favorite }}
+	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name.to_s.titleize,:profile_pic =>get_user_img,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array, :tags => tag_array,:passions => self.passions,:role =>  self.roles.first.id, favorite: self.favorite }}
   end
 
   def self.email_exists? email
@@ -121,7 +121,7 @@ class User < ActiveRecord::Base
   end
 
   def get_primary_info 
-      {:id => self.id, :name=>self.name, :profile_pic => self.profile_pic.url.to_s, :role => self.roles.first.id }
+      {:id => self.id, :name=>self.name.to_s.titleize, :profile_pic => get_user_img, :role => self.roles.first.id }
   end
 
   
@@ -178,7 +178,7 @@ class User < ActiveRecord::Base
        if user_mission.notes 
 	       notes << {:note => user_mission.notes}
        end
-       {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s, :working_at => self.working_at, favorite: self.favorite}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
+       {:profile =>{:id => self.id,:name=>self.name.to_s.titleize,:profile_pic => get_user_img, :working_at => self.working_at, favorite: self.favorite}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
   end
 
   def open_codes
@@ -226,7 +226,7 @@ class User < ActiveRecord::Base
 	notes = Array.new
         self.user_missions.collect{|user_mission| notes << {:note => user_mission.notes, :by => Mission.where(id: user_mission.mission_id).take.get_mission_owner } if user_mission.notes}
 	
-	 {:profile =>{:id => self.id,:name=>self.name,:profile_pic => self.profile_pic.url.to_s, :working_at => self.working_at, favorite: self.favorite}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
+	 {:profile =>{:id => self.id,:name=>self.name.to_s.titleize,:profile_pic => get_user_img, :working_at => self.working_at, favorite: self.favorite}, :added_tags => tag_array,:notes => notes, :skills=> skill_array}
   end
 
 
@@ -238,6 +238,10 @@ class User < ActiveRecord::Base
       break token unless User.where(authentication_token: token).first
     end
   end
+
+ def get_user_img
+	self.profile_pic.present? ? self.profile_pic.url.to_s : '/assets/user.png'
+ end
 
   
 end

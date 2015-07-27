@@ -5,7 +5,7 @@
 	 </div>
         <div class="media-body">
           <div class="media-heading user_name_s">
-            <%= @user[:profile][:name].humanize  %></br>
+            <%= @user[:profile][:name] %></br>
 		<% if @user[:profile][:working_at] %>
 			Working at  </br> <span title= <%= @user[:profile][:working_at]%>>
 			<%= @user[:profile][:working_at].truncate(22)  %></span>
@@ -33,7 +33,7 @@
 	<% @user[:profile][:skills].each do |skill| %>
 		<div class="skill_desc">
 			<div class="skill_title"><%= skill[:name] %></div><br>
-			<%= skill[:time_spent] %> of experience<br> 
+			<%= skill[:time_spent] %> year(s) of experience<br> 
 			<%= skill[:company]  %><br>
 			<%= skill[:founded]  %><br>
 			<%= skill[:work_ref]  %><br>

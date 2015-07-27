@@ -3,17 +3,17 @@
     <div class="media " style="padding-top:15px;">
       <div class="media-left media-middle">
         <a href="#">
-          <img class="media-object search_user_img" src="img/rsz_1johnny_bravo_by_freevil.jpg" alt="..." height="55px" width="55px">
+          <img class="media-object search_user_img" src="<%= @user[:profile_pic] %>" alt="..." height="55px" width="55px">
         </a>
       </div>
       <div class="media-body">
         <div class="media-heading user_name">
-          <span><%= @user[:name].humanize %> </span>
+          <span><%= @user[:name] %> </span>
         </div>
       </div>
     </div>
 
-    <div class="invites_user_desc"><%= @user[:name].humanize %> gets:</div>
+    <div class="invites_user_desc"><%= @user[:name] %> gets:</div>
 
     <div class="curators_item">
          <div class="curators_text"> <input id= "no_of_codes" type="text" value="<%= @user[:no_of_codes]%>" maxlength="2" style="width:30px;" onkeypress="return isNumber(event)"> new codes(s) every</div>

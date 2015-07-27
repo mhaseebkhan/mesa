@@ -211,7 +211,7 @@
 <script type="text/javascript">
 function show_mission_summary(){
     $("#mesa_title_lbl").text($( "div#mesa_title" ).find( "textarea" ).val());
-    $("#mesa_mission_lbl").text($( "div#mesa_shared_motivation" ).find( "textarea" ).val());
+    $("#mesa_mission_lbl").text($( "div#mesa_build_intent" ).find( "textarea" ).val());
     $("#mesa_from_date_lbl").text(document.getElementById( "mesa_from_date" ).value);
     $("#mesa_to_date_lbl").text(document.getElementById( "mesa_to_date" ).value);
     $("#mesa_time_lbl").text(document.getElementById( "date_hour" ).value);
@@ -314,10 +314,7 @@ $('.third_col').addClass('opacity-05 disabled_step');
 $('.fourth_col').addClass('opacity-05 disabled_step');
 $(active_step).removeClass('opacity-05 disabled_step');
 }
-$(function() {
-  $( "#mesa_from_date" ).datepicker();
-  $( "#mesa_to_date" ).datepicker();
-});
+
 
 function validate_and_next(input, hide_col,show_col){
   if ($('#'+input+' textarea' ).val()){
@@ -328,4 +325,27 @@ function validate_and_next(input, hide_col,show_col){
   }
 }
 
+$(document).ready(function () {
+
+    $("#mesa_from_date").datepicker({
+        onSelect: function (date) {
+            var date2 = $('#mesa_from_date').datepicker('getDate');
+            date2.setDate(date2.getDate() + 1);
+            // $('#mesa_to_date').datepicker('setDate', date2);
+            //sets minDate to mesa_from_date date + 1
+            $('#mesa_to_date').datepicker('option', 'minDate', date2);
+        }
+    });
+    $('#mesa_to_date').datepicker({
+        onClose: function () {
+            var mesa_from_date = $('#mesa_from_date').datepicker('getDate');
+            var mesa_to_date = $('#mesa_to_date').datepicker('getDate');
+            //check to prevent a user from entering a date below date of mesa_from_date
+            if (mesa_to_date <= mesa_from_date) {
+                var minDate = $('#mesa_to_date').datepicker('option', 'minDate');
+                $('#mesa_to_date').datepicker('setDate', minDate);
+            }
+        }
+    });
+});
 </script>

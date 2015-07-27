@@ -189,7 +189,7 @@ class UsersController < ApplicationController
 	   #Build Profile
 	    user.build_profile(profile,ROLE_UNCONCIOUS)
 	     
-	    @msg = "The user #{params[:user][:name]} is successfully created."
+	    @msg = "The user '#{params[:user][:name]}' has been successfully created."
     else
 	   @msg = "Error! Enter unique skill names"
     end
