@@ -79,8 +79,8 @@ border-bottom-right-radius: 6px;}
 	font-family: Apercu-Light;
 	font-size: 31px;
 	color: #FFFFFF;
-	padding-top: 7px;
-	padding-left: 45px;
+	padding-top: 12px;
+	padding-left: 60px;
 }
 
 /*text boxes*/
@@ -879,4 +879,10 @@ color:red;
 .loader_text {
     padding: 10px;
      display:none;
+}
+
+.logo_img
+{
+height:45px;
+width:45px;
 }
