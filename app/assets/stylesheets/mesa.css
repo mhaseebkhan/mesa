@@ -34,6 +34,9 @@ border-top-right-radius: 6px;
 border-bottom-right-radius: 6px;}
 .green-btn-subsribe:hover{background-color:#68993c}
 
+
+/**/
+
 .btn-Detail-plan{
 	padding:6px 20px 6px 20px;
 	background-color:#f9f9f9;
@@ -49,7 +52,7 @@ border-bottom-right-radius: 6px;}
 .btn-admin{
 	line-height: 1;
 	border-radius: 20px;
-	width: 256px;
+	width: 100%;
 	height: 30px;
 	font-family: Apercu-Light;
 	font-size: 18px;
@@ -64,23 +67,15 @@ border-bottom-right-radius: 6px;}
     text-shadow: none;
 }
 
-.logo {
-	height: 30px;
-	width: 30px;
-	background-color: white;
-	border-radius: 50%;
-	float: left;
-	color: #FFFFFF;
-	margin-top: 15px;
-	margin-left: 6px;
-}
+
+
 
 .logo_text {
 	font-family: Apercu-Light;
-	font-size: 31px;
+	font-size: 1.6em;
 	color: #FFFFFF;
-	padding-top: 12px;
-	padding-left: 60px;
+    float: right;
+    line-height: 2;
 }
 
 /*text boxes*/
@@ -124,22 +119,23 @@ border-bottom-right-radius: 6px;}
 display:none;
 }
 .first_column_header {
-	height: 60px;
-	background-color: black;
-	width: 285px;
+    height: auto;
+    background-color: black;
+    width: 100%;
     cursor: pointer;
+    overflow: auto;
 }
 
 .user_avatar_img{
 }
 
 .user_ctrl_buttons {
-	margin-top: 35px;
-	padding-bottom: 60px;
+
+	padding-bottom: 0px;
 }
 .user_ctrl_buttons ul{
 	list-style: none;
-	margin: 20px;
+	margin: 15px;
 }
 
 .user_ctrl_buttons li{
@@ -881,8 +877,4 @@ color:red;
      display:none;
 }
 
-.logo_img
-{
-height:45px;
-width:45px;
-}
+
