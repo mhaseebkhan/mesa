@@ -1,2 +1,2 @@
-Parse.init :application_id  => "Uj3Rod0kneI6TTEGCmPzzRMwOMbevCx0TA3unbZ5",
-           :api_key         => "quRhhXtFrpDdaicMWfrAxFlHKWI39kPIn4f1SNs1"
+Parse.init :application_id  => "gKsjdExbl6xXIxShbXo1LnDbOgwaf7pOG8nJyKjr",
+           :api_key         => "xQ24uUGWYjBNVmkJjulFKD0dCTc2AIJvLjiwZsWC"
