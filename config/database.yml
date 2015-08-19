@@ -14,33 +14,7 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-default: &default
-  adapter: postgresql
-  database: sfsm_dev
-  username: postgres
-  password: 
-  host: localhost
-  port: 5433
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: 5
-
-development:
-  <<: *default
-  database: mesa_development
-
-test:
-  <<: *default
-  database: mesa_test
-
-staging:
-  adapter: postgresql
-  database: mesa_staging
-  username: postgres
-  password: postgres
-  host: localhost
-
-# As with config/secrets.yml, you never want to store sensitive information,
+#As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.
 #
@@ -59,6 +33,32 @@ staging:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
-  <<: *default
+development:
+  adapter: postgresql
+  username: postgres
+  password:
+  host: localhost
+  port: 5433
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 5
   database: mesa_development
+
+test:
+  database: mesa_test
+
+staging:
+  adapter: postgresql
+  database: mesa_staging
+  username: postgres
+  password: postgres
+  host: localhost
+
+production:
+  adapter: postgresql
+  database: mesa_prod
+  username: postgres
+  password: postgres 
+  host: localhost
+  port: 5432
+  pool: 5
