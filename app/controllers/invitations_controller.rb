@@ -106,7 +106,7 @@ class InvitationsController < ApplicationController
   end
 
   def save_code
-	InvitationCode.find(params[:id]).update_attribute(:out_to, params[:out_to])
+	InvitationCode.find(params[:id]).update_attributes(out_to:  params[:out_to], role_id: params[:type])
 	@code_list= current_user.invitation_codes
 	render partial: '/invitations/code_list' , layout: false 
   end

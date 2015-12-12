@@ -53,9 +53,9 @@
 
       <div class="user_skills">
         <div class="skill_title">Passions:</div>
-        <div class="skill_desc"><%= @user[:profile][:passions].humanize %></div><div class="user_separator"></div>
+        <div class="skill_desc"><%= @user[:profile][:passions].to_s.humanize %></div><div class="user_separator"></div>
         <div class="skill_title">Languages:</div>
-        <div class="skill_desc"><p><%= @user[:profile][:languages].humanize %></p></div>
+        <div class="skill_desc"><p><%= @user[:profile][:languages].to_s.humanize %></p></div>
         <div class="user_separator"></div>
 
       </div>

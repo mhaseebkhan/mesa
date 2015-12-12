@@ -190,7 +190,8 @@ class MissionsController < ApplicationController
 	# mesa invitation will be expired after its time
   def invite_to_mesa
     unless UserMission.exists?(params[:user_id],params[:mesa_id]).nil?
-     send_invite
+     user=User.find(params[:user_id])
+     send_invite(user)
     end
     respond_to do |format|
       if  @mission_invitation
@@ -311,11 +312,12 @@ class MissionsController < ApplicationController
 			user_id = user.split("_")[1]
 			params[:user_id] = user_id
 			@user_id = user_id
-			@email = User.find(user_id).email
-			if chair_array.include?(chair_id)
+                        user = User.find(user_id)
+			@email = user.email
+                       	if chair_array.include?(chair_id)
 				UserMission.create(user_id:  user_id, mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: WAITING_MESA_INVITATION )
 			else
-			 	send_invite
+			 	send_invite (user)
 			end
                         chair_array << chair_id
 		end
@@ -420,10 +422,15 @@ class MissionsController < ApplicationController
 		#end
    end
 	
-   def send_invite
-	UserMailer.send_mesa_invitation_email(@mesa_owner[:name],@mission_title,@email).deliver
-	send_push_notification
-	@mission_invitation = UserMission.create(user_id: params[:user_id], mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: PENDING_MESA_INVITATION )
+   def send_invite(user) 
+	if user.role? == ROLE_HARDINPUT
+		@mission_invitation = UserMission.create(user_id: params[:user_id], mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: ACCEPTED_MESA_INVITATION )
+	else
+		UserMailer.send_mesa_invitation_email(@mesa_owner[:name],@mission_title,@email).deliver 
+		send_push_notification
+		@mission_invitation = UserMission.create(user_id: params[:user_id], mission_id: params[:mesa_id],invitation_time: Time.now.utc, invitation_status: PENDING_MESA_INVITATION )
+	end
+	
 	
    end
 

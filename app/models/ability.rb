@@ -18,7 +18,7 @@ class Ability
 	cannot :view_others_mesas, :all
       else
 	cannot :manage, :all
-	#user is common-flagger
+	#user is common
       end
     # #  can :admin_users, :all
     # The first argument to `can` is the action you are giving the user 

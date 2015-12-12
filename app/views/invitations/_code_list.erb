@@ -3,13 +3,27 @@
 	<div class="invites_user_desc">	These are the open codes you can use to invite people. To avoid sending the  same code out to different people, add the name related to each one: </div>
 	<ul>
 	<% @code_list.each do |code|%>
-		<li><div class="invitation_lbl"><%= code.code_text %></div>
+		
 		<% if code.out_to.to_s == "" %>
-			<span id ="out_to"><input id= "code_out_to_<%= code.id %>" type="text" placeholder= "Enter name here" ><button class="btn btn_clear"onclick="save_code(<%= code.id %>);">OK</button></span>	
-		<% else %>	 
-			<span>out to: <%= code.out_to %> </span>
+		<div class='code_generate_div' >
+			<li><div class="invitation_lbl"><%= code.code_text %></div>
+				<div id ="out_to"><span> Out to: </span><input id= "code_out_to_<%= code.id %>" type="text" placeholder= "Enter name here" ></div>	
+		                <div><span> Type: </span>
+					<input id = "common_user" type="radio" class='user_type_radio' name="user_type" value="<%= ROLE_COMMON %>" checked = "checked"/>Common
+					<input id = "flagger_user" type="radio" class='user_type_radio' name="user_type" value="<%= ROLE_FLAGGER %>" />Flagger
+				</div>
+				<div style= "padding-left: 230px;"><button class="btn btn_clear"onclick="save_code(<%= code.id %>);">OK</button></div>
+			</li>
+		</div>
+		<% else %>
+		<div >	 
+			<li><div class="invitation_lbl"><%= code.code_text %></div>
+				<span>Out to: <%= code.out_to %> </span>,
+				<span>Type : <%= code.role_id == ROLE_FLAGGER  ? 'Flagger' : 'Common' %> </span>
+			</li>
+		</div>
 		<% end %>
-		</li>
+		
 	<% end%>
 	</ul>
 <% else %>
@@ -21,8 +35,9 @@
 <script type="text/javascript">
  
     function save_code(code_id){
+     var user_type = $('input[name=user_type]:checked').val();
      var out_to = document.getElementById( "code_out_to_"+code_id ).value   
-     var url = '/invitations/save_code?id='+code_id+'&out_to='+out_to;
+     var url = '/invitations/save_code?id='+code_id+'&out_to='+out_to+'&type='+user_type;
 	    $.ajax({
 		url:url,
 		type:'get',
@@ -37,4 +52,8 @@
        
    }
 
+
+$(".user_type_radio").on("change", function(){
+
+});
 </script>

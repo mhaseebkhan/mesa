@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220113458) do
+ActiveRecord::Schema.define(version: 20151212004841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,8 +47,10 @@ ActiveRecord::Schema.define(version: 20150220113458) do
     t.integer  "user_id"
     t.string   "out_to"
     t.string   "status"
+    t.integer  "role_id"
   end
 
+  add_index "invitation_codes", ["role_id"], name: "index_invitation_codes_on_role_id", using: :btree
   add_index "invitation_codes", ["user_id"], name: "index_invitation_codes_on_user_id", using: :btree
 
   create_table "invitations", force: true do |t|
@@ -128,6 +130,7 @@ ActiveRecord::Schema.define(version: 20150220113458) do
     t.text     "skills"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "email"
   end
 
   create_table "user_missions", force: true do |t|
@@ -210,6 +213,7 @@ ActiveRecord::Schema.define(version: 20150220113458) do
     t.string   "authentication_token"
     t.boolean  "is_new_admin",           default: false
     t.boolean  "favorite",               default: false
+    t.string   "phone"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

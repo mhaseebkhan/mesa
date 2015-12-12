@@ -124,14 +124,14 @@ position: fixed;
 
 .add_new_user
 {
-width: 305px;
+width: 285px;
 height: 36px;
 background-color: rgb(216, 216, 216);
 }
 
 .role_selection
 {
-width: 306px;
+width: 285px;
 height: 32px;
 margin: 10px 0px;
 padding-left: 10px;
@@ -139,3 +139,12 @@ background-color: #d8d8d8;
 
 }
 
+.code_generate_div
+{    border: black;
+    border-style: solid;
+    border-width: 1px;
+    background-color: #BDBDBD;
+    border-radius: 5px;
+    padding: 3px;
+
+}

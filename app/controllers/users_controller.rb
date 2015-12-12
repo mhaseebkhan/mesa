@@ -156,43 +156,52 @@ class UsersController < ApplicationController
  end
 
  def create_unconcious_user
-    #Forming skills
-    skills= Array.new
-    skills_names= Array.new
-    duplicate_names = Array.new
-    if  params[:skills1]
-    	skills_names << params[:skills1][:name].to_s.downcase 
-	skills << params[:skills1]
-    end
-    if  params[:skills2]
-    	skills_names << params[:skills2][:name].to_s.downcase 
-	skills << params[:skills2]
-    end
-    if  params[:skills3]
-    	skills_names << params[:skills3][:name].to_s.downcase 
-	skills << params[:skills3]
-    end
 
-    duplicate_names =  skills_names.detect{ |e| skills_names.count(e) > 1 }
-    if duplicate_names.nil? || duplicate_names == ""
-	    #Forming Tags
-	    tags_array =Array.new
-	    tags= Array.new
-	    tags_array = params[:tags][:name].split(",")
-	     tags_array.each do |tag|
-		 tags << {:name => tag}
-	      end
-	   #Forming User Profile
-	    emai_name =  params[:user][:name].gsub(" ","_")
-	    user = User.create(email: "#{emai_name}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
-	    profile =  {:name => params[:user][:name],:city => params[:user][:working_at],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags }
-	   #Build Profile
-	    user.build_profile(profile,ROLE_UNCONCIOUS)
-	     
-	    @msg = "The user '#{params[:user][:name]}' has been successfully created."
-    else
-	   @msg = "Error! Enter unique skill names"
-    end
+   user = User.new(email: params[:user][:email] ,password: DEFAULT_PASSWORD)
+   
+	   if user.save
+	    
+		    #Forming skills
+		    skills= Array.new
+		    skills_names= Array.new
+		    duplicate_names = Array.new
+		    if  params[:skills1]
+		    	skills_names << params[:skills1][:name].to_s.downcase 
+			skills << params[:skills1]
+		    end
+		    if  params[:skills2]
+		    	skills_names << params[:skills2][:name].to_s.downcase 
+			skills << params[:skills2]
+		    end
+		    if  params[:skills3]
+		    	skills_names << params[:skills3][:name].to_s.downcase 
+			skills << params[:skills3]
+		    end
+
+		    duplicate_names =  skills_names.detect{ |e| skills_names.count(e) > 1 }
+		    if duplicate_names.nil? || duplicate_names == ""
+			    #Forming Tags
+			    tags_array =Array.new
+			    tags= Array.new
+			    tags_array = params[:tags][:name].split(",")
+			     tags_array.each do |tag|
+				 tags << {:name => tag}
+			      end
+			   #Forming User Profile
+			    #emai_name =  params[:user][:name].gsub(" ","_")
+			    #user = User.create(email: "#{emai_name}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
+			    #user = User.create(email: params[:user][:email] ,password: DEFAULT_PASSWORD)
+			    profile =  {:name => params[:user][:name], :city => params[:user][:city],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags }
+			   #Build Profile
+			    user.build_profile(profile,ROLE_HARDINPUT)
+			    @msg = "The user '#{params[:user][:name]}' has been successfully created."
+		    else
+			   @msg = "Error! Enter unique skill names"
+		    end
+		    
+	    else
+		     @msg =  "Error! This email address '#{params[:user][:email]}' has already been taken.Please enter another email."
+	    end
     render partial: '/users/user_sucessful_msg' , layout: false
  end
 
@@ -207,7 +216,7 @@ class UsersController < ApplicationController
 	if user
 		prev_role = UserRole.where(user_id: params[:user_id] ).take.role_id
 		@user = UserRole.where(user_id: params[:user_id] ).take.update_attribute(:role_id, params[:user_role]) 
-		if params[:user_role] == ROLE_LEADER.to_s && prev_role != ROLE_LEADER.to_s
+		if params[:user_role] == ROLE_LEADER.to_s && (prev_role != ROLE_LEADER.to_s || prev_role != ROLE_HARDINPUT.to_s )
 			password = generate_random_string
 			email = user.email
 			UserMailer.admin_email(user,password,email).deliver 
@@ -257,7 +266,8 @@ class UsersController < ApplicationController
     def get_recently_joined_users
        recently_joined_users_array = Array.new
 	# ROLE_COMMONFLAGGER is required as rest of the users might not have been aded to system via invitation code
-	users = User.eager_load(:roles).where( 'roles.id in (?)', [ROLE_COMMONFLAGGER, ROLE_CURATOR,ROLE_LEADER, ROLE_ADMIN]).limit(5)
+	#users = User.eager_load(:roles).where( 'roles.id in (?)', [ROLE_COMMONFLAGGER, ROLE_CURATOR,ROLE_LEADER, ROLE_ADMIN]).limit(5)
+        users = User.all.limit(5)
 	users.order('users.id DESC').each do |user|
 		user_prof = user.get_primary_info
 		user_invitation = user.invitation
@@ -279,7 +289,7 @@ class UsersController < ApplicationController
 	curators
   end
   def unconcious_user_params
-    params.require(:user).permit(:email, :password, :name, :city, :working_at , :passions, :languages, :profile_pic, {:skills=> [:name, :work_ref, :company, :time_spent]}, {:tags=> [:name]})
+    params.require(:user).permit(:email, :password, :name, :phone, :city, :working_at , :passions, :languages, :profile_pic, {:skills=> [:name, :work_ref, :company, :time_spent]}, {:tags=> [:name]})
   end
 
 end

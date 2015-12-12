@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-  
+  validates :email, :uniqueness => true
   has_many  :skills, :through => :user_skills
   has_many :user_skills, :dependent => :destroy  
   has_many  :tags, :through => :user_tags
@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   def build_profile(profile,role)
 	   if profile
           #Set user attributes
-	  self.update_attributes(name: profile[:name], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
+	  self.update_attributes(name: profile[:name], phone: profile[:phone],city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
 		if (profile[:skills])
 			profile[:skills].each do |skill|
 				unless skill[:name] == ""
@@ -62,6 +62,7 @@ class User < ActiveRecord::Base
 		invitaion_code = InvitationCode.find_by(code_text: profile[:code])
 		if invitaion_code
 			invitaion_code.update_attribute(:status, TAKEN_INVITATION_STATUS) 
+			role = invitaion_code.role_id
 			Invitation.create(invitation_code_id: invitaion_code.id ,user_id: self.id)
 		end
              end
@@ -72,7 +73,7 @@ class User < ActiveRecord::Base
   end
 
  def update_profile(profile)
-	  self.update_attributes(name: profile[:name], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
+	  self.update_attributes(name: profile[:name], phone: profile[:phone], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
                 # this code assumes that skill once added wiill never be deleted in update
 		if (profile[:skills])
 			profile[:skills].each do |skill|
@@ -100,7 +101,7 @@ class User < ActiveRecord::Base
        tags = self.tags
        tag_array = Tag.get_tag_set(tags,self.id) if tags
 	
-	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name.to_s.titleize,:profile_pic =>get_user_img,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array, :tags => tag_array,:passions => self.passions,:role =>  self.roles.first.id, favorite: self.favorite }}
+	{:email=> self.email,:profile =>{:id => self.id,:name=>self.name.to_s.titleize,:phone=> self.phone.to_s, :profile_pic =>get_user_img,:city => self.city, :languages=>self.languages,:working_at => self.working_at,:skills=> skill_array, :tags => tag_array,:passions => self.passions,:role =>  self.roles.first.id, favorite: self.favorite }}
   end
 
   def self.email_exists? email

@@ -5,17 +5,15 @@
         <div class="title_heading_sep"></div>
 </div>
 <div class="skill_title" style="padding-top:15px;"> Edit User: </div>
-<% if @user[:profile][:role]  == ROLE_UNCONCIOUS%>
-<%=  render partial: '/users/user_details', :locals => { :rate => false } %>
-<% else %>
-<%= render partial: '/users/user_details', :locals => { :rate => false }   %>
+<%= render partial: '/users/user_details', :locals => { :rate => false }   %> 
 <div  class=" margin-top25">
 <div style="float:left;">
      <select id="user_type">
 		  <option value="<%= ROLE_ADMIN %>" <%if @user[:profile][:role] == ROLE_ADMIN %>selected<% end%> >Admin</option>
 		  <option value="<%= ROLE_LEADER %>" <%if @user[:profile][:role] == ROLE_LEADER %>selected<% end%> >Leader</option>
 		  <option value="<%= ROLE_CURATOR %>" <%if @user[:profile][:role] == ROLE_CURATOR %>selected<% end%> >Curator</option>
-		  <option value="<%= ROLE_COMMONFLAGGER %>" <%if @user[:profile][:role] == ROLE_COMMONFLAGGER %>selected<% end%> >Common-flagger</option>
+		  <option value="<%= ROLE_COMMON %>" <%if @user[:profile][:role] == ROLE_COMMON %>selected<% end%> >Common</option>
+		<option value="<%= ROLE_HARDINPUT %>" <%if @user[:profile][:role] == ROLE_HARDINPUT %>selected<% end%> >Hard Input</option>
      </select>
 </div>
 <div style="float:right;">
@@ -34,8 +32,6 @@
 		The user is now a curator. All new curator aren't automatically granted codes.<br><br>
 	To define the number and frequency of codes this user gets, go to the curators list in the "invites" section.
       </div>
- 
-<% end %>
 
 <script type="text/javascript">
     function edit_user_type(user_id,user_name){

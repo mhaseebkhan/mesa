@@ -17,10 +17,22 @@
 
 	  <div class="user_separator"></div>
       <div class="input-group col-lg-12 margin-top15">
-      	<label class="col-lg-12 no-padding">Enter Name*
+      	<label class="col-lg-12 no-padding">Name*
         	<%= f.text_field :name, :class => "form-control pass_text", :required => true %> 
         </label>
       </div>
+       <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">Email*
+        	<%= f.text_field :email, :class => "form-control pass_text", :type => 'email', :required => true %> 
+        </label>
+      </div>
+      
+      <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">City
+        	<%= f.text_field :city,  :class => "form-control pass_text" %> 
+        </label>
+      </div>
+
       <div class="input-group col-lg-12 margin-top15">
       	<label class="col-lg-12 no-padding">Working at
         	<%= f.text_field :working_at,  :class => "form-control pass_text" %> 
@@ -118,6 +130,10 @@
 <% end %>
   
 <script>
+$('#create_user input').on('keypress', function(e) {
+    return e.which !== 13;
+});
+
   $('#add_pro_pic').click(function(){
     console.log('click change_pro_pic');
     $('#user_pic').trigger('click');
@@ -145,7 +161,10 @@
       $(".fourth_col").show();
       $("#user_col3").html(xhr.responseText);
       show_next_step(".third_col",".fourth_col");
-      $('#create_user').trigger("reset");
+      if (!(/Error/i.test(xhr.responseText)))
+       {
+         $('#create_user').trigger("reset");
+       }
       $('#new_user_img').attr("src", "/assets/user.png");
     }
   });
