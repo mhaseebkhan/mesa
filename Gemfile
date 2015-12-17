@@ -31,6 +31,7 @@ group :production do
   gem 'rails_12factor'
 end
 
+gem 'thin'
 # gem 'bcrypt', '~> 3.1.7' # Use ActiveModel has_secure_password
 # gem 'unicorn' # Use unicorn as the app server
 # gem 'capistrano-rails', group: :development # Use Capistrano for deployment
