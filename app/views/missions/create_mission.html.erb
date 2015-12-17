@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 <% if user_signed_in? %>
+  <input type="hidden" id="from_time_hidden"  />
+  <input type="hidden" id="to_time_hidden" />
     <!-- Second Column start-->
   <div class="border col-xs-3 hrLineRightGrey second_col scrollbar">
     <div class="stepA second_col_stepA">
@@ -61,7 +63,11 @@
 	  <span><div class="mesa_name" id='mesa_from_date_lbl' ></div> to <div class="mesa_name" id='mesa_to_date_lbl' ></div> </span>
         </div>
         <div class="mesa_item" style="clear:both;" >
-          <span class="mesa_title">Time:</span><div class="mesa_name" ><div id='mesa_time_lbl' style="float:left;" ></div><div> hrs </div></div>
+          <span class="mesa_title">Time:</span>
+		<div class="mesa_name" >
+			<div id='mesa_from_time_lbl' style="float:left;" ></div><div style="float:left;" > - </div>
+			<div id='mesa_to_time_lbl' ></div>
+		</div>
         </div>
         <div class="mesa_item" style="clear:both;">
           <span class="mesa_title">Place:</span><span class="mesa_name" id='mesa_place_lbl'></span>
@@ -116,7 +122,7 @@
         <div class="create_mission_title">What do you intend to build?</div>
         <div class="create_mission_desc">This is the mission of Mesa: the sentence we put in an envelope, So, tell us the task and the goal that participants will receive and solve.</div>
         <div class="create_mission_input" id="mesa_build_intent">
-          <textarea rows="4" cols="50" placeholder="|Write here ..." maxlength="250"></textarea>
+          <textarea rows="4" cols="50" placeholder="|Write here ..." ></textarea>
         </div>
 	 <div id = 'mesa_build_intent_error' class="error_msg">Please fill the Mission Intend</div>
         <div class="create_mission_next_btn">
@@ -185,9 +191,12 @@
         <div class="mesa_label">To date:</div>
         <div class="mesa_input"><input type="text" class="mesa_input_txt" id="mesa_to_date"></div>
 
-        <div class="mesa_label">Time:</div>
-        <div class="mesa_input"><%= select_hour 00, prompt: 'Choose hour' %></div>
-
+        <div class="mesa_label">From time:</div>
+        <div class="mesa_input" id = 'from_time_div'><%= select_time(00, time_separator: ':')  %> (hrs:mins)</div>
+	
+	<div class="mesa_label">To time:</div>
+        <div class="mesa_input" id= 'to_time_div'><%= select_time(00, time_separator: ':') %>  (hrs:mins)</div>
+	
         <div class="mesa_label">Place:</div>
         <div class="mesa_input"><input type="text" class="mesa_input_txt" id="mesa_place"></div>
 
@@ -214,7 +223,12 @@ function show_mission_summary(){
     $("#mesa_mission_lbl").text($( "div#mesa_build_intent" ).find( "textarea" ).val());
     $("#mesa_from_date_lbl").text(document.getElementById( "mesa_from_date" ).value);
     $("#mesa_to_date_lbl").text(document.getElementById( "mesa_to_date" ).value);
-    $("#mesa_time_lbl").text(document.getElementById( "date_hour" ).value);
+    var from_time = ($('#from_time_div').find('select[name="date[hour]"]').val())+':'+($('#from_time_div').find('select[name="date[minute]"]').val())
+    $("#mesa_from_time_lbl").text(from_time);
+    var to_time = ($('#to_time_div').find('select[name="date[hour]"]').val())+':'+($('#to_time_div').find('select[name="date[minute]"]').val())
+    $("#mesa_to_time_lbl").text(to_time);
+    $("#from_time_hidden").val(from_time);
+    $("#to_time_hidden").val(to_time);
     $("#mesa_place_lbl").text(document.getElementById( "mesa_place" ).value);
     $(".second_col_stepA").hide();
     $(".second_col_stepB").hide();
@@ -233,13 +247,14 @@ function send_brief(){
      var build_intent = $( "div#mesa_build_intent" ).find( "textarea" ).val()
      var from_date = document.getElementById( "mesa_from_date" ).value
      var to_date = document.getElementById( "mesa_to_date" ).value
-     var time = document.getElementById( "date_hour" ).value
+     var to_time = document.getElementById( "to_time_hidden" ).value
+     var from_time = document.getElementById( "from_time_hidden" ).value
      var place = document.getElementById( "mesa_place" ).value
      var url = 'send_brief_validation';
 	    $.ajax({
 		url:url,
 		type:'get',
-		data : {title: title,brief: brief,shared_motivation: shared_motivation,build_intent: build_intent,from_date: from_date,to_date: to_date,time: time,place: place},
+		data : {title: title,brief: brief,shared_motivation: shared_motivation,build_intent: build_intent,from_date: from_date,to_date: to_date,to_time: to_time,from_time: from_time,place: place},
 		success:function (data) {
 		    {
 			$(".third_col").show();
@@ -326,6 +341,10 @@ function validate_and_next(input, hide_col,show_col){
 }
 
 $(document).ready(function () {
+
+  $.datepicker.setDefaults({
+     dateFormat: 'dd/mm/yy'
+});
 
     $("#mesa_from_date").datepicker({
         onSelect: function (date) {

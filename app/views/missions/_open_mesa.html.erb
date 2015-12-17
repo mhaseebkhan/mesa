@@ -63,14 +63,24 @@
 	<div id='mesa_detail' style="display:none;"> 
 		<%= render :partial => "mission_details", :locals => { :mission_details => @mission_details } %>
 	</div>
-	<div id='user_detail' style="display:none;"> 
-	</div>
-        <div id='team_assembling'> 
+	<div id='team_assembling'> 
 		<%= render :partial => "/searches/search_by_key_for_chair", :locals => { :mesa_id => @mission_details[:id] } %>
 		<div id='mesa_user_search_results' >
 		</div> 
 	</div>
+	<div id='user_detail' style="display:none;"> 
+	</div>
 
+  </div>
+  
+  <div id ="mesa_col2_3" class="border col-xs-3 fifth_col scrollbar" style="display:none;">
+       	<div class="second_col_header">
+      		 <div class="title_heading"><img src="/assets/back_butn.png" class="hand_cursor" alt="back" onclick="show_prev_searched_results();" /> Back </div>
+      		<div class="title_heading_sep"></div>
+	</div>
+	<div id='searched_user_detail' style="display:none;"> 
+	</div>
+      
   </div>
 </div>
   <!--end four column--> 

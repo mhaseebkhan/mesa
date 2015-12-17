@@ -7,7 +7,8 @@
 						    <div class="media-heading user_name">
 						      <span><%= user[:name] %></span>
 						      <% if search_type == 'chair' %> 
-							<img src="assets/next.png" class="pull-right expandable" alt="select user" style="display:none;"> 
+							<img src="assets/next.png" class="pull-right expandable" alt="select user" style="display:block;" onclick="show_mesa_searched_user_detail(<%= user[:id] %>);" title='Click to see user details'> 
+							
 						       <% else %>
 							<img src="assets/next.png" class="pull-right" alt="select user" style="display:block;">
 						       <% end %>

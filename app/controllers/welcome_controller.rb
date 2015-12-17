@@ -7,7 +7,7 @@ class WelcomeController < ApplicationController
 	else
 		 if current_user.is_new_admin 	
 			redirect_to  '/welcome/dashboard' 
-		 elsif current_user.role? == ROLE_COMMONFLAGGER  || current_user.role? == ROLE_CURATOR
+		 elsif current_user.role? == ROLE_FLAGGER || current_user.role? == ROLE_COMMON  || current_user.role? == ROLE_CURATOR
 			sign_out(current_user)
 			redirect_to '/' , :alert => 'You are not authorized to access Mesa Admin panel'
                  else

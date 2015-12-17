@@ -9,9 +9,9 @@ class Mission < ActiveRecord::Base
  end
 
  def get_details 
-	to_date = self.to_date.to_date if self.to_date
-	from_date = self.from_date.to_date if self.from_date
-	{id: self.id, title: self.title, brief: self.brief,shared_motivation: self.shared_motivation, build_intent: self.build_intent, from_date: from_date, to_date: to_date ,time: self.time, place: self.place, invites_out: self.invites_out}
+	to_date = Date.parse(self.to_date.to_s).strftime("%d/%m/%Y")  if self.to_date
+	from_date =Date.parse(self.from_date.to_s).strftime("%d/%m/%Y")  if self.from_date
+	{id: self.id, title: self.title, brief: self.brief,shared_motivation: self.shared_motivation, build_intent: self.build_intent, from_date: from_date, to_date: to_date ,from_time: self.from_time,to_time: self.to_time, place: self.place, invites_out: self.invites_out}
  end
 
  def get_mission_users 
@@ -61,7 +61,7 @@ class Mission < ActiveRecord::Base
  end
 
   def mesa_when
-	"#{self.from_date.to_date} - #{self.to_date.to_date},#{self.time}"
+	"#{self.from_date.to_date} - #{self.to_date.to_date},#{self.from_time}-#{self.to_time}"
   end
 
   def set_status(status)

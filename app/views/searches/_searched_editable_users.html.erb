@@ -17,7 +17,21 @@
 			      </div>
 			      <div class="media-body">
 				<div class="media-heading user_name">
-				  <span><%= user[:name] %></span><img src="assets/next.png" class="pull-right hand_cursor" alt="select user" >
+				  <span><%= user[:name] %></span>
+					<%if can? :delete_inactive_users, user%>
+							<% if current_user.role? == ROLE_ADMIN || current_user.role? == ROLE_MASTER  %>
+								<% if inactive_user(user[:id]) %>
+									<img src="assets/delete_icon.png" class="pull-right hand_cursor" onclick="delete_user(<%= user[:id] %>,event);" alt="delete user" >
+								<% end %>
+							<% elsif current_user.role? == ROLE_LEADER %>
+								<% if inactive_user(user[:id]) && user[:created_by] == current_user.id %>
+									<img src="assets/delete_icon.png" class="pull-right hand_cursor" onclick="delete_user(<%= user[:id] %>,event);" alt="delete user" >
+								<% end %>
+						    	<% else %>
+							<% end %>
+							
+					 <% end %>
+					<img src="assets/next.png" class="pull-right hand_cursor" alt="select user" >
 				</div>
 			      </div>
 			  </div>

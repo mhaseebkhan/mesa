@@ -191,7 +191,7 @@ class UsersController < ApplicationController
 			    #emai_name =  params[:user][:name].gsub(" ","_")
 			    #user = User.create(email: "#{emai_name}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
 			    #user = User.create(email: params[:user][:email] ,password: DEFAULT_PASSWORD)
-			    profile =  {:name => params[:user][:name], :city => params[:user][:city],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags }
+			    profile =  {:name => params[:user][:name], :city => params[:user][:city],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags, :created_by => current_user.id }
 			   #Build Profile
 			    user.build_profile(profile,ROLE_HARDINPUT)
 			    @msg = "The user '#{params[:user][:name]}' has been successfully created."
@@ -252,6 +252,11 @@ class UsersController < ApplicationController
 
   end
 
+  def delete_user
+	User.find(params[:user_id]).destroy
+	render :text => 'Deleted!'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -260,7 +265,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :experience, :skill, :tag, :languages, :authentication_token, :profile_pic, :working_at, :passions)
+      params.require(:user).permit(:name, :email, :password, :experience, :skill, :tag, :languages, :authentication_token, :profile_pic, :working_at, :passions, :city)
     end
 
     def get_recently_joined_users
@@ -271,7 +276,8 @@ class UsersController < ApplicationController
 	users.order('users.id DESC').each do |user|
 		user_prof = user.get_primary_info
 		user_invitation = user.invitation
- 		user_prof[:invited_by] = User.find(user_invitation.invitation_code.user_id).name if user_invitation
+ 		user_prof[:invited_by] = User.find(user_invitation.invitation_code.user_id).name.to_s.titleize if user_invitation
+		user_prof[:created_by]= User.find(user_prof[:created_by]).name.to_s.titleize if user_prof[:created_by]
 		recently_joined_users_array << user_prof
 	end
 	recently_joined_users_array

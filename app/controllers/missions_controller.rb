@@ -45,6 +45,7 @@ class MissionsController < ApplicationController
                 @mission.set_status(MESA_IS_AUTHORIZED)
                 #UserMission.create(user_id: current_user.id, mission_id: @mission.id,invitation_time: Time.now.utc, invitation_status: ACCEPTED_MESA_INVITATION)
                 mission_owner = @mission.get_mission_owner 
+		UserMailer.send_new_mesa_email(mission_owner[:name],@mission.title).deliver
                 #UserMailer.validate_brief_email(mission_owner[:name]).deliver
 		#format.json { render :json=> {:mesa_id => @mission.id, :status => true} }
 	   #   else
@@ -286,9 +287,9 @@ class MissionsController < ApplicationController
 	mesa_id = params[:mesa_id]
 	owner_id = Mission.where(id: params[:mesa_id]).take.owner_id
         user_info = User.find(owner_id)
-	if params[:search_keys]
+	if params[:search_keys] || params[:help_text]
 		search_keys = params[:search_keys].join(",") 
-		UserMailer.get_help_email(search_keys,user_info.name,user_info.email).deliver
+		UserMailer.get_help_email( params[:help_text],search_keys,user_info.name,user_info.email,user_info.phone).deliver
 		render :text => search_keys
 	else 
 		render :text => "empty string"
@@ -395,9 +396,8 @@ class MissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
-      params['to_date'] = Date.strptime(params['to_date'],'%m/%d/%Y')
-      params['from_date'] = Date.strptime(params['from_date'],'%m/%d/%Y')
-      params.require(:mission).permit(:title, :brief, :shared_motivation, :build_intent, :from_date, :to_date, :time, :place, :status, :is_authorized, :owner_id)
+
+      params.require(:mission).permit(:title, :brief, :shared_motivation, :build_intent, :from_date, :to_date, :to_time,:from_time, :place, :status, :is_authorized, :owner_id)
     end
    
     def get_mesa_pending_invitations

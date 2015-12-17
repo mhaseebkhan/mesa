@@ -20,5 +20,9 @@ def get_un_rated_skills(rated_skills, all_skills)
 	end
 	all_skills	
 end
+# A user is marked as inactive IF he has NEVER participated in ANY MESA
+def inactive_user(user_id)
+	UserMission.find_by(user_id:  user_id) ? false : true
+end
 
 end

@@ -626,13 +626,23 @@ input.mesa_input_txt {
 select#date_hour {
     background-color: #E6E6E6;
     height: 30px;
-    width: 172px;
+    width: 35px;
     outline: none;
     border: none;
     -webkit-appearance: none; /*Removes default chrome and safari style*/
     -moz-appearance: none;
 }
 
+select#date_minute {
+    background-color: #E6E6E6;
+    height: 30px;
+    width: 35px;
+    outline: none;
+    border: none;
+    -webkit-appearance: none; /*Removes default chrome and safari style*/
+
+    -moz-appearance: none;
+}
 
 /*******************invites *******************/
 

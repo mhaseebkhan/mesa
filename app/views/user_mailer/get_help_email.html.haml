@@ -14,9 +14,11 @@
             %font{:color => "#ffffff", :face => "Verdana, Geneva, sans-serif", :size => "+3"}
           %blockquote{:style => "border-left:1px solid #ccc;padding: 1.5em 10px;padding: 0.5em 10px 0.5em 12px;"}
             %font{:color => "#ffffff", :face => "Verdana, Geneva, sans-serif", :size => "+2"}
-              #{@user_name} need help finding: #{@search_keys}
+              #{@user_name} need help finding '#{@search_keys}', with following message :
               %br
-              To get in touch with him use the e-mail #{@user_email}
+              #{@help_text}
+              %br
+              To get in touch with him use the e-mail #{@user_email} or call at #{@user_phone}
           %a{:href => "http://ec2-54-184-193-216.us-west-2.compute.amazonaws.com", :style => "text-align:center"}
             %img{:alt => "go to website", :src => "http://ec2-54-184-193-216.us-west-2.compute.amazonaws.com/assets/goto-website.png", :style => "padding: 150px 65px 65px 65px;"}/
 

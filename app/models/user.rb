@@ -58,6 +58,10 @@ class User < ActiveRecord::Base
 				end
 			end
 		end
+		#For HardInput Users
+                if (profile[:created_by])
+			self.update_attribute(:created_by, profile[:created_by])	
+		end
 		#Occupy code
 		invitaion_code = InvitationCode.find_by(code_text: profile[:code])
 		if invitaion_code
@@ -115,14 +119,14 @@ class User < ActiveRecord::Base
   def role? 
 	if self.roles.first.nil?
 		#UserRole.create(user_id: self.id, role_id: ROLE_COMMONFLAGGER)
-		ROLE_COMMONFLAGGER
+		ROLE_COMMON
 	else
 		self.roles.first.id
 	end
   end
 
   def get_primary_info 
-      {:id => self.id, :name=>self.name.to_s.titleize, :profile_pic => get_user_img, :role => self.roles.first.id }
+      {:id => self.id, :name=>self.name.to_s.titleize, :profile_pic => get_user_img, :role => self.roles.first.id, :created_by => self.created_by }
   end
 
   

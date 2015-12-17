@@ -17,15 +17,17 @@ class UserMailer < ActionMailer::Base
 
  def validate_brief_email(owner_name)
     @owner = owner_name
-     email = 'munteha18@gmail.com'#master user . email
+     email = SUPER_ADMIN_EMAIL.to_s
      mail(to: email, subject: 'Breif Validation - Mesa & Cadeira')
   end
 
-  def get_help_email(search_keys,user_name,user_email)
+  def get_help_email(help_text,search_keys,user_name,user_email,user_phone)
+     @help_text = help_text
      @search_keys = search_keys
      @user_name = user_name
      @user_email = user_email
-     email = DEFAULT_EMAIL.to_s
+     @user_phone = user_phone
+     email = SUPER_ADMIN_EMAIL.to_s
      mail(to: email, subject: 'Help Mesa - Mesa & Cadeira')
   end
 
@@ -62,5 +64,11 @@ class UserMailer < ActionMailer::Base
      @user = user
      @code = code
      mail(to: email, subject: 'Admin Invitation - Mesa & Cadeira')
+  end
+
+  def send_new_mesa_email(name,title)
+     @owner = name.to_s.titleize
+     @title = title.to_s.titleize
+     mail(to: SUPER_ADMIN_EMAIL.to_s, subject: 'New Mesa Created - Mesa & Cadeira')
   end
 end

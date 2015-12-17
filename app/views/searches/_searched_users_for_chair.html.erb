@@ -16,10 +16,14 @@
 
 <% else %>
 	<div id='no_result_found'>
- 		<p> There’s no profile that matches your search request. You can ask the Mesa team for help finding the right person. </p>
+ 		<p> There’s no profile that matches your search request. You can ask the Mesa team for help finding the right person. Write in the text box below to get help.</p>
+		<div id='get_help_text'>
+			<textarea rows="4" cols="50" placeholder="|Write here ..."  maxlength="250"></textarea>
+		</div>
 		<button style = "margin: 20px 0px;" class="btn btn-default btn_clear" onclick="get_help_from_mesa(<%= @mesa_id %>);">Get help from Mesa</button>
 	</div>
 	<div id ='no_result_found_notification' style = "display:none'" >
+	
 	</div>
 <% end %>
 
@@ -84,11 +88,12 @@
     $(li).each(function(){
 	search_strings.push($(this).find('span.tagit-label').text());
     });
+    var help_text = $( "div#get_help_text" ).find( "textarea" ).val();
      var url = '/missions/get_help_from_mesa';
 	    $.ajax({
 		url:url,
 		type:'get',
-		data : {search_keys: search_strings,mesa_id: mesa_id },
+		data : {search_keys: search_strings,mesa_id: mesa_id, help_text: help_text },
 		success:function (data) {
 		    {
 			if (data == undefined || data == "empty string")

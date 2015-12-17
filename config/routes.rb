@@ -84,6 +84,7 @@ Rails.application.routes.draw do
       get 'edit_user_type'
       get 'change_password'
       get 'get_user_rating'
+      get 'delete_user'
     end
   end
   resources :users_admin, :controller => 'users'

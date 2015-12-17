@@ -8,16 +8,18 @@ class Ability
       case user.role?
       when ROLE_MASTER
         can :manage, :all
+	can :delete_inactive_users, User
         cannot :view_pending_mesas, :all
       when ROLE_ADMIN
        	can :manage, :all
-	cannot :view_pending_mesas, :all
+        cannot :view_pending_mesas, :all
       when ROLE_LEADER
 	can :manage, :all
-        cannot :view_pending_mesas, :all
+	cannot :view_pending_mesas, :all
 	cannot :view_others_mesas, :all
       else
 	cannot :manage, :all
+	cannot :delete_inactive_users, User
 	#user is common
       end
     # #  can :admin_users, :all
