@@ -26,4 +26,4 @@ VALID_ADMIN_USERS = [ROLE_MASTER,ROLE_ADMIN,ROLE_LEADER]
 DEFAULT_EMAIL= "mesacadeira@appmago.com"
 DEFAULT_PASSWORD ='Mes@1to8' 
 
-SUPER_ADMIN_EMAIL = "app@mesaecadeira.org"
+SUPER_ADMIN_EMAIL = "munteha18@gmail.com" #"app@mesaecadeira.org"
