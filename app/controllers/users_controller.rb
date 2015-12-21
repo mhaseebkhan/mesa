@@ -216,11 +216,13 @@ class UsersController < ApplicationController
 	if user
 		prev_role = UserRole.where(user_id: params[:user_id] ).take.role_id
 		@user = UserRole.where(user_id: params[:user_id] ).take.update_attribute(:role_id, params[:user_role]) 
-		if params[:user_role] == ROLE_LEADER.to_s && (prev_role != ROLE_LEADER.to_s || prev_role != ROLE_HARDINPUT.to_s )
-			password = generate_random_string
-			email = user.email
-			UserMailer.admin_email(user,password,email).deliver 
-			user.update_attributes(password: password, is_new_admin: true)
+		if  params[:user_role] == ROLE_LEADER.to_s && prev_role != ROLE_LEADER
+			if  prev_role != ROLE_HARDINPUT
+				password = generate_random_string
+				email = user.email
+				UserMailer.admin_email(user,password,email).deliver 
+				user.update_attributes(password: password, is_new_admin: true)
+			end
 		end
 	end
 	render :text => 'updated'
