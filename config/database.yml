@@ -57,7 +57,7 @@ staging:
 
 production:
   adapter: postgresql
-  database: mesa_prod
+  database: mesa_production
   username: postgres
   password: postgres 
   host: localhost
