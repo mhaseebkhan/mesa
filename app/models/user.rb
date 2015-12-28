@@ -67,11 +67,15 @@ class User < ActiveRecord::Base
 		if invitaion_code
 			invitaion_code.update_attribute(:status, TAKEN_INVITATION_STATUS) 
 			role = invitaion_code.role_id
+			 #Set user role
+			UserRole.create(user_id: self.id, role_id: role)
 			Invitation.create(invitation_code_id: invitaion_code.id ,user_id: self.id)
+		else
+			 #Set user role
+			UserRole.create(user_id: self.id, role_id: role)
 		end
              end
-                #Set user role
-		UserRole.create(user_id: self.id, role_id: role)
+               
                 
            
   end
