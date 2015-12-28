@@ -14,6 +14,7 @@
 		  <option value="<%= ROLE_CURATOR %>" <%if @user[:profile][:role] == ROLE_CURATOR %>selected<% end%> >Curator</option>
 		  <option value="<%= ROLE_COMMON %>" <%if @user[:profile][:role] == ROLE_COMMON %>selected<% end%> >Common</option>
 		<option value="<%= ROLE_HARDINPUT %>" <%if @user[:profile][:role] == ROLE_HARDINPUT %>selected<% end%> >Hard Input</option>
+		<option value="<%= ROLE_FLAGGER %>" <%if @user[:profile][:role] == ROLE_FLAGGER %>selected<% end%> >Flagger</option>
      </select>
 </div>
 <div style="float:right;">
