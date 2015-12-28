@@ -120,9 +120,13 @@ class UsersController < ApplicationController
  def user_invitation_codes
 	@users_joined_by_you  = Array.new
 	@code_list= current_user.invitation_codes
-	current_user.taken_codes.collect{
-				|user_code| @users_joined_by_you  << User.find(user_code.invitation.user_id).get_primary_info
-				}
+	current_user.taken_codes.each do |user_code| 
+				if user_invitation = Invitation.find_by(invitation_code_id: user_code.id)
+					 if user = User.find(user_invitation.user_id)
+						@users_joined_by_you  << User.find(user_invitation.user_id).get_primary_info
+					 end
+				end
+	end
 	 render partial: '/invitations/your_codes' , layout: false 
  end
 

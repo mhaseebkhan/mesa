@@ -9,12 +9,12 @@ class User < ActiveRecord::Base
   has_many :user_tags, :dependent => :destroy  
   has_many  :missions, :through => :user_missions
   has_many :user_missions, :dependent => :destroy  
-  has_one :invitation
-  has_many :invitation_codes
+  has_one :invitation,:dependent => :destroy  
+  has_many :invitation_codes,:dependent => :destroy  
   has_one :curator_code
   has_many :roles, :through => :user_roles
   has_many :user_roles,:dependent => :destroy  
-  has_many :added_tags
+  has_many :added_tags,:dependent => :destroy  
   has_many :mesa_chair_users,:dependent => :destroy  
   mount_uploader :profile_pic, ImageUploader
   before_save :ensure_authentication_token
