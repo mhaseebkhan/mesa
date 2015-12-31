@@ -195,7 +195,7 @@ class UsersController < ApplicationController
 			    #emai_name =  params[:user][:name].gsub(" ","_")
 			    #user = User.create(email: "#{emai_name}#{generate_random_string}@gmail.com" ,password: DEFAULT_PASSWORD)
 			    #user = User.create(email: params[:user][:email] ,password: DEFAULT_PASSWORD)
-			    profile =  {:name => params[:user][:name], :city => params[:user][:city],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags, :created_by => current_user.id }
+			    profile =  {:name => params[:user][:name], :phone => params[:user][:phone], :city => params[:user][:city],  :working_at => params[:user][:working_at], :passions=>  params[:user][:passions], :languages =>  params[:user][:languages] , :profile_pic =>  params[:user][:profile_pic], :skills => skills, :tags => tags, :created_by => current_user.id }
 			   #Build Profile
 			    user.build_profile(profile,ROLE_HARDINPUT)
 			    @msg = "The user '#{params[:user][:name]}' has been successfully created."
@@ -271,7 +271,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :experience, :skill, :tag, :languages, :authentication_token, :profile_pic, :working_at, :passions, :city)
+      params.require(:user).permit(:name, :email, :password, :experience, :skill, :tag, :languages, :authentication_token, :profile_pic, :working_at, :passions, :city, :phone)
     end
 
     def get_recently_joined_users

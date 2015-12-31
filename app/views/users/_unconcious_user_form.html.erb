@@ -26,6 +26,11 @@
         	<%= f.text_field :email, :class => "form-control pass_text", :type => 'email', :required => true %> 
         </label>
       </div>
+      <div class="input-group col-lg-12 margin-top15">
+      	<label class="col-lg-12 no-padding">Phone
+        	<%= f.text_field :phone, :class => "form-control pass_text", :type => 'number' %> 
+        </label>
+      </div>
       
       <div class="input-group col-lg-12 margin-top15">
       	<label class="col-lg-12 no-padding">City
@@ -130,6 +135,14 @@
 <% end %>
   
 <script>
+
+$('#user_phone').on('keypress', function(e) {
+   if ($('#user_phone').val().length > 14)
+	{return false;}
+   else
+	{return true; }
+});
+
 $('#create_user input').on('keypress', function(e) {
     return e.which !== 13;
 });
