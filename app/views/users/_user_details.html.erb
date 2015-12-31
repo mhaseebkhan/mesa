@@ -27,6 +27,18 @@
           <% end %>
         </div>
       </div>
+	
+      <div class="user_skills">
+        <div class="skill_title">Email:</div>
+		<%= @user[:email].to_s %></br>
+        </div>
+      <div class="user_separator"></div>
+
+      <div class="user_skills">
+        <div class="skill_title">Phone:</div>
+		<%= @user[:profile][:phone].to_s %></br>
+        </div>
+      <div class="user_separator"></div>
 
       <div class="user_skills">
         <div class="skill_title">Skills:</div>
