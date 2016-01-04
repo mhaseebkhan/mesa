@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
   end
 
  def update_profile(profile)
-	  self.update_attributes(name: profile[:name], phone: profile[:phone], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
+	  self.update_attributes(name: profile[:name],email: profile[:email], phone: profile[:phone], city: profile[:city], languages: profile[:languages].to_s,working_at: profile  [:working_at], profile_pic: profile[:profile_pic],passions: profile[:passions].to_s) 
                 # this code assumes that skill once added wiill never be deleted in update
 		if (profile[:skills])
 			profile[:skills].each do |skill|
