@@ -219,7 +219,7 @@ class User < ActiveRecord::Base
 	      code = [*('A'..'Z')].sample(8).join
 	      break code unless InvitationCode.where(code_text: code).first
     	end
-	InvitationCode.create(code_text: code, user_id: self.id, status: PENDING_INVITATION_STATUS)
+	InvitationCode.create(code_text: code, user_id: self.id, status: PENDING_INVITATION_STATUS,role_id: ROLE_COMMON)
   end
 
   def generate_curator_code
