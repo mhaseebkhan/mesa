@@ -417,6 +417,7 @@ class MissionsController < ApplicationController
 		@mission_leader =  mission.get_mission_owner # mission.get_mission_leader @mission_users
                 @mission_owner = mission.get_mission_owner 
 		@mission_chairs = mission.get_chairs
+		@mission_send_invite = mission.send_invites
                 # if @mission_leader.nil? || @mission_leader == ""
 		#	@mission_leader = @mission_owner
 		#end

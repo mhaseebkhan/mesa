@@ -60,6 +60,20 @@ class Mission < ActiveRecord::Base
 	chairs_hash_array 
  end
 
+ def send_invites
+        is_invite_valid = false
+	chairs = MesaChair.where(mission_id: self.id)
+	chairs.each do |chair|
+		chair_users = chair.mesa_chair_users
+		unless chair_users.empty?
+			is_invite_valid = true
+			break
+		end
+		break if is_invite_valid == true
+ 	end
+	is_invite_valid
+ end
+
   def mesa_when
 	"#{self.from_date.to_date} - #{self.to_date.to_date},#{self.from_time}-#{self.to_time}"
   end

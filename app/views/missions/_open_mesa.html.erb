@@ -46,10 +46,16 @@
       <div id="mesa_all_chairs" style="clear:both;">
         <%= render :partial => "mesa_chairs" %>
       </div>
-
-		<div class="send-invite-btn " style="clear: both; padding: 5px 0px;">
-			<button type="button" class="btn btn-default btn_save_changes " onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
+	<% if  @mission_send_invite  %>
+		<div id="send_invitation_div" class="send-invite-btn " style="clear: both; padding: 5px 0px;display:block;" >
+				<button type="button" class="btn btn-default btn_save_changes " onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
 		</div>
+	<% else %>
+		<div id="send_invitation_div" class="send-invite-btn " style="clear: both; padding: 5px 0px; display:none;" >
+				<button type="button" class="btn btn-default btn_save_changes " onclick="send_mesa_invites(<%= @mission_details[:id] %>);">Send Invites</button>
+		</div>
+	<% end %>
+
     </div>
 </div>
  <!--fourth column start-->
@@ -91,6 +97,7 @@
     $(".scrollbar").mCustomScrollbar({
       theme:"minimal-dark"
     });
+      
   });
 
     function create_new_chair(mesa_id){
@@ -133,6 +140,9 @@
 			$("#invitation_status"+ chair_id+"_"+user_id).remove();
 			if ($("#chair_user_div_"+chair_id+"> div").length == 0){
 				$("#chair_"+ chair_id).removeClass("chair_occupied").addClass("chair_empty");
+			}
+			if ($('#mesa_chairs').find(".chair_user_count").length == 0){
+				$("#send_invitation_div").hide();
 			}
    		    }
 		}
