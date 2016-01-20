@@ -12,7 +12,7 @@
 										<img id="edit_chair<%= chair[:id] %>" onclick="edit_chair_title('<%= chair[:id] %>','<%= chair[:title] %>')" src="assets/icon-edit.png" class="hand_cursor">			</div>
 									<div id="chair_user_div_<%= chair[:id]%>" style="clear:both;padding:5px 0px;">
 										<% chair[:user_array].each do |user|%>
-											<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05" onclick="show_mesa_user_detail(<%= user[:id] %>);">
+											<div id='user_primary_info_<%= user[:id] %>' class="hand_cursor media opacity-05 chair_user_count" onclick="show_mesa_user_detail(<%= user[:id] %>);">
 												  <div class="media-left media-middle">
 												    <img class="media-object search_user_img" src="<%= user[:profile_pic] %>"  alt="..." height="55px" width="55px">
 												  </div>
